@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Convert binario,hexdecimal and asm jmp assembly</title>
+	
+	<meta name="author" content="mh4x0f">
+
+	<!-- Enable responsive viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+	<link href="/assets/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<!-- Le fav and touch icons -->
+	<!-- Update these with your own images
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+
+	<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+<body>
+	<nav class="navbar navbar-default visible-xs" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://github.com/mh4x0f">
+				<i class="fa fa-github"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://twitter.com/mh4x0f">
+				<i class="fa fa-twitter"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope"></i>
+			</a>
+			
+			<a class="navbar-brand" href="/">
+				<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" />
+				
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/categories.html">Categories</a></li>
+				<li><a href="/tags.html">Tags</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+
+	<!-- nav-menu-dropdown -->
+	<div class="btn-group hidden-xs" id="nav-menu">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-bars"></i>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/categories.html"><i class="fa fa-folder"></i>Categories</a></li>
+			<li><a href="/tags.html"><i class="fa fa-tags"></i>Tags</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i>Top of Page</a></li>
+		</ul>
+	</div>
+
+	<div class="col-sm-3 sidebar hidden-xs">
+		<!-- sidebar.html -->
+<header class="sidebar-header" role="banner">
+	<a href="/">
+		<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" style="width:112px;height:112px;" />
+	</a>
+	<h3 class="title">
+        <a href="/"></a>
+    </h3>
+</header>
+
+
+<div id="bio" class="text-center">
+	One 0x41414141 worth a thousand words
+</div>
+
+<div id="contact-list" class="text-center">
+	<ul class="list-unstyled list-inline">
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://github.com/mh4x0f">
+				<i class="fa fa-github-alt fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://twitter.com/mh4x0f">
+				<i class="fa fa-twitter fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope fa-lg"></i>
+			</a>
+		</li>
+		
+	</ul>
+	<ul id="contact-list-secondary" class="list-unstyled list-inline">
+		
+		
+		<form class="col-lg-12" action="http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity', 'popupwindow', 'scrollbars=yes,width=250,height=220');return true" >
+			<div class="input-group" style="width:240px;text-align:center;margin:0 auto;">
+			<input type="hidden" value="chmodsecurity" name="uri" >
+		  <input type="hidden" name="loc" value="pt_BR">
+		  <input  id="input-rss"  style="width:160px;text-align:center;" placeholder="Digite  seu e-mail" class="form-control input-lg" type="text" name="email">
+		  <span class="input-group-btn"><button id="btn-assinar" class="btn btn-lg btn-primary"  type="submit" value=" ASSINAR ">Assinar</button></span>
+	      </div>
+		</form>
+	</ul>
+</div>
+<!-- sidebar.html end -->
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3">
+		<div class="page-header">
+  <h1>Convert binario,hexdecimal and asm jmp assembly </h1>
+</div>
+	
+<article>
+	<div class="col-sm-10">
+	 <span class="post-date">
+	   
+	   July 
+	   28th,
+	   
+	   2014
+	 </span>
+	  <div class="article_body">
+	  <p>Esse artigo vai ser pequeno até porque é um conteúdo simples que torna-se fundamental entende-lo... pois um dia você irá precisar desse conhecimento e como você leu aqui vai lembra-se "há já li sobre isso no chmodsecurity"; vamos partir para a matemática claro, como sempre fazendo parte efetivamente do low level, vamos parar de usar a calculadora e pensar, caso ao contrário meu amigo (primeira lei de Darwin). antes de começarmos é preciso incluir o header da matemática: #include <math.h> pronto ? allright ? agora sim podemos começar, vamos aprender hoje sobre hexdecimal, base,um pouco asm(assembly)  e um pouco de C, de tudo um pouco, na verdade vai ser uma base para um artigo que tou começando a escrever então é preciso desse conhecimento. 
+ <h3> O que é Hexadecimal ?</h3>
+<p>O sistema hexadecimal é um sistema de numeração posicional que representa os números em base 16, portanto empregando 16 símbolos.<a href="http://pt.wikipedia.org/wiki/Sistema_de_numera%C3%A7%C3%A3o_hexadecimal" target="_blank">(wiki) Hexadecimal</a>. Hexadecimal, hex ou como é mais conhecido, é uma base de 16 sistema de numeração. Base de dados de 16 o que significa que é composto por 16 números:0-9 e AF. Cada um destes números (AF = 10-16) tem um valor de 4 bitse também são chamados de petiscos. Ao representar um número hexadecimal, um iria escrever um "0x" antes de o conjunto de bits real. 0x é simplesmente uma opção de venda tag antes de um número hexadecimal para deixar os programadores sabem que ele é, de fato, hex. Ao escrever hex, você não vai precisar usar esse prefixo.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="s">&quot;</span><span class="se">\x41</span><span class="s">&quot;</span> <span class="o">&lt;--</span> <span class="n">A</span>
+<span class="s">&quot;</span><span class="se">\x42</span><span class="s">&quot;</span> <span class="o">&lt;--</span> <span class="n">B</span>
+<span class="s">&quot;</span><span class="se">\x43</span><span class="s">&quot;</span> <span class="o">&lt;--</span> <span class="n">C</span>
+
+
+<span class="o">--</span> <span class="n">cut</span> <span class="o">--</span>
+
+<span class="cp">#include &lt;stdio.h&gt;</span>
+
+<span class="n">main</span> <span class="p">(){</span>
+     
+     <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;%c, %c e %c</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0x43</span><span class="p">);</span> <span class="p">}</span>
+
+<span class="o">--</span> <span class="n">cut</span> <span class="o">--</span>
+
+
+<span class="nl">Resultado</span><span class="p">:</span>
+
+<span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="n">e</span> <span class="n">C</span>
+
+<span class="o">--</span> <span class="n">cut</span> <span class="o">--</span> 
+<span class="o">--</span> <span class="n">cut</span> <span class="o">--</span> 
+
+<span class="cp">#include &lt;stdio.h&gt;</span>
+
+<span class="n">main</span> <span class="p">(){</span>
+     
+     <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;%x, %x e %x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="sc">&#39;A&#39;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">);</span> <span class="p">}</span>
+
+<span class="o">--</span> <span class="n">cut</span> <span class="o">--</span>
+
+<span class="nl">Resultado</span><span class="p">:</span>
+
+<span class="mi">41</span><span class="p">,</span> <span class="mi">42</span> <span class="n">e</span> <span class="mi">43</span></code></pre></div>
+ 
+<p>Se você ainda não tenha notado, o prefixo 0x é semelhante ao de exponencial notação. Na verdade, este é o lugar onde 0x foi derivado, vendo como hex é simplesmente um número que foi elevado a uma potência de 16.Isso significa que 10 em hexadecimal representa o valor de 16 0 ou 16. Portanto, verifique fora este exemplo:
+</p><pre class="code">
+0xB3 (hex) = 2 * 16 (ao quadrado) 11 * 16 (para o 1 º poder) 3 * 16 (com o poder de 0)
+= 2 * 256 11 * 16 3 = 691 (decimal)
+</pre>
+<p>Sim, você pode fazer tudo isso, ou você pode ser preguiçoso e usar um automatizado programa que faz tudo para você. Por que você precisa saber hex? Porque ele é usado por cada pedaço de software e hardware. Como? Endereço de memória baseados alocação. Vamos trabalhar um pouco essa parte math.h, não seja preguiçoso amigo tem que aprender que nem sempre o calc.exe vai ter no seu Rindows, rssrs  é melhor aprender a fazer esses tipos de conversão:</p>
+<pre class="code">
+Veja a tabela:
+
++---+-----------------------------------------------------------+
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | A | B | C | D | E | F |
++---+-----------------------------------------------------------+
+|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | |   |   |   |   |   | | 
++_--------------------------------------+ V   V   V   V   V   V |      
+  |                                            | 10| 11| 12| 13| 14| 15|   
+  |                                     +_---------------------_+
+  |
+  +-- &gt;  A memoria começa a ser escrita a partir do endereço 0 em cada
+         seguimento, assim fazendo o '0' ser o 1 e o F ser o 16.  Isso
+         quando estamos nos referindo a memoria do sistema.
+
+
+outro exemplo:
+
+
+Para contagem:                      +---&gt; Os numeros comecam a ser repetidos em hexa
+                                    |     2044 = 7FC 
+                                    |
+1 2 3 4 5 6 7 8 9 A  B  C  D  E  F  10 11 12 13 14    &lt;--- Hexadecimal
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20    &lt;--- Decimal
+</pre>
+<p>Então como faço para converter um número em hexadecimal  para decimal ?  que é nosso jeito comum de contagem. existe muitos jeitos para essa conversão uma forma simples é usar o calc.exe ou um site, mas não queremos isso automatizar as coisas acaba retrocedendo a preguiça e moleza porque meu amigo já foi extinta a muito tempo primeiro temos que entender como fazer essa conversão para um número inteiro a lógica é a seguinte: <a> Valor absoluto * base ^ posição</a>, entendeu ? não ? então primeiro  é preciso numerar os índices do número  a ser trabalhado, vamos para um exemplo:</p>
+<pre class="code">
+lembrando que:
++---------+
+|  A = 10 |
+|  B = 11 |
+|  C = 12 |
+|  D = 13 |
+|  E = 14 |
+|  F = 15 |
++---------+
+vamos pegar o número: [0xfc4]
+primeiro temos que numerar os índices(em computação começa sempre do 0),"lembra do for em C" :
+--------------------
+índices:  2 1  0 
+dígitos:   F C 4 
++-------------------------------------------------------------------------------------------------------+
+| Formula: Valor da Posição = Valor absoluto *(multiplicar) base ^(elevado) posição |
++-------------------------------------------------------------------------------------------------------+
+OBS: Funciona em qualquer base seja ela Octal , binário
+Aplicação: 
+               +---------+
+Indices -&gt;  | 2 | 1 | 0 |
+Hex ------&gt;| F | C | 4 |
+              +-----------+
+Computação: F * 16 ^ 2 + C * 16 ^ 1 + 4 * 16 ^ 0 = valor em decimal 
+                      |      |     |                                           _____________
+                      |      |    V                                             Resultado:Int(4036) 
+                      |     V   valor do índice que 
+                      |   Base(16) 
+                     V 
+                Valor absoluto F = 15
+Matemática:  F * 16² + C * 16¹  + 4 * 16° = valor em decimal   inteiro 
+                                                         ----
+                                                           |
+                                                           |
+                                                          V
+                                                         Obs: de acordo com as regras de divisão e multiplicação de potências de mesma base
+                                                         quando dividimos duas potencias de mesma base subtraímos do expoente da que esta
+                                                         sendo dividida o expoente da pela qual esta se dividindo, já na multiplicação soma-se os expoentes. 
+                                                         Função que prova isso: 1=x^1/x^1 
+                                                                                                1=x^0 
+ 
+-------calculando-------
+Operação: 15 * 16^2  [Lembra ? Primeiro a potenciação]
+ Calculando: 15 *  256
+--------------
+             23
+         X  256
+               15
+        ------------ 
+           1280
+           256
+     --------------
+          3840 + 12(C) * 16 + 4 * 1 =  3840 + 192 + 4  
+    Resultado: 3840 + 196 = [4036] == Hex(0xfc4)
+Um outro exemplo:
+
+
+Para contagem:                      +---&gt; Os numeros comecam a ser repetidos em hexa
+                                    |     2044 = 7FC 
+                                    |
+1 2 3 4 5 6 7 8 9 A  B  C  D  E  F  10 11 12 13 14    &lt;--- Hexadecimal
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20    &lt;--- Decimal
+
+
+Para enderacamento:
+
+0 1 2 3 4 5 6 7 8 9 A B C D E F 0 1 2 3 4 5 6 7 8 9 A B...  
+                              |
+                              +--&gt; 16  
+
+
+Quando fazemos calculos com valores hexadecimais nao podemos usar o '0' para representar 
+o 1, apenas em enderecamento. 1024 bytes = 1 KB. Para saber quantos bytes existem dentro 
+de determinado numero de KBs, faca isso:
+
+1024 bytes * 64K = 65536 bytes
+
+Digite FFFF em 'Hex' na calc.exe e logo em seguida mude  para 'Dec', vera 65535. A calcu-
+ladora nao conta '0', mas no nosso calculo acima existe o '0' porque '1024' bytes * '64'k 
+equivalem e 6553'6' bytes. Como voce pode notar a memoria comeca  a ser  escrita a partir 
+do endereco 0. Sempre multiplique o numero  de KBs por '1024' que  representara os bytes. 
+Tendo em vista que 8 bits equivalem a 1 byte, para sabermos  quantos bits  existem dentro 
+de um determinado numero de bytes, basta multiplicarmos o numero de bytes por 8, que e' o 
+numero de bits. Veja:
+
+2 bytes * 8 bits = 16 bits       
+</pre>
+<p>Quando você clica no ícone do navegador para iniciá-lo, clique desencadeou uma "chamada"(Uma função asm que será discutido em breve.), Que voltou para a memória de programas com o "clique nele de mão." Ele encontra o endereço onde o código é que faz com que o lançamento do programa e executa-lo. O endereço é escrito em, você adivinhou, hex. Um exemplo de um endereço seria algo como isto:</p>
+<pre class="code">
+101c5018
+</pre>
+<p>5108 seria o endereço específico real e 101c seria o sector da RAM estavam o endereço é localizado. Esses são os princípios básicos de Hexadecimal.
+ E já que toquei no Assunto RAM vamos conhece-la melhor agora: O que é memória RAM? RAM (Random Access Memory) é basicamente memória e o processo de acesso a ele. O termo "Random Access Memory" foi  dado a esta unidade de memória, porque ao executar um comando, a CPU não tem que percorrer toda a memória em
+PC até encontrar o endereço certo. <a>Como a RAM funciona?</a>Quando um comando é emitido e a memória é retirado do arquivo, ele deve primeiro passar por
+o que é chamado um "vector". Um vetor é uma "porta de entrada" ou um "setor" de RAM onde o endereço da função é armazenado com outros de sua própria espécie. Um exemplo de um vector seria algo como isto:</p>
+<pre class="code">
+8c0000b4-8c00ffff
+</pre>
+<p>Isto significa que todos os "addressii" (hehe) que estão entre estes valores são armazenados em que sector da memória RAM. Um vetor age como um gateway em que, primeiro, passar por um vetor para chegar ao endereço. Seu programa tem média probley cerca de 30 a 40 vetores principais, seccionando fora de inicialização até a saída. Sabendo o vetor de um addy ou uma função irá reduzir significativamente sua dor de cabeça quando você começar a procurar por ele.</p>
+<pre class="code">
+.: Hex:. .: ASM:. .: Significado:.
+
+75,0 f85 jne salto se não igual
+74,0 F84 je salto é igual
+eb salto jmp diretamente para
+90 nop nenhuma operação
+77,0 ja F87 saltar se acima
+0f86 salto jna se não acima
+0f83 jae salto se acima ou igual a
+0f82 JNAE salto se não acima ou igual
+0f82 jb salto se abaixo
+0f83 jnb salto não é abaixo
+of86 jbe salto se inferior ou igual
+0f87 JNBE salto se não abaixo ou igual
+0f8f salto jg se maior
+0f8e jng salto se não maior
+0f8d jge salto se for maior ou igual
+0f8c JNGE salto se não maior ou igual
+0f8c jl salto se menos
+0f8d salto jnl se não menos
+0f8e jle salto se menor ou igual
+0f8f salto JNLE se não menor ou igual
+</pre>
+<p>A coisa mais fácil sobre a maioria das funções no ASM é que eles soam como o que eles significam.Jump, meio  grosseiro, a saltar de um lado para o outro. Exemplo:"Jmp 00401744" significaria para saltar diretamente para o endereço 00401744 uma vez que o códigoatinge a função. Vamos olhar para "CALL". Chamada é uma função que é usado para "chamar" uma determinada tarefa, corda, endereço, o que for. Dê uma olhada neste exemplo: "Call 0040ccc2" isso seria chamada de grossa a 0040ccc2 endereço e usá-lo. esse foi um meio de demostrar que você também pode achar funções em Asm(assemnly) em hex, na verdade o processador faz isso quando recebe um Obcode(shellcode), ele interpreta os hex como funções e aloca executa na memória. calma você irá entender no artigo sobre shellcode linux syscall  e etc... o objetivo é mostrar a importância que Hex tem quando fala-se de low level. todos os debugger que você encontrar vai conter um dump(text plain) onde vai mostrar os valores sendo modificado pelo registradores em Hex. claro você pode mudar isso vai do seu gosto. Vamos aprofundar nosso estudos agora :D</p>
+<h3>Binary2text</h3>
+<p>Vamos aprender agora como converter de binário para text Ok. vai envolver alguns conhecimento acima como calculo de binário e outras coisas que iremos aprender no decorrer do artigo se você é um bom estudante vai ter que fazer as atividades e não usar conversor na internet, isso não vai fazer com que você aprenda amigo fora que isso é obra de noob, há dois dias o canal <a href="https://www.youtube.com/user/Diolinux" target="_blank">Diolinux</a> levantou uma discussão muito interessante  <a href="https://www.youtube.com/watch?v=551xa5vEhJI&amp;list=UUEf5U1dB5a2e2S-XUlnhxSA" target="_blank">O GOOGLE ESTÁ MUDANDO A SUA FORMA DE PENSAR?</a> vale  a pena assistir, a facilidade do google nós torna mais acomodados não há a pesquisa como antigamente usando os livros e etc... isso afeta justamente a adsorção do conteúdo estudado!, em fim,  vamos continuar com nosso artigo. As cadeias de zero e uns do binário as vezes são longas tipo assim 010010101010101001101011, nós sabemos que podemos transformar esses zero e uns para números decimais não é ? sim, aprendemos em um tópico acima, Primeiro, vou mostrar como ler estes números como os números decimais que estamos acostumados em nossa vida diária. Então, vou mostrar como usar esses números e seu teclado para traduzi-los em texto. Note-se que o seu computador não usa o sistema decimal, por isso, tecnicamente, quando se converte binário para texto, ele não passar pelo processo que eu te mostrarei. Esta é apenas uma maneira de explicar  como o sistema binário funciona.</p>
+<pre class="code">
+O Sistema Binário:
+Aqui está um exemplo simples de binário:
+10101
+
+Vamos pensar no exemplo acima slots como vazios:
+_____
+</pre>
+<p>Primeiro, você lê binário da direita para a esquerda. É apenas a maneira como ele foi projetado. O primeiro slot da direita representa um valor de um, o segundo da direita um valor de dois, o terceiro da direita um valor de quatro, o quarto da direita um valor de oito , o quinto da direita um valor de dez , e o ciclo continua por múltiplos de 2. Isso nunca vai mudar.Ao colocar um 1 ou um 0  você quer dizer que você quer valor correspondente que está ligado a esse slot ou não. A 1 significa sim, e um 0 significa que não há. Por exemplo, colocando um zero no primeiro slot da direita, mas a 1 no segundo slot da direita significa que você quer um dois, mas não um:</p>
+<pre class="code">
+___ 1 0
+
+Como tal, o número acima é igual a um valor decimal de dois.
+</pre>
+<p>Como exemplo, digamos que você deseja representar oito na forma binária. Bem, pensando sobre os slots, você quer o primeiro slot para ser 0, pois você não quer um, você quer que o segundo slot para também ser 0, porque você não quer um dois, você quer o terceiro slot para também para ser 0 porque você não quer que um quatro, mas você quer o quinto slot de ser 1, porque você quer um valor de oito. Como tal, de oito em forma binária é: 1 0 0 0.Agora, é importante notar que a quantidade de zeros que precedem o primeiro valor de um a partir da esquerda não é importante. Assim, por exemplo: 1 0 0 0 é o mesmo que 0 0 0 1 0 0 0 (1000 = 000100) Para obtê-lo esclarecido, aqui está outro exemplo: 1 0 é o mesmo que 1. Como você já dois métodos de conversão agora escolha um deles se for esse que mostrei agora melhor ainda e faça a conversão desses númenos :D não vale usar calc.exe;</p>
+<pre class="code">
+OBS: Não olhe a resposta antes de converter :D 
+Exercícios: O que o seguinte iguais em termos decimais?
+a) 100
+b] 000100
+c) 100000
+d) 0010
+
+
+Resposta: 
+a) 4
+b] 4
+c) 32
+d) 2
+</pre>
+<p>Se você usou o google, ou a calculadora não estou nem ai, se iluda a si mesmo(Pleonasmo), kkkkk. se você convertou certinho bom aluno :D então você praticamente compreende as noções básicas de binário. Vamos agora entender como obter os valores decimais correspondentes aos números que não são múltiplos de 2.Para obter o valor total de um número binário, adicione os valores correspondentes a cada slot. Assim, por exemplo, de três em binário seria: <a>11</a> , porque se você adicionar os valores totais de todos os slots, ou seja, um a partir da entrada para a direita, e dois do segundo slot para a direita, em seguida, ele é igual a três. Como outro exemplo, digamos que você deseja representar 5 em termos binários. Então você precisaria de um valor de um para ser adicionado a um valor de quatro, e você não iria querer um valor de dois: 101 [Leitura da direita: 1 (um) + 0 (dois) + 1 (quatro) = cinco] , Aqui está um exemplo adicional:</p>
+<pre class="code">
+001011 [Leitura da direita: 1 (um) + 1 (dois) + 0 (quatro) + 1 (oito) + 0 (dezesseis) + 0 (trinta e dois) = onze)
+
+Atividade: 
+Exercícios: O que o seguinte iguais em termos decimais?
+a) 11011
+b] 110
+c) 010101
+d) 10110
+
+
+Respostas:
+a) 27
+b] 6
+c) 21
+d) 22
+</pre>
+<p>Então você entende essencialmente o sistema binário? a resposta é sim. Compreender o sistema binário foi a parte mais difícil. O que se segue é muito fácil. Vamos entender agora como funciona na conversão de binário para texto(ASCII) :D; ASCII é, essencialmente, as letras, números e símbolos que são armazenados em nossos computadores através do uso de fontes. Quando o teclado retransmite as teclas pressionadas, ele envia um código, que é então convertido para o equivalente ASCII de "k" ou "5" ou qualquer tecla que pressionada. lembra do artigo sobre keylogger então as teclas capturas função GetAsyncKeyState() é a mesma coisa. vamos dar ma olhada na tabela ASCII agora...</p>
+<img src="https://dl.dropboxusercontent.com/u/97321327/asciitable5vf.gif" />
+<p>Aqui está um exemplo de uma mensagem "escondida" no texto binário:</p>
+<pre class="code">
+0100100001100101011011000110110001101111
+</pre>
+<p>Tendo conjuntos de 8 dígitos para o seu equivalente binário é mais do que suficiente para representar todas estas carta. todas as sequências que representam texto como no exemplo acima são separadas em pedaços de 8 para simplificar(lembre-se sempre em 8):</p>
+<pre class="code">
+01001000 01100101 01101100 01101100 01101111
+</pre>
+<p>Ok, então a nossa mensagem exemplo foi separado em oito sequências de dígitos. O valor decimal para cada uma dessas cordas no exemplo foi calculado para você.</p>
+<pre class="code">
+01001000 = 72
+01100101 = 101
+01101100 = 108
+01101100 = 108
+01101111 = 111
+</pre>
+<p>O resultado foi 72.101.108.108.111. Agora, Sabe a  tabela ASCII citada acima ?. Ele corresponde essencialmente aos números binários de outrora às letras / símbolos / números equivalentes. Mas desde que encontramos os valores decimais destas cadeias binárias, podemos usar um atalho importante. Ao pressionar ALT + [Número], você receberá o equivalente ASCII desse número. Por exemplo, ao pressionar a tecla ALT e, em seguida, (mantendo-a para baixo) os números de 72 em qualquer editor de texto, você vai ter a correspondente "H" para aparecer.</p>
+<img src="https://dl.dropboxusercontent.com/u/97321327/asciitable5vf.gif" />
+<p>Vamos fazer por toda a mensagem exemplo:</p>
+<pre class="code">
+72 = H
+101 = e
+108 = l
+108 = l
+111 = o
+</pre>
+<p>Então, toda a mensagem "escondida" se traduz em "Olá" :D simples não.</p>
+<pre class="code">
+Exercício: Decodificar a seguinte mensagem
+010000110110111101101110011001110111001001100001011101000111010101101100011000010111010001
+101001011011110110111001110011 00100001
+
+Dica: O primeiro passo em seu caminho para a decodificação da mensagem (separados em bytes para você)
+01000011 01101111 01101110 01100111 01110010 01100001 01110100 01110101 01101100 01100001 01110100 01101001 01101111 01101110 01110011 00100001
+</pre>
+<p>Isso é tudo pessoal :D, até o próximo artigo. pratique muito esses conceitos vai ajuda-lo um dia pode ter certeza.</p>
+<p>Referências:
+David Diego [http://www.exploit-db.com/papers/31642/]
+Nummber System: http://www.usna.edu/Users/cs/vincent/suppnotes/The%20Binary%20Number%20System%20student%20version.pdf
+Charper 2: http://users.encs.concordia.ca/~tahar/coen311/notes/Chapter2-NumberSystem.pdf
+</p>
+</math.h></p>
+
+	  </div>
+
+		
+		<ul class="tag_box list-unstyled list-inline">
+		  <li><i class="fa fa-folder-open"></i></li>
+		  
+		  
+			 
+				<li><a href="/categories.html#assembly-ref">
+					assembly <span>(3)</span>
+					
+				</a></li>
+			
+		  
+		</ul>
+		  
+
+		
+		<ul class="list-inline">
+		  <li><i class="fa fa-tags"></i></li>
+		  
+		  
+			 
+				<li>
+					<a href="/tags.html#Convert-ref">
+					Convert <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#binario-ref">
+					binario <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#hexdecimal-ref">
+					hexdecimal <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#asm-ref">
+					asm <span>(3)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#jmp-ref">
+					jmp <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#assembly-ref">
+					assembly <span>(1)</span>
+					
+					</a>
+				</li>
+			
+		  
+		  
+		</ul>
+		  
+
+		<hr>
+
+		<div>
+      <section class="share col-sm-6">
+        <h4 class="section-title">Share Post</h4>
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Convert binario,hexdecimal and asm jmp assembly&via=mh4x0f"
+           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <i class="fa fa-twitter fa-lg"></i>
+          Twitter
+        </a>
+        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
+           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <i class="fa fa-facebook fa-lg"></i>
+          Facebook
+        </a>
+        <a class="btn btn-default btn-sm gplus"
+           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <i class="fa fa-google-plus fa-lg"></i>
+          Google+
+        </a>
+      </section>
+
+      <section class="col-sm-6 author">
+        <img src="http://avatars.githubusercontent.com/u/6795613" style="width:80px;height:80px;" class="img-rounded author-image" />
+        <h4 class="section-title author-name">mh4x0f</h4>
+        <p class="author-bio">One 0x41414141 worth a thousand words</p>
+      </section>
+    </div>
+
+    <div class="clearfix"></div>
+
+		<ul class="pager">
+		  
+		  <li class="previous"><a href="/c%20programming/2014/07/19/Escrevendo%20Um%20Keylogger%20em%20C%200xc5.html" title="Escrevendo Um Keylogger em C 0xc5">&larr; Previous</a></li>
+		  
+		  
+		  <li class="next"><a href="/exploit%20developer/2014/07/28/Heap%20Overflow%20Na%20pratica%200x05.html" title="Heap Overflow Na pratica 0x05">Next &rarr;</a></li>
+		  
+		</ul>
+
+		<hr>
+	</div>
+	
+	<div class="col-sm-2 sidebar-2">
+	
+	</div>
+</article>
+<div class="clearfix"></div>
+
+
+
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'mh4x0fblog';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+		<footer>
+			<hr/>
+			<p>
+				&copy; 2015 mh4x0f with Jekyll. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+			</p>
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'mh4x0f']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+

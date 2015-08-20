@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Programando Socket em C 0xC2</title>
+	
+	<meta name="author" content="mh4x0f">
+
+	<!-- Enable responsive viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+	<link href="/assets/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<!-- Le fav and touch icons -->
+	<!-- Update these with your own images
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+
+	<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+<body>
+	<nav class="navbar navbar-default visible-xs" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://github.com/mh4x0f">
+				<i class="fa fa-github"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://twitter.com/mh4x0f">
+				<i class="fa fa-twitter"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope"></i>
+			</a>
+			
+			<a class="navbar-brand" href="/">
+				<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" />
+				
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/categories.html">Categories</a></li>
+				<li><a href="/tags.html">Tags</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+
+	<!-- nav-menu-dropdown -->
+	<div class="btn-group hidden-xs" id="nav-menu">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-bars"></i>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/categories.html"><i class="fa fa-folder"></i>Categories</a></li>
+			<li><a href="/tags.html"><i class="fa fa-tags"></i>Tags</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i>Top of Page</a></li>
+		</ul>
+	</div>
+
+	<div class="col-sm-3 sidebar hidden-xs">
+		<!-- sidebar.html -->
+<header class="sidebar-header" role="banner">
+	<a href="/">
+		<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" style="width:112px;height:112px;" />
+	</a>
+	<h3 class="title">
+        <a href="/"></a>
+    </h3>
+</header>
+
+
+<div id="bio" class="text-center">
+	One 0x41414141 worth a thousand words
+</div>
+
+<div id="contact-list" class="text-center">
+	<ul class="list-unstyled list-inline">
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://github.com/mh4x0f">
+				<i class="fa fa-github-alt fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://twitter.com/mh4x0f">
+				<i class="fa fa-twitter fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope fa-lg"></i>
+			</a>
+		</li>
+		
+	</ul>
+	<ul id="contact-list-secondary" class="list-unstyled list-inline">
+		
+		
+		<form class="col-lg-12" action="http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity', 'popupwindow', 'scrollbars=yes,width=250,height=220');return true" >
+			<div class="input-group" style="width:240px;text-align:center;margin:0 auto;">
+			<input type="hidden" value="chmodsecurity" name="uri" >
+		  <input type="hidden" name="loc" value="pt_BR">
+		  <input  id="input-rss"  style="width:160px;text-align:center;" placeholder="Digite  seu e-mail" class="form-control input-lg" type="text" name="email">
+		  <span class="input-group-btn"><button id="btn-assinar" class="btn btn-lg btn-primary"  type="submit" value=" ASSINAR ">Assinar</button></span>
+	      </div>
+		</form>
+	</ul>
+</div>
+<!-- sidebar.html end -->
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3">
+		<div class="page-header">
+  <h1>Programando Socket em C 0xC2 </h1>
+</div>
+	
+<article>
+	<div class="col-sm-10">
+	 <span class="post-date">
+	   
+	   June 
+	   4th,
+	   
+	   2014
+	 </span>
+	  <div class="article_body">
+	  <p>continuando nossa saga sobre socket's, o estudo de socket's na minha opinião vale muito a pena o investimento do seu tempo  porque ele é a porta pra você desenvolver as tool malignas do mundo blackhat, vamos estudar algumas dessas ferramentas futuramente.Na última vez que nós aprendemos sobre o headers que ele tem uma função muito importante e declaramos nosso primeiro socket agora, vamos relembrar um pouco.</p>
+<pre class="code">
+#include &lt; sys/types.h &gt;
+#include &lt; sys/sockets.h &gt;
+#include &lt; netinet/in.h &gt;
+</pre>
+<p>A função socket() ela retorna -1 caso for erro então vamos declarar nossa variável novamente e ver como funciona, há lembrando para usar socket em windows é preciso de uma API, no linux não precisamos de nenhuma dll, porque o linux é foda heehheeh
+vamos lá declaramos nosso socket e ver alguns detalhes da criação do mesmo :D.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="kt">int</span> <span class="n">SoCk</span><span class="p">;</span>
+<span class="n">meu_socket</span> <span class="o">=</span> <span class="n">socket</span> <span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span></code></pre></div>
+
+<p>simples não é, vamos entender o que nós fizemos agora, criamos um variável do tipo Int(inteiro) e logo depois pegando a função socket(){que return -1 no caso de erro :D}. e atribuirmos a família <a>AF_INET</a> o tipo do protocolo <a>SOCK_STREAM (potocolo TCP)</a> e o <a>Zero</a> que indica que vamos fazer uma conexão IP. há é se eu colocar 1 no lugar do 0, agora vai ser uma conexão ICMP, vou deixar uma pequena lista com os tipos. </p>
+<pre class="code">
+ 0 - IP - INTERNET PROTOCOL
+  1 - ICMP - INTERNET CONTROL MESSAGE PROTOCOL
+  2 - IGMP - INTERNET GROUP MULTICAST PROTOCOL
+  3 - GGP - GATEWAY-GATEWAY PROTOCOL
+  6 - TCP - TRANSMISSION CONTROL PROTOCOL
+  17 - UDP - USER DATAGRAMA PROTOCOL
+</pre>
+<p>É assim que funciona mano, vamos lá para a família que até esqueci não só tem a AF_INET tem mais algumas como essas ae:</p>
+<pre class="code">
++ AF_INET      (ARPA INTERNET PROTOCOLS) - A mais usada
++ AF_UNIX      (UNIX INTERNET PROTOCOLS)
++ AF_ISO       (ISO PROTOCOLS)
++ AF_NS        (XEROX NETWORK SYSTEM PROTOCOLS)
+</pre>
+<p>Não me interessa essas outras família e tudo mais deixa isso pros psicopatas que querem saber de tudo e nem vou perder meu tempo aprendendo uma coisa que nunca irei usar isso é coisa de doente. kkk Família = tudo que eh da  mesma laia, ou  seja, quando eu 
+inicio 1 socket especificando o AF_INET, eu estou querendo dizer q to afim d programar 
+p/ a familia TCP/IP. Comumente voce encontrara' um tal  de
+PF_INET ao inves de AF_INET nos sources da galera, por  isso vou  adiantando logo  que 
+AF_INET se trata de um alias para PF_INET e por esse mesmo motivo, podemos  dizer q de  
+certa forma eh mais "correto" usarmos o PF_INET (PF_INET eh mais Hacko! As  pessoas na 
+rua vão começar a dizer que você realmente sabe o que ta fazendo eheh =).</p>
+<p>Vamos avançar nos estudos falar um pouco sobre as estruturas (struct), precisamos usa-las para definimos as funções que citei acima.Vamos ver agora como ta ficando nosso código =).  Existe 1 truque amigo, eh bastante simples, quando vc
+nao souber em qual header uma determinada função esta, basta você ir neste diretório:
+<br />
+ /usr/include 
+<br />
+E procurar a tal função baseando-se pelo diretiva  de  compilação '#include' no  codigo 
+fonte do programa q  você quer estudar, abra o header e procure pela função, simples =) </p>
+<pre>
+sys/types.h -&gt; definição de tipos de dados
+sys/socket.h -&gt; funções e constantes relativas a sockets
+netinet/in.h -&gt; para manipulação de estruturas, dados e endereços da famàlia internet
+arpa/inet.h -&gt; definições para funções destinadas a operações com sockets
+netdb.h -&gt; permite o uso de funções relativas a hostnames, portas, etc
+</pre>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt; sys/types.h &gt;</span>
+<span class="cp">#include &lt; sys/socket.h &gt;</span>
+<span class="cp">#include &lt; netinet/in.h &gt;</span>
+<span class="cp">#include &lt; arpa/inet.h &gt;</span>
+<span class="cp">#include &lt; netdb.h &gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="kt">int</span> <span class="n">meu_socket</span><span class="p">;</span>
+<span class="n">meu_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// cria meu socket </span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">meu_socket</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao criar o socket!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="k">else</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Socket criado com sucesso!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p> EHHEH ta ficando Bom, e como disse se nosso descritor nosso socket voltar o valor -1 vai dar uma msg falando onde ta ocorrendo o ERROR poderíamos usar a função Perror mais deixa pra próxima. temos agora que criar a struct com as informações ,Deu até saudade de python como isso é simples, com python. </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt; stdio.h &gt; </span><span class="cm">/* para usar printf() */</span><span class="cp"></span>
+<span class="cp">#include &lt; sys/types.h &gt;</span>
+<span class="cp">#include &lt; sys/socket.h &gt;</span>
+<span class="cp">#include &lt; netinet/in.h &gt;</span>
+<span class="cp">#include &lt; arpa/inet.h &gt;</span>
+<span class="cp">#include &lt; netdb.h &gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="kt">int</span> <span class="n">meu_socket</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
+
+<span class="n">meu_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">meu_socket</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao criar o socket!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span>      <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span> <span class="c1">// 2 Bytes (short)</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span>        <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span> <span class="c1">//2 Bytes (short)</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">INADDR_ANY</span><span class="p">;</span> <span class="c1">//4 bytes</span>
+
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">));</span> <span class="c1">//preenche os 16 bit</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao bind()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span></code></pre></div>
+
+<p>struct sockaddr_in addr;  Declaração de uma estrutura sockaddr_in responsável por fornecer ao socket as informações sobre a famàlia, endereço e porta que devem ser utilizados para a comunicação. depois é preciso preencher a struct com as informações, como Familia, porta  e IP. a memset vai preencher o restante da estrutura com zero, isso acontece porque IP e a porta são convertido para bytes, a porta com htons e o Ip com INADDR. tudo isso dar 16 bit's. logo depois vem um tratramento com a função <a>BIND</a>, A função bind() é respondível por associar um endereço e porta locais a um socket.</p>
+<p>Casa der Erro return -1, agora vem a função listen()coloca o socket em modo de espera definindo um mínimo de 1 conexão pendente que deve ser aguardada.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">if</span><span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao listen()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;&lt;</span><span class="n">a</span><span class="o">&gt;</span><span class="n">Accept</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">essa</span> <span class="n">fun</span><span class="err">çã</span><span class="n">o</span> <span class="n">como</span> <span class="n">o</span> <span class="n">nome</span> <span class="n">j</span><span class="err">á</span> <span class="n">demostra</span> <span class="n">ela</span> <span class="n">aceita</span> <span class="n">a</span> <span class="n">primeira</span> <span class="n">conex</span><span class="err">ã</span><span class="n">o</span> <span class="n">que</span> <span class="n">passa</span> <span class="n">pelo</span> <span class="n">Bind</span><span class="p">().</span> <span class="o">:</span><span class="n">D</span> <span class="n">simples</span> <span class="n">n</span><span class="err">ã</span><span class="n">o</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">pre</span> <span class="n">class</span><span class="o">=</span><span class="s">&quot;code&quot;</span><span class="o">&gt;</span>
+<span class="n">meu_socket</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">meu_socket</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao accept()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>
+Agora vejamos a estrutura e as funções utilizadas com mais detalhes:
+<br />
+struct sockaddr_in addr;
+<br />
+Uma estrutura do tipo sockaddr_in, definida no header netinet/in.h, contém as informações necessírias para estabelecer uma comunicação entre o computador local e um remoto, baseando-se no seu endereço IP e na sua porta.
+Esta estrutura foi criada para simplificar o uso de sockets. A verdade é que funções como bind() e connect(), por exemplo, que utilizam informações sobre porta e endereço para realizarem operações com socket - conectar a um host remoto, configurar localmente um socket, etc -, as obtém de uma estrutura chamada sockaddr.<br />
+A estrutura sockaddr é definida da seguinte forma:
+</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">strut</span> <span class="n">sockaddr</span>
+ <span class="p">{</span>
+  <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">sa_family</span><span class="p">;</span>  <span class="cm">/* 2 bytes */</span>
+  <span class="kt">char</span> <span class="n">sa_data</span><span class="p">[</span><span class="mi">14</span><span class="p">];</span>          <span class="cm">/* 14 bytes */</span>
+ 
+ <span class="p">};</span> <span class="cm">/* Total = 16 bytes */</span></code></pre></div>
+
+<p>Agora vamos ver como ta ficando nosso código:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt; stdio.h &gt; </span><span class="cm">/* para usar printf() */</span><span class="cp"></span>
+<span class="cp">#include &lt; sys/types.h &gt;</span>
+<span class="cp">#include &lt; sys/socket.h &gt;</span>
+<span class="cp">#include &lt; netinet/in.h &gt;</span>
+<span class="cp">#include &lt; arpa/inet.h &gt;</span>
+<span class="cp">#include &lt; netdb.h &gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="kt">int</span>    <span class="n">meu_socket</span><span class="p">;</span>
+<span class="kt">int</span>    <span class="n">sock_cliente</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
+
+<span class="n">meu_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">meu_socket</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao criar o socket!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span>      <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span>        <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">INADDR_ANY</span><span class="p">;</span>
+
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">));</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao bind()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao listen()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Aguardando conexoes...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="n">sock_cliente</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">sock_cliente</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao accept()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Pedido de conexao feito!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">send</span><span class="p">(</span><span class="n">sock_cliente</span><span class="p">,</span><span class="s">&quot;Hi&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao enviar dados!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">close</span><span class="p">(</span><span class="n">sock_cliente</span><span class="p">);</span>         
+<span class="n">close</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">);</span>         
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>A função close() fecha o socket, claro né :D. mas é apenas uma demostração ta faltando agora duas. vamos lá logo abaixo vera que a função send precisa de alguns parâmetros a ser passado como socket, conteudo,tamanho,e a frag. </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="kt">char</span> <span class="n">mensagem</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;qualquer coisa&quot;</span><span class="p">;</span>
+<span class="n">send</span><span class="p">(</span><span class="n">sock_cliente</span><span class="p">,</span><span class="n">mensagem</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">mensagem</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span></code></pre></div>
+
+<p>Nesse caso tou criando uma string e enviando, a frag não mexa normalmente é usada a frag zero são os valores opcionais. Agora para receber os cados utilizamos a função recv(), para pegar os dados enviando pelo cliente e fazer alguma coisa nesse caso vamos aprenas dar um printf.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="kt">int</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">sock_cliente</span><span class="p">,</span><span class="n">resposta</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">bytes</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="cm">/* Erro */</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao receber dados!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="k">else</span>
+  <span class="nf">printf</span><span class="p">(</span><span class="s">&quot;Recebidos %d bytes.</span><span class="se">\n</span><span class="s">Dados: %s&quot;</span><span class="p">,</span><span class="n">bytes</span><span class="p">,</span><span class="n">resposta</span><span class="p">);</span> <span class="cm">/* Mostra a resposta do cliente */</span></code></pre></div>
+
+<p>Agora a função Connect() que o nome ja diz tudo né, Utilizamos a função connect() para fazer com que um socket se conecte a um host remoto.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">if</span><span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao se conectar!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>A essa função pega aquela struct que definimos e coloca no pacote lógico ela precisa saber o IP e porta e familia para conectar com o cliente. outra coisa quando enviamos algum é preciso inserir um caracter nulo para não da algum tipo de erro usando send(meu_socket,"Alguma coisa\n",13,0);, ou seja precisa qualquer o tamanho exato da string que vai ser enviando. para não perder o costume vamos ver agora um exemplo de como seria enviar uma string para o servidor.</p>
+<h3>ServidorChat.c</h3>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt; stdio.h &gt;</span>
+<span class="cp">#include &lt;sys/types.h &gt;</span>
+<span class="cp">#include &lt;sys/socket.h &gt;</span>
+<span class="cp">#include &lt;netinet/in.h &gt;</span>
+<span class="cp">#include &lt; arpa/inet.h &gt;</span>
+<span class="cp">#include &lt; netdb.h &gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="kt">int</span>    <span class="n">meu_socket</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr_local</span><span class="p">,</span> <span class="n">addr</span><span class="p">;</span>
+
+<span class="n">meu_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">meu_socket</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao criar o socket!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+
+<span class="cm">/* Preenche a estrutura que serí utilizada com a função bind() */</span>
+
+<span class="n">addr_local</span><span class="p">.</span><span class="n">sin_family</span>      <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+<span class="n">addr_local</span><span class="p">.</span><span class="n">sin_port</span>        <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">4321</span><span class="p">);</span>
+<span class="n">addr_local</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">INADDR_ANY</span><span class="p">;</span>
+
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr_local</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr_local</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">));</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr_local</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr_local</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao bind()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="cm">/* Estrutura destinada à função connect() */</span>
+
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span>      <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span>        <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span>
+
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">));</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Tentando se conectar...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao se conectar!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Conectado!</span><span class="se">\n</span><span class="s">Enviando dados...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="n">send</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="s">&quot;Alguma coisa</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">close</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">);</span>         
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Pronto! vamos para uma demostração, vamos criar um simples chat para estabelecer uma comunicação entre cliente e servidor, use o GCC e compile os dois códigos abaixo lembando que você pode alterar a porta que você quiser. é simples calma vamos ainda para a parte maliciosa ehhehe, por em quanto o aprendizado fala mais alto.</p>
+<h3>clienteChat.c</h3>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt; stdio.h &gt;</span>
+<span class="cp">#include &lt; sys/types.h &gt;</span>
+<span class="cp">#include &lt; sys/socket.h &gt;</span>
+<span class="cp">#include &lt; netinet/in.h &gt;</span>
+<span class="cp">#include &lt; arpa/inet.h &gt;</span>
+<span class="cp">#include &lt; netdb.h &gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="kt">int</span>    <span class="n">meu_socket</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
+
+<span class="n">meu_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">meu_socket</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao criar o socket!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span>      <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span>        <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">inet_addr</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span>
+
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">));</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Tentando se conectar ao servidor...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao se conectar!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Conectado!</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">recebidos</span><span class="p">,</span> <span class="n">enviados</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">mensagem</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">resposta</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+
+<span class="k">do</span>
+  <span class="p">{</span>
+  
+  <span class="cm">/* O processo inverso é feito aqui. Como o servidor espera uma mensagem inicialmente, o cliente deverí fornecê-la */</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Cliente: &quot;</span><span class="p">);</span>
+  <span class="n">fgets</span><span class="p">(</span><span class="n">mensagem</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>
+  <span class="n">mensagem</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">mensagem</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+  <span class="n">enviados</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="n">mensagem</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">mensagem</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>
+
+ <span class="cm">/* Após enviar a mensagem, espera-se a resposta do servidor */</span>
+
+  <span class="n">recebidos</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="n">resposta</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">resposta</span><span class="p">[</span><span class="n">recebidos</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Servidor: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">resposta</span><span class="p">);</span>
+  
+
+  <span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">recebidos</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">enviados</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+
+<span class="n">close</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">);</span>         
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p><a>&lt;h3&gt;ClienteChat.c&lt;/h3&gt;</a></p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt; stdio.h &gt; </span>
+<span class="cp">#include &lt; string.h &gt; </span>
+<span class="cp">#include &lt; sys/types.h &gt;</span>
+<span class="cp">#include &lt; sys/socket.h &gt;</span>
+<span class="cp">#include &lt; netinet/in.h &gt;</span>
+<span class="cp">#include &lt; arpa/inet.h &gt;</span>
+<span class="cp">#include &lt; netdb.h &gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span> 
+<span class="kt">int</span>    <span class="n">meu_socket</span><span class="p">;</span>
+<span class="kt">int</span>    <span class="n">sock_cliente</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">sockaddr_in</span> <span class="n">addr</span><span class="p">;</span>
+
+<span class="n">meu_socket</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">meu_socket</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao criar o socket!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span>      <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span>        <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">1234</span><span class="p">);</span>
+<span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">INADDR_ANY</span><span class="p">;</span>
+<span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">.</span><span class="n">sin_zero</span><span class="p">));</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">bind</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,(</span><span class="k">struct</span> <span class="n">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao bind()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">listen</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao listen()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Aguardando cliente...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="n">sock_cliente</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">sock_cliente</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro na funcao accept()</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Cliente conectado!</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">recebidos</span><span class="p">,</span> <span class="n">enviados</span><span class="p">;</span> <span class="cm">/* Controle de bytes enviados e recebidos */</span>
+<span class="kt">char</span> <span class="n">mensagem</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>      <span class="cm">/* Buffer para envio de mensagens */</span> 
+<span class="kt">char</span> <span class="n">resposta</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>      <span class="cm">/* Buffer para receber mensagens  */</span>
+
+<span class="k">do</span>  <span class="cm">/* Executa as instruções abaixo ... */</span>
+  <span class="p">{</span> 
+  <span class="n">recebidos</span> <span class="o">=</span> <span class="n">recv</span><span class="p">(</span><span class="n">sock_cliente</span><span class="p">,</span><span class="n">resposta</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>              <span class="cm">/* Recebe mensagem do cliente */</span>
+  <span class="n">resposta</span><span class="p">[</span><span class="n">recebidos</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>                                 <span class="cm">/* Finaliza a string com o caractere NULO */</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Cliente: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">resposta</span><span class="p">);</span> 	       	              <span class="cm">/* Mostra a mensagem do cliente */</span>
+  
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Servidor: &quot;</span><span class="p">);</span>                                       <span class="cm">/* Simplesmente informa que deve-se preencher uma mensagem */</span>
+  <span class="n">fgets</span><span class="p">(</span><span class="n">mensagem</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span>                                  <span class="cm">/* Obtém uma mensagem digitada */</span>
+  <span class="n">mensagem</span><span class="p">[</span><span class="n">strlen</span><span class="p">(</span><span class="n">mensagem</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;\0&#39;</span><span class="p">;</span>                        <span class="cm">/* Finaliza a string */</span>
+  <span class="n">enviados</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">sock_cliente</span><span class="p">,</span><span class="n">mensagem</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">mensagem</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>  <span class="cm">/* Envia a string */</span>
+  
+  <span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">recebidos</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">enviados</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span> <span class="cm">/* ... enquanto as funções send() e recv() não retornarem -1 = ERRO */</span>
+
+<span class="n">close</span><span class="p">(</span><span class="n">sock_cliente</span><span class="p">);</span>         
+<span class="n">close</span><span class="p">(</span><span class="n">meu_socket</span><span class="p">);</span>         
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>gretz: Dark_Side </p>
+
+	  </div>
+
+		
+		<ul class="tag_box list-unstyled list-inline">
+		  <li><i class="fa fa-folder-open"></i></li>
+		  
+		  
+			 
+				<li><a href="/categories.html#c programming-ref">
+					c programming <span>(7)</span>
+					
+				</a></li>
+			
+		  
+		</ul>
+		  
+
+		
+		<ul class="list-inline">
+		  <li><i class="fa fa-tags"></i></li>
+		  
+		  
+			 
+				<li>
+					<a href="/tags.html#socket in C-ref">
+					socket in C <span>(2)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#c coding-ref">
+					c coding <span>(3)</span>
+					
+					</a>
+				</li>
+			
+		  
+		  
+		</ul>
+		  
+
+		<hr>
+
+		<div>
+      <section class="share col-sm-6">
+        <h4 class="section-title">Share Post</h4>
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Programando Socket em C 0xC2&via=mh4x0f"
+           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <i class="fa fa-twitter fa-lg"></i>
+          Twitter
+        </a>
+        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
+           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <i class="fa fa-facebook fa-lg"></i>
+          Facebook
+        </a>
+        <a class="btn btn-default btn-sm gplus"
+           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <i class="fa fa-google-plus fa-lg"></i>
+          Google+
+        </a>
+      </section>
+
+      <section class="col-sm-6 author">
+        <img src="http://avatars.githubusercontent.com/u/6795613" style="width:80px;height:80px;" class="img-rounded author-image" />
+        <h4 class="section-title author-name">mh4x0f</h4>
+        <p class="author-bio">One 0x41414141 worth a thousand words</p>
+      </section>
+    </div>
+
+    <div class="clearfix"></div>
+
+		<ul class="pager">
+		  
+		  <li class="previous"><a href="/c%20programming/2014/06/02/Introducao%20a%20Socket%20em%20C%200xC1.html" title="Introducao a Socket em C 0xC1">&larr; Previous</a></li>
+		  
+		  
+		  <li class="next"><a href="/exploit%20developer/2014/06/11/Entendendo%20Buffer%20Overflow%20-%200x02.html" title="Entendendo Buffer Overflow - 0x02">Next &rarr;</a></li>
+		  
+		</ul>
+
+		<hr>
+	</div>
+	
+	<div class="col-sm-2 sidebar-2">
+	
+	</div>
+</article>
+<div class="clearfix"></div>
+
+
+
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'mh4x0fblog';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+		<footer>
+			<hr/>
+			<p>
+				&copy; 2015 mh4x0f with Jekyll. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+			</p>
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'mh4x0f']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+

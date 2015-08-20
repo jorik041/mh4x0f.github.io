@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Task Manager com planilhas Excel [MACRO]</title>
+	
+	<meta name="author" content="mh4x0f">
+
+	<!-- Enable responsive viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+	<link href="/assets/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<!-- Le fav and touch icons -->
+	<!-- Update these with your own images
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+
+	<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+<body>
+	<nav class="navbar navbar-default visible-xs" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://github.com/mh4x0f">
+				<i class="fa fa-github"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://twitter.com/mh4x0f">
+				<i class="fa fa-twitter"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope"></i>
+			</a>
+			
+			<a class="navbar-brand" href="/">
+				<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" />
+				
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/categories.html">Categories</a></li>
+				<li><a href="/tags.html">Tags</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+
+	<!-- nav-menu-dropdown -->
+	<div class="btn-group hidden-xs" id="nav-menu">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-bars"></i>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/categories.html"><i class="fa fa-folder"></i>Categories</a></li>
+			<li><a href="/tags.html"><i class="fa fa-tags"></i>Tags</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i>Top of Page</a></li>
+		</ul>
+	</div>
+
+	<div class="col-sm-3 sidebar hidden-xs">
+		<!-- sidebar.html -->
+<header class="sidebar-header" role="banner">
+	<a href="/">
+		<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" style="width:112px;height:112px;" />
+	</a>
+	<h3 class="title">
+        <a href="/"></a>
+    </h3>
+</header>
+
+
+<div id="bio" class="text-center">
+	One 0x41414141 worth a thousand words
+</div>
+
+<div id="contact-list" class="text-center">
+	<ul class="list-unstyled list-inline">
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://github.com/mh4x0f">
+				<i class="fa fa-github-alt fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://twitter.com/mh4x0f">
+				<i class="fa fa-twitter fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope fa-lg"></i>
+			</a>
+		</li>
+		
+	</ul>
+	<ul id="contact-list-secondary" class="list-unstyled list-inline">
+		
+		
+		<form class="col-lg-12" action="http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity', 'popupwindow', 'scrollbars=yes,width=250,height=220');return true" >
+			<div class="input-group" style="width:240px;text-align:center;margin:0 auto;">
+			<input type="hidden" value="chmodsecurity" name="uri" >
+		  <input type="hidden" name="loc" value="pt_BR">
+		  <input  id="input-rss"  style="width:160px;text-align:center;" placeholder="Digite  seu e-mail" class="form-control input-lg" type="text" name="email">
+		  <span class="input-group-btn"><button id="btn-assinar" class="btn btn-lg btn-primary"  type="submit" value=" ASSINAR ">Assinar</button></span>
+	      </div>
+		</form>
+	</ul>
+</div>
+<!-- sidebar.html end -->
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3">
+		<div class="page-header">
+  <h1>Task Manager com planilhas Excel [MACRO] </h1>
+</div>
+	
+<article>
+	<div class="col-sm-10">
+	 <span class="post-date">
+	   
+	   June 
+	   15th,
+	   
+	   2014
+	 </span>
+	  <div class="article_body">
+	  <p> Hoje em dia todos os tipos de arquivos é  preciso tomar um pouco de cuidado! - há mas é somente uma planilha! sim, mas a microsoft criou o macro, que  nada mais que visual basic, quem programa em visual basic (pascal) sabe que da pra fazer muito mais do que vou mostra aqui até mesmo no pacote do metasploit tem lá "exe2vba" pra isso mesmo converter um backdoor para código em VBA.</p>
+<p><img src="https://dl.dropboxusercontent.com/u/97321327/1.png" /><br /></p>
+
+<p>não vou tocar nesse assunto nesse post, mesmo assim é bom que você conheça as propriedades desse tipo de ataque “client side” cliente ao lado,  muitos pentesters usam para mandar uma planilha infectada, Engenharia social, ou até mesmo span como já vi muitos! 
+então vamos lá
+Esse arquivo já diz tudo vou deixar o download dele:
+https://dl.dropboxusercontent.com/u/97321327/TaskManager.xls
+<img src="https://dl.dropboxusercontent.com/u/97321327/2.png" /><br /></p>
+
+<p>O que ele realmente faz ? esse arquivo contém um código VBA dentro lá no menu exibição do excel:
+<img src="https://dl.dropboxusercontent.com/u/97321327/23.png" /><br /></p>
+
+<p>antes disso teremos que habilitar o conteúdo macro para continuar, ou seja, essa foi a solução que a microsoft encontrou para que a pessoa que se responsabilize em ativar o macros:
+<img src="https://dl.dropboxusercontent.com/u/97321327/45.png" /><br /></p>
+
+<p>Agora vamos abrir o conteúdo do macro:
+antes de mais nada podemos cria uma função chamada auto open() que vai abrir quando a pessoa ativar o macro, mas deixa isso para o próximo Tutorial:
+nesse caso temos apenas duas funções uma que vai listar os processo e outra que vai executar as ações:
+<img src="https://dl.dropboxusercontent.com/u/97321327/12.png" /><br /></p>
+
+<p>Clicando em Editar podemos ver o código e ainda modificar se você entender de pascal: eu particularmente comecei com pascal  e lembro algumas coisas ainda depois eu vou  brinca pra ver o que posso fazer com isso, ele ira abrir outro arquivo de visualização e edição de macro:
+<img src="https://dl.dropboxusercontent.com/u/97321327/11.png" /><br /></p>
+
+<p>pronto! O que faz esse arquivo?
+esse aquivo ele vai listar todos os processo do seu PC, e na coluna “comands” o comando que você colocar lá como “t” ele vai terminar o processo que você escolheu tipo isso:
+<img src="https://dl.dropboxusercontent.com/u/97321327/10.png" /><br /></p>
+
+<p>Se eu clicar em Execute comands ele vai fechar o navegador Chrome e por ai vai:
+há tem mais comando ? sim tem sim abaixo vou mostrar os outro comando
+<img src="https://dl.dropboxusercontent.com/u/97321327/9.png" /><br /></p>
+
+<p>Olhem o e SC quer dizer que  podemos colocar um shellcode ae, já escrevi sobre isso em outro post sobre shellcode com python! da uma olhada lá usem o script que deixei e só alegria!
+Pronto! :) até a próxima pessoal Download do arquivo: <a href="https://dl.dropboxusercontent.com/u/97321327/TaskManager.xls" target="_blank">»»&gt;Here ««/a&gt;</a></p>
+
+	  </div>
+
+		
+		<ul class="tag_box list-unstyled list-inline">
+		  <li><i class="fa fa-folder-open"></i></li>
+		  
+		  
+			 
+				<li><a href="/categories.html#exploration-ref">
+					exploration <span>(1)</span>
+					
+				</a></li>
+			
+		  
+		</ul>
+		  
+
+		
+		<ul class="list-inline">
+		  <li><i class="fa fa-tags"></i></li>
+		  
+		  
+			 
+				<li>
+					<a href="/tags.html#Excel Exploit-ref">
+					Excel Exploit <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#excel execute-ref">
+					excel execute <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#task manager-ref">
+					task manager <span>(1)</span>
+					
+					</a>
+				</li>
+			
+		  
+		  
+		</ul>
+		  
+
+		<hr>
+
+		<div>
+      <section class="share col-sm-6">
+        <h4 class="section-title">Share Post</h4>
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Task Manager com planilhas Excel [MACRO]&via=mh4x0f"
+           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <i class="fa fa-twitter fa-lg"></i>
+          Twitter
+        </a>
+        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
+           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <i class="fa fa-facebook fa-lg"></i>
+          Facebook
+        </a>
+        <a class="btn btn-default btn-sm gplus"
+           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <i class="fa fa-google-plus fa-lg"></i>
+          Google+
+        </a>
+      </section>
+
+      <section class="col-sm-6 author">
+        <img src="http://avatars.githubusercontent.com/u/6795613" style="width:80px;height:80px;" class="img-rounded author-image" />
+        <h4 class="section-title author-name">mh4x0f</h4>
+        <p class="author-bio">One 0x41414141 worth a thousand words</p>
+      </section>
+    </div>
+
+    <div class="clearfix"></div>
+
+		<ul class="pager">
+		  
+		  <li class="previous"><a href="/exploit%20developer/2014/06/12/Buffer%20Overflow%20na%20Pratica%20-%200x03.html" title="Buffer Overflow na Pratica - 0x03">&larr; Previous</a></li>
+		  
+		  
+		  <li class="next"><a href="/python%20dev/2014/06/16/Scapy%20Manipulando%20de%20Pacotes%20na%20Rede%20%5BPython%5D.html" title="Scapy Manipulando de Pacotes na Rede">Next &rarr;</a></li>
+		  
+		</ul>
+
+		<hr>
+	</div>
+	
+	<div class="col-sm-2 sidebar-2">
+	
+	</div>
+</article>
+<div class="clearfix"></div>
+
+
+
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'mh4x0fblog';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+		<footer>
+			<hr/>
+			<p>
+				&copy; 2015 mh4x0f with Jekyll. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+			</p>
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'mh4x0f']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+

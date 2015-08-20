@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title></title>
+		<description>my blog</description>
+		<link>/</link>
+		<atom:link href="/" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>Socket Raw e encapsulamento de Dados 0xc7</title>
+				<description>&lt;p&gt; Chegou a hora de conhecer os famosos socket raw , já tava até demorando de escrever sobre. Nesse artigo...</description>
+				<pubDate>Wed, 03 Dec 2014 00:00:00 -0300</pubDate>
+				<link>/c%20programming/2014/12/03/socket-raw-e-encapsulamento-de-dados-x0c7.html</link>
+				<guid isPermaLink="true">/c%20programming/2014/12/03/socket-raw-e-encapsulamento-de-dados-x0c7.html</guid>
+			</item>
+		
+			<item>
+				<title>Shellcode 64 ASM Language Developing</title>
+				<description>&lt;p&gt;Desenvolver shellcode não é uma tarefa complicada, dependendo do OS, ou arquitetura pode-se criar com muita facilidade,(esse artigo é direcionando...</description>
+				<pubDate>Thu, 13 Nov 2014 00:00:00 -0300</pubDate>
+				<link>/assembly/2014/11/13/Shellcode-64-Bits-Assembly-Language-Developing-%5BASM%5D.html</link>
+				<guid isPermaLink="true">/assembly/2014/11/13/Shellcode-64-Bits-Assembly-Language-Developing-%5BASM%5D.html</guid>
+			</item>
+		
+			<item>
+				<title>Bypass Windows e Linux + metasploit [DEP ASLR]</title>
+				<description>&lt;p&gt;Há pouco tempo estava estudando sobre alocação de memoria, na tentaria de bypassar algumas proteções dos software Anti-vírus, a princípio...</description>
+				<pubDate>Tue, 14 Oct 2014 00:00:00 -0300</pubDate>
+				<link>/linux/2014/10/14/Bypass-Protect-winndows-Linux-metasploit-%5BDEP.html</link>
+				<guid isPermaLink="true">/linux/2014/10/14/Bypass-Protect-winndows-Linux-metasploit-%5BDEP.html</guid>
+			</item>
+		
+			<item>
+				<title>writing backdoor in ASM linux 64 bits sycall Netcat</title>
+				<description>&lt;p&gt;No ultimo artigo falei sobre syscall linux asm 64 bits, demostrei alguns exemplos de como usa-la, estou tentando arrumar tempo...</description>
+				<pubDate>Sun, 24 Aug 2014 00:00:00 -0300</pubDate>
+				<link>/assembly/2014/08/24/writing-backdoor-in-ASM-linux-64-bits-sycall-Netcat.html</link>
+				<guid isPermaLink="true">/assembly/2014/08/24/writing-backdoor-in-ASM-linux-64-bits-sycall-Netcat.html</guid>
+			</item>
+		
+			<item>
+				<title>writing backdoor in C sockets berkeley [UNIX] 0xc6</title>
+				<description>&lt;p&gt;Continuando com nosso artigos sobre &lt;a&gt;C&lt;/a&gt;, depois de um keylogger vamos brincar mais um pouco com socket's, primeiro o que...</description>
+				<pubDate>Thu, 07 Aug 2014 00:00:00 -0300</pubDate>
+				<link>/c%20programming/2014/08/07/writing-backdoor-in-C-sockets-berkeley%20%5BUNIX%5D-0xc6.html</link>
+				<guid isPermaLink="true">/c%20programming/2014/08/07/writing-backdoor-in-C-sockets-berkeley%20%5BUNIX%5D-0xc6.html</guid>
+			</item>
+		
+			<item>
+				<title>Tecnicas Avançadas Shellcoding [asm]</title>
+				<description>&lt;p&gt;asm sempre vai ti deixar louco não tem conversa com ela mesmo programando a anos você vai se bater em...</description>
+				<pubDate>Thu, 07 Aug 2014 00:00:00 -0300</pubDate>
+				<link>/asm/2014/08/07/Tecnicas%20Avancadas%20Shellcoding%20%5BAssembly%5D.html</link>
+				<guid isPermaLink="true">/asm/2014/08/07/Tecnicas%20Avancadas%20Shellcoding%20%5BAssembly%5D.html</guid>
+			</item>
+		
+			<item>
+				<title>Shellcode Polimorficos chamdos Motor polymorphic</title>
+				<description>&lt;p&gt;Sempre que um método para fazer bypass é desenvolvido dificilmente encontra-se uma maneira eficaz de controla-lo, isso pelo simples falo...</description>
+				<pubDate>Wed, 06 Aug 2014 00:00:00 -0300</pubDate>
+				<link>/shellcode/2014/08/06/Shellcode-Polimorficos-chamdos-Motor-polymorphic.html</link>
+				<guid isPermaLink="true">/shellcode/2014/08/06/Shellcode-Polimorficos-chamdos-Motor-polymorphic.html</guid>
+			</item>
+		
+			<item>
+				<title>Heap Overflow Na pratica 0x05</title>
+				<description>&lt;p&gt;O Heap overflow ocorre na regisao '.BSS', Overflows na heap são explorados de maneira diferente de overflows na pilha (stack...</description>
+				<pubDate>Mon, 28 Jul 2014 00:00:00 -0300</pubDate>
+				<link>/exploit%20developer/2014/07/28/Heap%20Overflow%20Na%20pratica%200x05.html</link>
+				<guid isPermaLink="true">/exploit%20developer/2014/07/28/Heap%20Overflow%20Na%20pratica%200x05.html</guid>
+			</item>
+		
+			<item>
+				<title>Convert binario,hexdecimal and asm jmp assembly</title>
+				<description>&lt;p&gt;Esse artigo vai ser pequeno até porque é um conteúdo simples que torna-se fundamental entende-lo... pois um dia você irá...</description>
+				<pubDate>Mon, 28 Jul 2014 00:00:00 -0300</pubDate>
+				<link>/assembly/2014/07/28/Convert%20binario,hexdecimal%20and%20asm%20jmp%20assembly.html</link>
+				<guid isPermaLink="true">/assembly/2014/07/28/Convert%20binario,hexdecimal%20and%20asm%20jmp%20assembly.html</guid>
+			</item>
+		
+			<item>
+				<title>Escrevendo Um Keylogger em C 0xc5</title>
+				<description>&lt;p&gt;Hi everybody!, in this article we gonna learn how to make a &lt;a&gt;keylogger in C&lt;/a&gt;. isso mesmo um Keylooger existe...</description>
+				<pubDate>Sat, 19 Jul 2014 00:00:00 -0300</pubDate>
+				<link>/c%20programming/2014/07/19/Escrevendo%20Um%20Keylogger%20em%20C%200xc5.html</link>
+				<guid isPermaLink="true">/c%20programming/2014/07/19/Escrevendo%20Um%20Keylogger%20em%20C%200xc5.html</guid>
+			</item>
+		
+	</channel>
+</rss>

